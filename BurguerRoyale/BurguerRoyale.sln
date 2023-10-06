@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F4455E74-59D9-4C06-B57A-637DAB121AA0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{054E3A0A-4E00-49C3-B2E0-DF7D09CA5C51}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurguerRoyale.UnitTests", "tests\BurguerRoyale.UnitTests\BurguerRoyale.UnitTests.csproj", "{E3A6ECE2-79E5-4721-B684-A6307D4CA7D7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurguerRoyale.API", "src\BurguerRoyale.API\BurguerRoyale.API.csproj", "{511AE32D-6CF1-46D5-A6CC-E17CD9A232B1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurguerRoyale.Application", "src\BurguerRoyale.Application\BurguerRoyale.Application.csproj", "{A77E00B7-21F6-4C51-90CD-F51FE747C19C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurguerRoyale.Domain", "src\BurguerRoyale.Domain\BurguerRoyale.Domain.csproj", "{F94BA7C7-FABE-460D-A3ED-07B2893FF66B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurguerRoyale.Infrastructure", "src\BurguerRoyale.Infrastructure\BurguerRoyale.Infrastructure.csproj", "{8854E76D-4B2B-4019-A106-D9291C298713}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E3A6ECE2-79E5-4721-B684-A6307D4CA7D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3A6ECE2-79E5-4721-B684-A6307D4CA7D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3A6ECE2-79E5-4721-B684-A6307D4CA7D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3A6ECE2-79E5-4721-B684-A6307D4CA7D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{511AE32D-6CF1-46D5-A6CC-E17CD9A232B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{511AE32D-6CF1-46D5-A6CC-E17CD9A232B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{511AE32D-6CF1-46D5-A6CC-E17CD9A232B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{511AE32D-6CF1-46D5-A6CC-E17CD9A232B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A77E00B7-21F6-4C51-90CD-F51FE747C19C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A77E00B7-21F6-4C51-90CD-F51FE747C19C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A77E00B7-21F6-4C51-90CD-F51FE747C19C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A77E00B7-21F6-4C51-90CD-F51FE747C19C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F94BA7C7-FABE-460D-A3ED-07B2893FF66B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F94BA7C7-FABE-460D-A3ED-07B2893FF66B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F94BA7C7-FABE-460D-A3ED-07B2893FF66B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F94BA7C7-FABE-460D-A3ED-07B2893FF66B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8854E76D-4B2B-4019-A106-D9291C298713}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8854E76D-4B2B-4019-A106-D9291C298713}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8854E76D-4B2B-4019-A106-D9291C298713}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8854E76D-4B2B-4019-A106-D9291C298713}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E3A6ECE2-79E5-4721-B684-A6307D4CA7D7} = {054E3A0A-4E00-49C3-B2E0-DF7D09CA5C51}
+		{511AE32D-6CF1-46D5-A6CC-E17CD9A232B1} = {F4455E74-59D9-4C06-B57A-637DAB121AA0}
+		{A77E00B7-21F6-4C51-90CD-F51FE747C19C} = {F4455E74-59D9-4C06-B57A-637DAB121AA0}
+		{F94BA7C7-FABE-460D-A3ED-07B2893FF66B} = {F4455E74-59D9-4C06-B57A-637DAB121AA0}
+		{8854E76D-4B2B-4019-A106-D9291C298713} = {F4455E74-59D9-4C06-B57A-637DAB121AA0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {40D2B100-27D3-4760-B232-BC1AAACF7E1A}
+	EndGlobalSection
+EndGlobal
