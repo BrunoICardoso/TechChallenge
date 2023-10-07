@@ -1,3 +1,4 @@
+using BurguerRoyale.IOC;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
@@ -27,7 +28,7 @@ builder.Services.AddSwaggerGen(options =>
 	options.EnableAnnotations();
 });
 
-builder.Services.AddHealthChecks();
+DependencyInjectionConfiguration.Register(builder.Services, builder.Configuration);
 
 var app = builder.Build();
 

@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurguerRoyale.Domain", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurguerRoyale.Infrastructure", "src\BurguerRoyale.Infrastructure\BurguerRoyale.Infrastructure.csproj", "{8854E76D-4B2B-4019-A106-D9291C298713}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurguerRoyale.IOC", "src\BurguerRoyale.IOC\BurguerRoyale.IOC.csproj", "{7289C472-1954-4CA7-A2FF-9C89E3A8B08D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{8854E76D-4B2B-4019-A106-D9291C298713}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8854E76D-4B2B-4019-A106-D9291C298713}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8854E76D-4B2B-4019-A106-D9291C298713}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7289C472-1954-4CA7-A2FF-9C89E3A8B08D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7289C472-1954-4CA7-A2FF-9C89E3A8B08D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7289C472-1954-4CA7-A2FF-9C89E3A8B08D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7289C472-1954-4CA7-A2FF-9C89E3A8B08D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +59,7 @@ Global
 		{A77E00B7-21F6-4C51-90CD-F51FE747C19C} = {F4455E74-59D9-4C06-B57A-637DAB121AA0}
 		{F94BA7C7-FABE-460D-A3ED-07B2893FF66B} = {F4455E74-59D9-4C06-B57A-637DAB121AA0}
 		{8854E76D-4B2B-4019-A106-D9291C298713} = {F4455E74-59D9-4C06-B57A-637DAB121AA0}
+		{7289C472-1954-4CA7-A2FF-9C89E3A8B08D} = {F4455E74-59D9-4C06-B57A-637DAB121AA0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {40D2B100-27D3-4760-B232-BC1AAACF7E1A}
