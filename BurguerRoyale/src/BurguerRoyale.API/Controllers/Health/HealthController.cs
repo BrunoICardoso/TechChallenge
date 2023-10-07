@@ -3,8 +3,11 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 
-namespace BurguerRoyale.API.Controllers.Health.GetHealthCheck;
+namespace BurguerRoyale.API.Controllers.Health;
 
+/// <summary>
+/// Health check controller
+/// </summary>
 [Route("health")]
 public class HealthController : Controller
 {
@@ -20,7 +23,7 @@ public class HealthController : Controller
 	}
 
 	/// <summary>
-	/// GetHealthy - Get health status of the application
+	/// GetHealthCheck - Get health status of the application
 	/// </summary>
 	/// <remarks>Provides API Health indication</remarks>
 	/// <response code="200">API is healthy</response>
@@ -28,7 +31,7 @@ public class HealthController : Controller
 	[HttpGet]
 	[SwaggerResponse((int)HttpStatusCode.OK, "Api is healthy")]
 	[SwaggerResponse((int)HttpStatusCode.ServiceUnavailable, "Api is not healthy")]
-	public async Task<IActionResult> GetHealthy(CancellationToken cancellationToken)
+	public async Task<IActionResult> GetHealthCheck(CancellationToken cancellationToken)
 	{
 		var report = await _healthCheckService.CheckHealthAsync(cancellationToken);
 
