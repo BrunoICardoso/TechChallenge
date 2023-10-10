@@ -11,17 +11,24 @@ namespace BurguerRoyale.Infrastructure.Context.EntityConfigs
 			builder
 				.HasKey(x => x.Id);
 
-			builder.Property(x => x.Id)
-				.HasColumnName("Id");
+			builder
+				.Property(x => x.Id)
+				.ValueGeneratedOnAdd();
 
-			builder.Property(x => x.Name)
-				.HasColumnName("Name");
+			builder
+				.HasOne(x => x.Category)
+				.WithMany(x => x.Products)
+				.HasForeignKey(x => x.CategoryId);
 
-			builder.Property(x => x.Category)
-				.HasColumnName("Category");
+			builder
+				.HasMany(x => x.Images)
+				.WithOne(x => x.Product)
+				.HasForeignKey(x => x.ProductId);
 
-			builder.Property(x => x.Price)
-				.HasColumnName("Price");
+			builder
+				.HasMany(x => x.OrderProducts)
+				.WithOne(x => x.Product)
+				.HasForeignKey(x => x.ProductId);
 		}
 	}
 }
