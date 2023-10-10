@@ -22,6 +22,10 @@ namespace BurguerRoyale.Infrastructure.Context.EntityConfigs
 
 			builder.Property(x => x.Price)
 				.HasColumnName("Price");
-		}
-	}
+
+            builder.Property(x => x.Price)
+				.HasColumnName("Teste");
+
+        }
+    }
 }
