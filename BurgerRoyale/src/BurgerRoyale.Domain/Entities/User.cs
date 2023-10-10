@@ -6,10 +6,10 @@ namespace BurgerRoyale.Domain.Entities
 	{
 		public string Cpf { get; private set; }
 		public string Name { get; private set; }
-		public decimal Email { get; private set; }
+		public string Email { get; private set; }
 		public virtual UserType UserType { get; set; }
 
-		public User(string cpf, string name, decimal email, UserType userType)
+		public User(string cpf, string name, string email, UserType userType)
 		{
 			Cpf = cpf;
 			Name = name;
