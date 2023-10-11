@@ -1,8 +1,13 @@
-﻿using BurgerRoyale.Domain.Entities;
+﻿
+using BurgerRoyale.Domain.Entities;
 using BurgerRoyale.Domain.Helpers;
-using BurgerRoyale.Domain.Repositories;
-using BurgerRoyale.Domain.Services;
+using BurgerRoyale.Domain.Interface.Repositories;
+using BurgerRoyale.Domain.Interface.ResponseDefault;
+using BurgerRoyale.Domain.Interface.Services;
+using BurgerRoyale.Domain.ResponseDefault;
 using BurgerRoyale.Domain.Validation;
+using BurgerRoyale.Domain.DTO;
+using System.Net;
 
 namespace BurgerRoyale.Application.Services
 {
@@ -13,43 +18,161 @@ namespace BurgerRoyale.Application.Services
         {
             _userRepository = userRepository;
         }
-        public async Task<User> GetByCpf(string cpf)
+        public async Task<ReturnAPI<UserDTO>> GetByCpf(string cpf)
         {
-            return await _userRepository.GetByCpf(Format.FormatCpf(cpf));
-        }
-        public async Task<User> GetByEmail(string email)
-        {
-            return await _userRepository.GetByEmail(email);
-        }
-        public async Task<User> CreateAsync(User user)
-        {
-            user.Cpf = Format.FormatCpf(user.Cpf);
-            await _userRepository.AddAsync(user);
-            return user;
-        }
-        public async Task<bool> Update(User user)
-        {
-            var existingUser = await GetByCpf(user.Cpf);
-            if (existingUser != null && Validate.IsEmailValid(user.Email))
-            {
-                existingUser.Name = user.Name;
-                existingUser.UserType = user.UserType;
-                existingUser.Email = user.Email;
+            ReturnAPI<UserDTO> ret = new ReturnAPI<UserDTO>();
 
-                await _userRepository.UpdateAsync(existingUser);
-                return true;
-            }
-            return false;
-        }
-        public async Task<bool> Delete(string cpf)
-        {
-            var user = await GetByCpf(cpf);
-            if (user != null)
+            try
             {
-                _userRepository.Remove(user);
-                return true;
+                User? userEntity = await _userRepository.FindFirstDefaultAsync(x => x.Cpf == cpf);
+
+                if (userEntity is null)
+                {
+                    ret.StatusCode = HttpStatusCode.BadRequest;
+                    ret.Message = "CPF não encontrado.";
+
+                    return ret;
+                }
+
+                ret.Data = new UserDTO
+                {
+                    Cpf = userEntity.Cpf,
+                    Email = userEntity.Email,
+                    Name = userEntity.Name,
+                    UserType = userEntity.UserType
+                };
+
             }
-            return false;
+            catch (Exception e)
+            {
+                ret.Exception = e;
+                ret.Message = e.Message;
+            }
+
+            return ret;
+        }
+        public async Task<ReturnAPI<UserDTO>> GetByEmail(string email)
+        {
+            ReturnAPI<UserDTO> ret = new ReturnAPI<UserDTO>();
+
+            try
+            {
+                User? userEntity = await _userRepository.FindFirstDefaultAsync(x => x.Email == email);
+
+                if (userEntity is null)
+                {
+                    ret.StatusCode = HttpStatusCode.BadRequest;
+                    ret.Message = "E-mail não encontrado.";
+
+                    return ret;
+                }
+
+                ret.Data = new UserDTO
+                {
+                    Cpf = userEntity.Cpf,
+                    Email = userEntity.Email,
+                    Name = userEntity.Name,
+                    UserType = userEntity.UserType
+                };
+
+            }
+            catch (Exception e)
+            {
+                ret.Exception = e;
+                ret.Message = e.Message;
+            }
+
+            return ret;
+        }
+        public async Task<ReturnAPI> CreateAsync(UserDTO model)
+        {
+            ReturnAPI ret = new ReturnAPI();
+
+            try
+            {
+                ReturnAPI existingUser = await GetByCpf(model.Cpf);
+
+                if (existingUser.IsSuccessStatusCode)
+                {
+                    ret.StatusCode = HttpStatusCode.BadRequest;
+                    ret.Message = "CPF já cadastrado.";
+
+                    return ret;
+                }
+
+                await _userRepository.AddAsync(new User
+                {
+                    Cpf = model.Cpf,
+                    Email = model.Email,
+                    Name = model.Name,
+                    UserType = model.UserType
+                });
+
+            }
+            catch (Exception e)
+            {
+                ret.Exception = e;
+                ret.Message = e.Message;
+            }
+
+            return ret;
+        }
+        public async Task<ReturnAPI> Update(UserDTO model)
+        {
+            ReturnAPI ret = new ReturnAPI();
+
+            try
+            {
+                User? userEntity = await _userRepository.FindFirstDefaultAsync(x => x.Cpf == model.Cpf);
+
+                if (userEntity is null)
+                {
+                    ret.StatusCode = HttpStatusCode.BadRequest;
+                    ret.Message = "Usúário não encontrado .";
+
+                    return ret;
+                }
+
+                userEntity.Name = model.Name;
+                userEntity.UserType = model.UserType;
+                userEntity.Email = model.Email;
+
+                await _userRepository.UpdateAsync(userEntity);
+
+            }
+            catch (Exception e)
+            {
+                ret.Exception = e;
+                ret.Message = e.Message;
+            }
+
+            return ret;
+
+        }
+        public async Task<ReturnAPI> Delete(string cpf)
+        {
+            ReturnAPI ret = new ReturnAPI();
+            try
+            {
+                User? userEntity = await _userRepository.FindFirstDefaultAsync(x => x.Cpf == cpf);
+
+                if (userEntity is null)
+                {
+                    ret.StatusCode = HttpStatusCode.BadRequest;
+                    ret.Message = "Erro ao excluir usuário.";
+
+                    return ret;
+                }
+
+                _userRepository.Remove(userEntity);
+            }
+            catch (Exception e)
+            {
+                ret.Exception = e;
+                ret.Message = e.Message;
+            }
+           
+            return ret;
         }
     }
 }

@@ -1,11 +1,11 @@
-﻿using BurgerRoyale.Domain.RepositoriesStandard;
+﻿using BurgerRoyale.Domain.Interface.RepositoriesStandard;
 using BurgerRoyale.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace BurgerRoyale.Infrastructure.RepositoriesStandard
 {
-	public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 	{
 
 		protected readonly ApplicationDbContext _context;
@@ -30,7 +30,12 @@ namespace BurgerRoyale.Infrastructure.RepositoriesStandard
 			return await _context.Set<TEntity>().Where(predicate).ToListAsync();
 		}
 
-		public async Task AddAsync(TEntity entity)
+        public async Task<TEntity> FindFirstDefaultAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await _context.Set<TEntity>().FirstOrDefaultAsync(predicate);
+        }
+
+        public async Task AddAsync(TEntity entity)
 		{
 			await _context.Set<TEntity>().AddAsync(entity);
 			await _context.SaveChangesAsync();

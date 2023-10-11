@@ -1,5 +1,7 @@
-﻿using BurgerRoyale.Domain.Helpers;
-using BurgerRoyale.Domain.Services;
+﻿using BurgerRoyale.Domain.Config.EndPoint;
+using BurgerRoyale.Domain.DTO;
+using BurgerRoyale.Domain.Helpers;
+using BurgerRoyale.Domain.Interface.Services;
 using BurgerRoyale.Domain.Validation;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,14 +9,10 @@ namespace BurgerRoyale.API.Controllers.User
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : BaseController
     {
         private readonly IUserService _userService;
-        private readonly string cpfNotFound = "CPF não encontrado.";
-        private readonly string cpfAlreadyExists = "CPF já cadastrado.";
-        private readonly string invalidCpf = "CPF inválido.";
-        private readonly string invalidEmail = "E-mail inválido.";
-        private readonly string deleteError = "Erro ao excluir usuário.";
+
         public UserController(IUserService userService)
         {
             _userService = userService;
@@ -23,49 +21,26 @@ namespace BurgerRoyale.API.Controllers.User
         [HttpGet]
         public async Task<IActionResult> GetUser(string cpf)
         {
-            var existingUser = await _userService.GetByCpf(cpf);
-            if (existingUser != null)
-                return Ok(existingUser);
-            return BadRequest(cpfNotFound);
+            return IStatusCode(await _userService.GetByCpf(cpf));
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] Domain.Entities.User user)
+        public async Task<IActionResult> CreateUser([FromBody] UserDTO user)
         {
-            var existingUser = await _userService.GetByCpf(user.Cpf);
-            if (existingUser != null)
-                return BadRequest(cpfAlreadyExists);
-
-            if (!Validate.IsCpfValid(user.Cpf))
-                return BadRequest(invalidCpf);
-
-            if (!Validate.IsEmailValid(user.Email))
-                return BadRequest(invalidEmail);
-
-            var createdUser = await _userService.CreateAsync(user);
-            return Ok(createdUser);
+            return IStatusCode(await _userService.CreateAsync(user));
+            
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateUser([FromBody] Domain.Entities.User user)
+        public async Task<IActionResult> UpdateUser([FromBody] UserDTO user)
         {
-            if (!Validate.IsEmailValid(user.Email))
-                return BadRequest(invalidEmail);
-
-            var userWasUpdated = await _userService.Update(user);
-            if (userWasUpdated)
-                return Ok(user);
-
-            return BadRequest("Erro ao atualizar usuário.");
+            return IStatusCode(await _userService.Update(user));
         }
 
         [HttpDelete]
         public async Task<IActionResult> DeleteUser(string cpf)
         {
-            var successfulDelete = await _userService.Delete(cpf);
-            if(successfulDelete)
-                return Ok($"Usuário com CPF {cpf} excluído.");
-            return BadRequest(deleteError);
+            return IStatusCode(await _userService.Delete(cpf));
         }
     }
 }

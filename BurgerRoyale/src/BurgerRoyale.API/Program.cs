@@ -1,8 +1,11 @@
 using BurgerRoyale.Application.Services;
-using BurgerRoyale.Domain.Repositories;
-using BurgerRoyale.Domain.Services;
+using BurgerRoyale.Domain.Interface.Repositories;
+using BurgerRoyale.Domain.Interface.Services;
 using BurgerRoyale.Infrastructure.Repositories;
 using BurgerRoyale.IOC;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
@@ -11,6 +14,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddMvc(options =>
+{
+    options.Filters.Add(new CustomValidationModel());
+
+});
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 builder.Services.AddSwaggerGen(options =>
 {
