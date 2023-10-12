@@ -1,5 +1,6 @@
 ﻿using BurgerRoyale.Application.DTO;
 using BurgerRoyale.Application.Interface.Services;
+using BurgerRoyale.Domain.Base;
 using BurgerRoyale.Domain.Entities;
 using BurgerRoyale.Domain.Interface.Repositories;
 
@@ -16,11 +17,25 @@ namespace BurgerRoyale.Application.Services
 
         public async Task<AddProductResponse> AddAsync(AddProductRequestDTO addProductRequestDTO)
         {
-            Product product = CreateProduct(addProductRequestDTO);
+            Product? product = null;
 
-            await _productRepository.AddAsync(product);
+            var response = new AddProductResponse();
 
-            return new AddProductResponse();
+            try
+            {
+                product  = CreateProduct(addProductRequestDTO);
+            } 
+            catch (DomainException ex)
+            {
+                response.AddNotification("Validation", ex.Message);
+            }
+
+            if (response.IsValid)
+            {
+                await _productRepository.AddAsync(product!);
+            }
+
+            return response;
         }
 
         private static Product CreateProduct(AddProductRequestDTO addProductRequestDTO)
