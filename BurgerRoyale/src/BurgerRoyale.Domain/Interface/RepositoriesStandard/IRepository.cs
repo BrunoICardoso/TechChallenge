@@ -4,7 +4,7 @@ namespace BurgerRoyale.Domain.Interface.RepositoriesStandard
 {
     public interface IRepository<TEntity> where TEntity : class
     {
-        Task<TEntity> GetByIdAsync(Guid id);
+        Task<TEntity?> GetByIdAsync(Guid id);
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
         Task<TEntity> FindFirstDefaultAsync(Expression<Func<TEntity, bool>> predicate);

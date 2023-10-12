@@ -15,7 +15,7 @@ namespace BurgerRoyale.Infrastructure.RepositoriesStandard
 			_context = applicationDbContext;
 		}
 
-		public async Task<TEntity> GetByIdAsync(Guid id)
+		public async Task<TEntity?> GetByIdAsync(Guid id)
 		{
 			return await _context.Set<TEntity>().FindAsync(id);
 		}

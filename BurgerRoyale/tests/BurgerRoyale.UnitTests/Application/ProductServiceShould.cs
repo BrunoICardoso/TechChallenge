@@ -135,5 +135,32 @@ namespace BurgerRoyale.UnitTests.Application
             
             #endregion
         }
+
+        [Fact]
+        public async Task Return_Notification_When_Product_Does_Not_Exist()
+        {
+            #region Arrange(Given)
+
+            Guid productId = Guid.NewGuid();
+
+            productRepositoryMock
+                .Setup(repository => repository.GetByIdAsync(productId))
+                .ReturnsAsync(() => null);
+
+            #endregion
+
+            #region Act(When)
+
+            GetProductResponse response = await productService.GetById(productId);
+
+            #endregion
+
+            #region Assert(Then)
+
+            Assert.False(response.IsValid);
+            Assert.Equal("The product does not exist", response.Notifications.First().Message);
+
+            #endregion
+        }
     }
 }
