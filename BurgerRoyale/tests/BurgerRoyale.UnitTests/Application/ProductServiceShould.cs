@@ -9,6 +9,17 @@ namespace BurgerRoyale.UnitTests.Application
 {
     public class ProductServiceShould
     {
+        private readonly Mock<IProductRepository> productRepositoryMock;
+        
+        private readonly IProductService productService;
+
+        public ProductServiceShould()
+        {
+            productRepositoryMock = new Mock<IProductRepository>();
+
+            productService = new ProductService(productRepositoryMock.Object);
+        }
+
         [Fact]
         public async Task Add_New_Product()
         {
@@ -26,10 +37,6 @@ namespace BurgerRoyale.UnitTests.Application
                 Description = description,
                 Price = price,
             };
-
-            var productRepositoryMock = new Mock<IProductRepository>();
-
-            IProductService productService = new ProductService(productRepositoryMock.Object);
 
             #endregion
 
