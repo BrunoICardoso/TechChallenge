@@ -39,13 +39,13 @@ namespace BurgerRoyale.Application.Services
             return response;
         }
 
-        private static Product CreateProduct(ProductDTO addProductRequestDTO)
+        private static Product CreateProduct(ProductDTO productDTO)
         {
             return new Product(
-                addProductRequestDTO.Name, 
-                addProductRequestDTO.Description, 
-                addProductRequestDTO.Price, 
-                addProductRequestDTO.CategoryId);
+                productDTO.Name, 
+                productDTO.Description, 
+                productDTO.Price, 
+                productDTO.CategoryId);
         }
 
         public async Task<GetProductResponse> GetByIdAsync(Guid id)
@@ -97,9 +97,20 @@ namespace BurgerRoyale.Application.Services
             };
         }
 
-        public Task<UpdateProductResponse> UpdateAsync(Guid id, ProductDTO updateProductRequestDTO)
+        public async Task<UpdateProductResponse> UpdateAsync(Guid id, ProductDTO updateProductRequestDTO)
         {
-            throw new NotImplementedException();
+            Product? product = await _productRepository.GetByIdAsync(id);
+
+            var newProduct = new Product(
+                product.Id,
+                updateProductRequestDTO.Name,
+                updateProductRequestDTO.Description,
+                updateProductRequestDTO.Price,
+                updateProductRequestDTO.CategoryId);
+
+            await _productRepository.UpdateAsync(newProduct);
+
+            return new UpdateProductResponse();
         }
     }
 }

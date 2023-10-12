@@ -205,6 +205,7 @@ namespace BurgerRoyale.UnitTests.Application
 
             productRepositoryMock
                 .Verify(repository => repository.UpdateAsync(It.Is<Product>(product => 
+                    product.Id == productId &&
                     product.Name == newName &&
                     product.CategoryId == newCategoryId &&
                     product.Description == newDescription &&
