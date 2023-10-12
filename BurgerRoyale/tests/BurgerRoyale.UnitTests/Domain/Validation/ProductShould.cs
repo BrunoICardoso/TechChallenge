@@ -25,5 +25,26 @@ namespace BurgerRoyale.UnitTests.Domain.Validation
 
             #endregion
         }
+        
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        public void Validate_When_Does_Not_Have_Price(decimal price)
+        {
+            #region Arrange(Given)
+            #endregion
+
+            #region Act(When)
+
+            DomainException result = Assert.Throws<DomainException>(() => new Product("Name", "", price, Guid.NewGuid()));
+
+            #endregion
+
+            #region Assert(Then)
+
+            Assert.Equal("The price is required!", result.Message);
+
+            #endregion
+        }
     }
 }
