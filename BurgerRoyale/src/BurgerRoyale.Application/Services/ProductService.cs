@@ -18,11 +18,11 @@ namespace BurgerRoyale.Application.Services
             _productRepository = productRepository;
         }
 
-        public async Task<AddProductResponse> AddAsync(ProductDTO addProductRequestDTO)
+        public async Task<ProductResponse> AddAsync(ProductDTO addProductRequestDTO)
         {
             Product? product = null;
 
-            var response = new AddProductResponse();
+            var response = new ProductResponse();
 
             try
             {
@@ -98,9 +98,9 @@ namespace BurgerRoyale.Application.Services
             };
         }
 
-        public async Task<UpdateProductResponse> UpdateAsync(Guid id, ProductDTO updateProductRequestDTO)
+        public async Task<ProductResponse> UpdateAsync(Guid id, ProductDTO updateProductRequestDTO)
         {
-            var response = new UpdateProductResponse();
+            var response = new ProductResponse();
 
             Product? product = await _productRepository.GetByIdAsync(id);
 
@@ -138,6 +138,11 @@ namespace BurgerRoyale.Application.Services
                 updateProductRequestDTO.Description,
                 updateProductRequestDTO.Price,
                 updateProductRequestDTO.CategoryId);
+        }
+
+        public Task<ProductResponse> DeleteAsync(Guid id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

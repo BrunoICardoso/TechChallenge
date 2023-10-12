@@ -2,7 +2,7 @@
 
 namespace BurgerRoyale.Application.Models
 {
-    public class UpdateProductResponse : Notifiable<Notification>
+    public class ProductResponse : Notifiable<Notification>
     {
     }
 }

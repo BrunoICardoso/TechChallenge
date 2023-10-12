@@ -43,7 +43,7 @@ namespace BurgerRoyale.UnitTests.Application
 
             #region Act(When)
 
-            AddProductResponse response = await productService.AddAsync(addProductRequestDTO);
+            ProductResponse response = await productService.AddAsync(addProductRequestDTO);
 
             #endregion
 
@@ -86,7 +86,7 @@ namespace BurgerRoyale.UnitTests.Application
 
             #region Act(When)
 
-            AddProductResponse response = await productService.AddAsync(addProductRequestDTO);
+            ProductResponse response = await productService.AddAsync(addProductRequestDTO);
 
             #endregion
 
@@ -164,7 +164,7 @@ namespace BurgerRoyale.UnitTests.Application
         }
 
         [Fact]
-        public async Task Update_Product_By_Id()
+        public async Task Update_Product()
         {
             #region Arrange(Given)
 
@@ -193,7 +193,7 @@ namespace BurgerRoyale.UnitTests.Application
 
             #region Act(When)
 
-            UpdateProductResponse response = await productService.UpdateAsync(productId, updateProductRequestDTO);
+            ProductResponse response = await productService.UpdateAsync(productId, updateProductRequestDTO);
 
             #endregion
 
@@ -232,7 +232,7 @@ namespace BurgerRoyale.UnitTests.Application
 
             #region Act(When)
 
-            UpdateProductResponse response = await productService.UpdateAsync(productId, updateProductRequestDTO);
+            ProductResponse response = await productService.UpdateAsync(productId, updateProductRequestDTO);
 
             #endregion
 
@@ -274,7 +274,7 @@ namespace BurgerRoyale.UnitTests.Application
 
             #region Act(When)
 
-            UpdateProductResponse response = await productService.UpdateAsync(productId, updateProductRequestDTO);
+            ProductResponse response = await productService.UpdateAsync(productId, updateProductRequestDTO);
 
             #endregion
 
@@ -282,6 +282,39 @@ namespace BurgerRoyale.UnitTests.Application
 
             Assert.False(response.IsValid);
             Assert.True(response.Notifications.Any());
+
+            #endregion
+        }
+
+        [Fact]
+        public async Task Delete_Product()
+        {
+            #region Arrange(Given)
+            
+            Guid productId = Guid.NewGuid();
+
+            var product = new Product(productId, "Bacon burger", "", 100, Guid.NewGuid());
+
+            productRepositoryMock
+                .Setup(repository => repository.GetByIdAsync(productId))
+                .ReturnsAsync(product);
+
+            #endregion
+
+            #region Act(When)
+
+            ProductResponse response = await productService.DeleteAsync(productId);
+
+            #endregion
+
+            #region Assert(Then)
+
+            Assert.NotNull(response);
+            Assert.True(response.IsValid);
+
+            productRepositoryMock
+                .Verify(repository => repository.Remove(product),
+                Times.Once);
 
             #endregion
         }
