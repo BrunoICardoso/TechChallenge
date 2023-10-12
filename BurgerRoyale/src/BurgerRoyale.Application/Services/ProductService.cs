@@ -1,5 +1,4 @@
-﻿using Azure;
-using BurgerRoyale.Application.DTO;
+﻿using BurgerRoyale.Application.DTO;
 using BurgerRoyale.Application.Interface.Services;
 using BurgerRoyale.Application.Models;
 using BurgerRoyale.Domain.Base;
@@ -91,10 +90,7 @@ namespace BurgerRoyale.Application.Services
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,
-                CategoryId = product.CategoryId,
-                Category = product.Category,
-                Images = product.Images,
-                OrderProducts = product.OrderProducts
+                CategoryId = product.CategoryId
             };
         }
 
