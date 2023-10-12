@@ -112,7 +112,7 @@ namespace BurgerRoyale.UnitTests.Application
             var product = new Product("Bacon burger", "", 100, Guid.NewGuid());
 
             productRepositoryMock
-                .Setup(repository => repository.GetAsync(productId))
+                .Setup(repository => repository.GetByIdAsync(productId))
                 .ReturnsAsync(product);
 
             #endregion

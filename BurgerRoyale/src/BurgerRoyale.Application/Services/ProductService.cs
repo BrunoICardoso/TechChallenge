@@ -48,9 +48,31 @@ namespace BurgerRoyale.Application.Services
                 addProductRequestDTO.CategoryId);
         }
 
-        public Task<GetProductResponse> GetById(Guid id)
+        public async Task<GetProductResponse> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            Product product = await _productRepository.GetByIdAsync(id);
+
+            ProductDTO productDTO = CreateProductDTO(product);
+
+            return new GetProductResponse
+            {
+                Product = productDTO
+            };
+        }
+
+        private static ProductDTO CreateProductDTO(Product product)
+        {
+            return new ProductDTO
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                CategoryId = product.CategoryId,
+                Category = product.Category,
+                Images = product.Images,
+                OrderProducts = product.OrderProducts
+            };
         }
     }
 }
