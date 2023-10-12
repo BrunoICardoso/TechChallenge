@@ -50,7 +50,19 @@ namespace BurgerRoyale.Application.Services
 
         public async Task<GetProductResponse> GetById(Guid id)
         {
-            Product product = await _productRepository.GetByIdAsync(id);
+            var response = new GetProductResponse();
+
+            Product? product = await _productRepository.GetByIdAsync(id);
+
+            if (product is null)
+            {
+                response.AddNotification("productId", "The product does not exist");
+            }
+
+            if (!response.IsValid)
+            {
+                return response;
+            }
 
             ProductDTO productDTO = CreateProductDTO(product);
 
