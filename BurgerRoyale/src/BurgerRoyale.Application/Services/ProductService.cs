@@ -140,7 +140,7 @@ namespace BurgerRoyale.Application.Services
                 updateProductRequestDTO.CategoryId);
         }
 
-        public async Task<ProductResponse> DeleteAsync(Guid id)
+        public async Task<ProductResponse> RemoveAsync(Guid id)
         {
             Product? product = await _productRepository.GetByIdAsync(id);
 

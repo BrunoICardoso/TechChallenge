@@ -11,6 +11,6 @@ namespace BurgerRoyale.Application.Interface.Services
 
         Task<ProductResponse> UpdateAsync(Guid id, ProductDTO updateProductRequestDTO);
         
-        Task<ProductResponse> DeleteAsync(Guid id);
+        Task<ProductResponse> RemoveAsync(Guid id);
     }
 }

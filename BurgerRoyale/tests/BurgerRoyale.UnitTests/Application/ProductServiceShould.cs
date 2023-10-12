@@ -287,7 +287,7 @@ namespace BurgerRoyale.UnitTests.Application
         }
 
         [Fact]
-        public async Task Delete_Product()
+        public async Task Remove_Product()
         {
             #region Arrange(Given)
             
@@ -303,7 +303,7 @@ namespace BurgerRoyale.UnitTests.Application
 
             #region Act(When)
 
-            ProductResponse response = await productService.DeleteAsync(productId);
+            ProductResponse response = await productService.RemoveAsync(productId);
 
             #endregion
 
@@ -315,6 +315,37 @@ namespace BurgerRoyale.UnitTests.Application
             productRepositoryMock
                 .Verify(repository => repository.Remove(product),
                 Times.Once);
+
+            #endregion
+        }
+
+        [Fact]
+        public async Task Return_Notification_When_Remove_Product_That_Does_Not_Exist()
+        {
+            #region Arrange(Given)
+
+            Guid productId = Guid.NewGuid();
+
+            productRepositoryMock
+                .Setup(repository => repository.GetByIdAsync(productId))
+                .ReturnsAsync(() => null);
+
+            #endregion
+
+            #region Act(When)
+
+            ProductResponse response = await productService.RemoveAsync(productId);
+
+            #endregion
+
+            #region Assert(Then)
+
+            Assert.False(response.IsValid);
+            Assert.Equal("The product does not exist", response.Notifications.First().Message);
+
+            productRepositoryMock
+                .Verify(repository => repository.Remove(It.IsAny<Product>()),
+                Times.Never);
 
             #endregion
         }
