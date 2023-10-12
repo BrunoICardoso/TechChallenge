@@ -5,15 +5,17 @@ namespace BurgerRoyale.UnitTests.Domain.Validation
 {
     public class ProductShould
     {
-        [Fact]
-        public void Validate_When_Does_Not_Have_Name()
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        public void Validate_When_Does_Not_Have_Name(string name)
         {
             #region Arrange(Given)
             #endregion
 
             #region Act(When)
 
-            DomainException result = Assert.Throws<DomainException>(() => new Product("", "", 0, Guid.NewGuid()));
+            DomainException result = Assert.Throws<DomainException>(() => new Product(name, "", 0, Guid.NewGuid()));
 
             #endregion
 

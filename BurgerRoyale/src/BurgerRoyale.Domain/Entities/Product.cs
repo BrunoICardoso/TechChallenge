@@ -1,4 +1,6 @@
-﻿namespace BurgerRoyale.Domain.Entities
+﻿using BurgerRoyale.Domain.Base;
+
+namespace BurgerRoyale.Domain.Entities
 {
 	public class Product : Entity
 	{
@@ -16,6 +18,12 @@
 			Description = description;
 			Price = price;
 			CategoryId = categoryId;
+			ValidateEntity();
 		}
-	}
+
+        public void ValidateEntity()
+        {
+			AssertionConcern.AssertArgumentNotEmpty(Name, "The name is required!");
+        }
+    }
 }
