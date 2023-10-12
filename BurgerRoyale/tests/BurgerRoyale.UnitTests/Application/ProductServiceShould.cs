@@ -1,353 +1,353 @@
-﻿using BurgerRoyale.Application.DTO;
-using BurgerRoyale.Application.Interface.Services;
-using BurgerRoyale.Application.Models;
+﻿using BurgerRoyale.Application.Models;
 using BurgerRoyale.Application.Services;
+using BurgerRoyale.Domain.DTO;
 using BurgerRoyale.Domain.Entities;
 using BurgerRoyale.Domain.Interface.Repositories;
+using BurgerRoyale.Domain.Interface.Services;
 using Moq;
 
 namespace BurgerRoyale.UnitTests.Application
 {
-    public class ProductServiceShould
-    {
-        private readonly Mock<IProductRepository> productRepositoryMock;
-        
-        private readonly IProductService productService;
+	public class ProductServiceShould
+	{
+		private readonly Mock<IProductRepository> productRepositoryMock;
 
-        public ProductServiceShould()
-        {
-            productRepositoryMock = new Mock<IProductRepository>();
+		private readonly IProductService productService;
 
-            productService = new ProductService(productRepositoryMock.Object);
-        }
+		public ProductServiceShould()
+		{
+			productRepositoryMock = new Mock<IProductRepository>();
 
-        [Fact]
-        public async Task Add_New_Product()
-        {
-            #region Arrange(Given)
+			productService = new ProductService(productRepositoryMock.Object);
+		}
 
-            string name = "Bacon burger";
-            Guid categoryId = Guid.NewGuid();
-            string description = "Delicious bacon burger";
-            decimal price = 20;
+		[Fact]
+		public async Task Add_New_Product()
+		{
+			#region Arrange(Given)
 
-            ProductDTO addProductRequestDTO = new()
-            {
-                Name = name,
-                CategoryId = categoryId,
-                Description = description,
-                Price = price,
-            };
+			string name = "Bacon burger";
+			Guid categoryId = Guid.NewGuid();
+			string description = "Delicious bacon burger";
+			decimal price = 20;
 
-            #endregion
+			ProductDTO addProductRequestDTO = new()
+			{
+				Name = name,
+				CategoryId = categoryId,
+				Description = description,
+				Price = price,
+			};
 
-            #region Act(When)
+			#endregion Arrange(Given)
 
-            ProductResponse response = await productService.AddAsync(addProductRequestDTO);
+			#region Act(When)
 
-            #endregion
+			ProductResponse response = await productService.AddAsync(addProductRequestDTO);
 
-            #region Assert(Then)
+			#endregion Act(When)
 
-            Assert.NotNull(response);
-            Assert.True(response.IsValid);
+			#region Assert(Then)
 
-            productRepositoryMock
-                .Verify(
-                    repository => repository.AddAsync(It.Is<Product>(product => 
-                        product.Name == name &&
-                        product.CategoryId == categoryId &&
-                        product.Description == description &&
-                        product.Price == price)),
-                    Times.Once());
+			Assert.NotNull(response);
+			Assert.True(response.IsValid);
 
-            #endregion
-        }
+			productRepositoryMock
+				.Verify(
+					repository => repository.AddAsync(It.Is<Product>(product =>
+						product.Name == name &&
+						product.CategoryId == categoryId &&
+						product.Description == description &&
+						product.Price == price)),
+					Times.Once());
 
-        [Fact]
-        public async Task Return_Notification_When_Request_Is_Invalid()
-        {
-            #region Arrange(Given)
+			#endregion Assert(Then)
+		}
 
-            string name = string.Empty;
-            Guid categoryId = Guid.Empty;
-            string description = "";
-            decimal price = 0;
+		[Fact]
+		public async Task Return_Notification_When_Request_Is_Invalid()
+		{
+			#region Arrange(Given)
 
-            ProductDTO addProductRequestDTO = new()
-            {
-                Name = name,
-                CategoryId = categoryId,
-                Description = description,
-                Price = price,
-            };
+			string name = string.Empty;
+			Guid categoryId = Guid.Empty;
+			string description = "";
+			decimal price = 0;
 
-            #endregion
+			ProductDTO addProductRequestDTO = new()
+			{
+				Name = name,
+				CategoryId = categoryId,
+				Description = description,
+				Price = price,
+			};
 
-            #region Act(When)
+			#endregion Arrange(Given)
 
-            ProductResponse response = await productService.AddAsync(addProductRequestDTO);
+			#region Act(When)
 
-            #endregion
+			ProductResponse response = await productService.AddAsync(addProductRequestDTO);
 
-            #region Assert(Then)
+			#endregion Act(When)
 
-            Assert.False(response.IsValid);
-            Assert.True(response.Notifications.Any());
+			#region Assert(Then)
 
-            productRepositoryMock
-                .Verify(repository => repository.AddAsync(It.IsAny<Product>()), 
-                Times.Never());
+			Assert.False(response.IsValid);
+			Assert.True(response.Notifications.Any());
 
-            #endregion
-        }
+			productRepositoryMock
+				.Verify(repository => repository.AddAsync(It.IsAny<Product>()),
+				Times.Never());
 
-        [Fact]
-        public async Task Get_By_Id()
-        {
-            #region Arrange(Given)
+			#endregion Assert(Then)
+		}
 
-            Guid productId = Guid.NewGuid();
+		[Fact]
+		public async Task Get_By_Id()
+		{
+			#region Arrange(Given)
 
-            var product = new Product("Bacon burger", "", 100, Guid.NewGuid());
+			Guid productId = Guid.NewGuid();
 
-            productRepositoryMock
-                .Setup(repository => repository.GetByIdAsync(productId))
-                .ReturnsAsync(product);
+			var product = new Product("Bacon burger", "", 100, Guid.NewGuid());
 
-            #endregion
+			productRepositoryMock
+				.Setup(repository => repository.GetByIdAsync(productId))
+				.ReturnsAsync(product);
 
-            #region Act(When)
+			#endregion Arrange(Given)
 
-            GetProductResponse response = await productService.GetByIdAsync(productId);
+			#region Act(When)
 
-            #endregion
+			GetProductResponse response = await productService.GetByIdAsync(productId);
 
-            #region Assert(Then)
+			#endregion Act(When)
 
-            Assert.NotNull(response);
-            Assert.True(response.IsValid);
-            Assert.NotNull(response.Product);
- 
-            Assert.Equal(product.Name, response.Product.Name);
-            Assert.Equal(product.Price, response.Product.Price);
-            Assert.Equal(product.CategoryId, response.Product.CategoryId);
-            
-            #endregion
-        }
+			#region Assert(Then)
 
-        [Fact]
-        public async Task Return_Notification_When_Product_Does_Not_Exist()
-        {
-            #region Arrange(Given)
+			Assert.NotNull(response);
+			Assert.True(response.IsValid);
+			Assert.NotNull(response.Product);
 
-            Guid productId = Guid.NewGuid();
+			Assert.Equal(product.Name, response.Product.Name);
+			Assert.Equal(product.Price, response.Product.Price);
+			Assert.Equal(product.CategoryId, response.Product.CategoryId);
 
-            productRepositoryMock
-                .Setup(repository => repository.GetByIdAsync(productId))
-                .ReturnsAsync(() => null);
+			#endregion Assert(Then)
+		}
 
-            #endregion
+		[Fact]
+		public async Task Return_Notification_When_Product_Does_Not_Exist()
+		{
+			#region Arrange(Given)
 
-            #region Act(When)
+			Guid productId = Guid.NewGuid();
 
-            GetProductResponse response = await productService.GetByIdAsync(productId);
+			productRepositoryMock
+				.Setup(repository => repository.GetByIdAsync(productId))
+				.ReturnsAsync(() => null);
 
-            #endregion
+			#endregion Arrange(Given)
 
-            #region Assert(Then)
+			#region Act(When)
 
-            Assert.False(response.IsValid);
-            Assert.Equal("The product does not exist", response.Notifications.First().Message);
+			GetProductResponse response = await productService.GetByIdAsync(productId);
 
-            #endregion
-        }
+			#endregion Act(When)
 
-        [Fact]
-        public async Task Update_Product()
-        {
-            #region Arrange(Given)
+			#region Assert(Then)
 
-            Guid productId = Guid.NewGuid();
+			Assert.False(response.IsValid);
+			Assert.Equal("The product does not exist", response.Notifications.First().Message);
 
-            string newName = "New Bacon burger 2.0";
-            Guid newCategoryId = Guid.NewGuid();
-            string newDescription = "new and still delicious bacon burger";
-            decimal newPrice = 40;
+			#endregion Assert(Then)
+		}
 
-            ProductDTO updateProductRequestDTO = new()
-            {
-                Name = newName,
-                CategoryId = newCategoryId,
-                Description = newDescription,
-                Price = newPrice,
-            };
+		[Fact]
+		public async Task Update_Product()
+		{
+			#region Arrange(Given)
 
-            var product = new Product(productId, "Bacon burger", "", 100, Guid.NewGuid());
+			Guid productId = Guid.NewGuid();
 
-            productRepositoryMock
-                .Setup(repository => repository.GetByIdAsync(productId))
-                .ReturnsAsync(product);
+			string newName = "New Bacon burger 2.0";
+			Guid newCategoryId = Guid.NewGuid();
+			string newDescription = "new and still delicious bacon burger";
+			decimal newPrice = 40;
 
-            #endregion
+			ProductDTO updateProductRequestDTO = new()
+			{
+				Name = newName,
+				CategoryId = newCategoryId,
+				Description = newDescription,
+				Price = newPrice,
+			};
 
-            #region Act(When)
+			var product = new Product(productId, "Bacon burger", "", 100, Guid.NewGuid());
 
-            ProductResponse response = await productService.UpdateAsync(productId, updateProductRequestDTO);
+			productRepositoryMock
+				.Setup(repository => repository.GetByIdAsync(productId))
+				.ReturnsAsync(product);
 
-            #endregion
+			#endregion Arrange(Given)
 
-            #region Assert(Then)
+			#region Act(When)
 
-            Assert.NotNull(response);
+			ProductResponse response = await productService.UpdateAsync(productId, updateProductRequestDTO);
 
-            Assert.True(response.IsValid);
+			#endregion Act(When)
 
-            productRepositoryMock
-                .Verify(repository => repository.UpdateAsync(It.Is<Product>(product => 
-                    product.Id == productId &&
-                    product.Name == newName &&
-                    product.CategoryId == newCategoryId &&
-                    product.Description == newDescription &&
-                    product.Price == newPrice)), 
-                Times.Once);
+			#region Assert(Then)
 
-            #endregion
-        }
+			Assert.NotNull(response);
 
-        [Fact]
-        public async Task Return_Notification_When_Update_Product_That_Does_Not_Exist()
-        {
-            #region Arrange(Given)
+			Assert.True(response.IsValid);
 
-            Guid productId = Guid.NewGuid();
+			productRepositoryMock
+				.Verify(repository => repository.UpdateAsync(It.Is<Product>(product =>
+					product.Id == productId &&
+					product.Name == newName &&
+					product.CategoryId == newCategoryId &&
+					product.Description == newDescription &&
+					product.Price == newPrice)),
+				Times.Once);
 
-            ProductDTO updateProductRequestDTO = new();
+			#endregion Assert(Then)
+		}
 
-            productRepositoryMock
-                .Setup(repository => repository.GetByIdAsync(productId))
-                .ReturnsAsync(() => null);
+		[Fact]
+		public async Task Return_Notification_When_Update_Product_That_Does_Not_Exist()
+		{
+			#region Arrange(Given)
 
-            #endregion
+			Guid productId = Guid.NewGuid();
 
-            #region Act(When)
+			ProductDTO updateProductRequestDTO = new();
 
-            ProductResponse response = await productService.UpdateAsync(productId, updateProductRequestDTO);
+			productRepositoryMock
+				.Setup(repository => repository.GetByIdAsync(productId))
+				.ReturnsAsync(() => null);
 
-            #endregion
+			#endregion Arrange(Given)
 
-            #region Assert(Then)
+			#region Act(When)
 
-            Assert.False(response.IsValid);
-            Assert.Equal("The product does not exist", response.Notifications.First().Message);
+			ProductResponse response = await productService.UpdateAsync(productId, updateProductRequestDTO);
 
-            #endregion
-        }
-        
-        [Fact]
-        public async Task Return_Notification_When_Update_Product_With_Invalid_Request()
-        {
-            #region Arrange(Given)
+			#endregion Act(When)
 
-            Guid productId = Guid.NewGuid();
+			#region Assert(Then)
 
-            string name = string.Empty;
-            Guid categoryId = Guid.Empty;
-            string description = "";
-            decimal price = 0;
+			Assert.False(response.IsValid);
+			Assert.Equal("The product does not exist", response.Notifications.First().Message);
 
-            ProductDTO updateProductRequestDTO = new()
-            {
-                Name = name,
-                CategoryId = categoryId,
-                Description = description,
-                Price = price,
-            };
+			#endregion Assert(Then)
+		}
 
-            var product = new Product(productId, "Bacon burger", "", 100, Guid.NewGuid());
+		[Fact]
+		public async Task Return_Notification_When_Update_Product_With_Invalid_Request()
+		{
+			#region Arrange(Given)
 
-            productRepositoryMock
-                .Setup(repository => repository.GetByIdAsync(productId))
-                .ReturnsAsync(product);
+			Guid productId = Guid.NewGuid();
 
-            #endregion
+			string name = string.Empty;
+			Guid categoryId = Guid.Empty;
+			string description = "";
+			decimal price = 0;
 
-            #region Act(When)
+			ProductDTO updateProductRequestDTO = new()
+			{
+				Name = name,
+				CategoryId = categoryId,
+				Description = description,
+				Price = price,
+			};
 
-            ProductResponse response = await productService.UpdateAsync(productId, updateProductRequestDTO);
+			var product = new Product(productId, "Bacon burger", "", 100, Guid.NewGuid());
 
-            #endregion
+			productRepositoryMock
+				.Setup(repository => repository.GetByIdAsync(productId))
+				.ReturnsAsync(product);
 
-            #region Assert(Then)
+			#endregion Arrange(Given)
 
-            Assert.False(response.IsValid);
-            Assert.True(response.Notifications.Any());
+			#region Act(When)
 
-            #endregion
-        }
+			ProductResponse response = await productService.UpdateAsync(productId, updateProductRequestDTO);
 
-        [Fact]
-        public async Task Remove_Product()
-        {
-            #region Arrange(Given)
-            
-            Guid productId = Guid.NewGuid();
+			#endregion Act(When)
 
-            var product = new Product(productId, "Bacon burger", "", 100, Guid.NewGuid());
+			#region Assert(Then)
 
-            productRepositoryMock
-                .Setup(repository => repository.GetByIdAsync(productId))
-                .ReturnsAsync(product);
+			Assert.False(response.IsValid);
+			Assert.True(response.Notifications.Any());
 
-            #endregion
+			#endregion Assert(Then)
+		}
 
-            #region Act(When)
+		[Fact]
+		public async Task Remove_Product()
+		{
+			#region Arrange(Given)
 
-            ProductResponse response = await productService.RemoveAsync(productId);
+			Guid productId = Guid.NewGuid();
 
-            #endregion
+			var product = new Product(productId, "Bacon burger", "", 100, Guid.NewGuid());
 
-            #region Assert(Then)
+			productRepositoryMock
+				.Setup(repository => repository.GetByIdAsync(productId))
+				.ReturnsAsync(product);
 
-            Assert.NotNull(response);
-            Assert.True(response.IsValid);
+			#endregion Arrange(Given)
 
-            productRepositoryMock
-                .Verify(repository => repository.Remove(product),
-                Times.Once);
+			#region Act(When)
 
-            #endregion
-        }
+			ProductResponse response = await productService.RemoveAsync(productId);
 
-        [Fact]
-        public async Task Return_Notification_When_Remove_Product_That_Does_Not_Exist()
-        {
-            #region Arrange(Given)
+			#endregion Act(When)
 
-            Guid productId = Guid.NewGuid();
+			#region Assert(Then)
 
-            productRepositoryMock
-                .Setup(repository => repository.GetByIdAsync(productId))
-                .ReturnsAsync(() => null);
+			Assert.NotNull(response);
+			Assert.True(response.IsValid);
 
-            #endregion
+			productRepositoryMock
+				.Verify(repository => repository.Remove(product),
+				Times.Once);
 
-            #region Act(When)
+			#endregion Assert(Then)
+		}
 
-            ProductResponse response = await productService.RemoveAsync(productId);
+		[Fact]
+		public async Task Return_Notification_When_Remove_Product_That_Does_Not_Exist()
+		{
+			#region Arrange(Given)
 
-            #endregion
+			Guid productId = Guid.NewGuid();
 
-            #region Assert(Then)
+			productRepositoryMock
+				.Setup(repository => repository.GetByIdAsync(productId))
+				.ReturnsAsync(() => null);
 
-            Assert.False(response.IsValid);
-            Assert.Equal("The product does not exist", response.Notifications.First().Message);
+			#endregion Arrange(Given)
 
-            productRepositoryMock
-                .Verify(repository => repository.Remove(It.IsAny<Product>()),
-                Times.Never);
+			#region Act(When)
 
-            #endregion
-        }
-    }
+			ProductResponse response = await productService.RemoveAsync(productId);
+
+			#endregion Act(When)
+
+			#region Assert(Then)
+
+			Assert.False(response.IsValid);
+			Assert.Equal("The product does not exist", response.Notifications.First().Message);
+
+			productRepositoryMock
+				.Verify(repository => repository.Remove(It.IsAny<Product>()),
+				Times.Never);
+
+			#endregion Assert(Then)
+		}
+	}
 }

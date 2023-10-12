@@ -1,5 +1,4 @@
 ﻿using BurgerRoyale.Infrastructure.Context;
-using BurgerRoyale.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,8 +19,6 @@ namespace BurgerRoyale.IOC.Configurations
 				{
 					options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
 				});
-
-			services.AddScoped<ProductRepository>();
 		}
 	}
 }
