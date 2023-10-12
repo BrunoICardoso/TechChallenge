@@ -243,5 +243,47 @@ namespace BurgerRoyale.UnitTests.Application
 
             #endregion
         }
+        
+        [Fact]
+        public async Task Return_Notification_When_Update_Product_With_Invalid_Request()
+        {
+            #region Arrange(Given)
+
+            Guid productId = Guid.NewGuid();
+
+            string name = string.Empty;
+            Guid categoryId = Guid.Empty;
+            string description = "";
+            decimal price = 0;
+
+            ProductDTO updateProductRequestDTO = new()
+            {
+                Name = name,
+                CategoryId = categoryId,
+                Description = description,
+                Price = price,
+            };
+
+            var product = new Product(productId, "Bacon burger", "", 100, Guid.NewGuid());
+
+            productRepositoryMock
+                .Setup(repository => repository.GetByIdAsync(productId))
+                .ReturnsAsync(product);
+
+            #endregion
+
+            #region Act(When)
+
+            UpdateProductResponse response = await productService.UpdateAsync(productId, updateProductRequestDTO);
+
+            #endregion
+
+            #region Assert(Then)
+
+            Assert.False(response.IsValid);
+            Assert.True(response.Notifications.Any());
+
+            #endregion
+        }
     }
 }
