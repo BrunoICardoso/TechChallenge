@@ -62,5 +62,43 @@ namespace BurgerRoyale.UnitTests.Application
 
             #endregion
         }
+
+        [Fact]
+        public async Task Return_Notification_When_Request_Is_Invalid()
+        {
+            #region Arrange(Given)
+
+            string name = string.Empty;
+            Guid categoryId = Guid.Empty;
+            string description = "";
+            decimal price = 0;
+
+            AddProductRequestDTO addProductRequestDTO = new()
+            {
+                Name = name,
+                CategoryId = categoryId,
+                Description = description,
+                Price = price,
+            };
+
+            #endregion
+
+            #region Act(When)
+
+            AddProductResponse response = await productService.AddAsync(addProductRequestDTO);
+
+            #endregion
+
+            #region Assert(Then)
+
+            Assert.False(response.IsValid);
+            Assert.True(response.Notifications.Any());
+
+            productRepositoryMock
+                .Verify(repository => repository.AddAsync(It.IsAny<Product>()), 
+                Times.Never());
+
+            #endregion
+        }
     }
 }
