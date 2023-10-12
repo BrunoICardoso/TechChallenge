@@ -22,6 +22,8 @@ namespace BurgerRoyale.Infrastructure.Context
 			modelBuilder.ApplyConfiguration(new UserEntityConfig());
 			modelBuilder.ApplyConfiguration(new OrderEntityConfig());
 			modelBuilder.ApplyConfiguration(new OrderProductEntityConfig());
+			modelBuilder.ApplyConfiguration(new OrderStatusEntityConfig());
+			modelBuilder.ApplyConfiguration(new ProductCategoryEntityConfig());
 		}
 	}
 }
