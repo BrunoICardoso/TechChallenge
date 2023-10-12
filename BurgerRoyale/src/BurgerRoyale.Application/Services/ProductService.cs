@@ -142,11 +142,20 @@ namespace BurgerRoyale.Application.Services
 
         public async Task<ProductResponse> RemoveAsync(Guid id)
         {
+            var response = new ProductResponse();
+
             Product? product = await _productRepository.GetByIdAsync(id);
 
-            _productRepository.Remove(product);
+            AddNotificationIfProductDoesNotExist(response, product);
 
-            return new ProductResponse();
+            if (ResponseIsNotValid(response))
+            {
+                return response;
+            }
+
+            _productRepository.Remove(product!);
+
+            return response;
         }
     }
 }
