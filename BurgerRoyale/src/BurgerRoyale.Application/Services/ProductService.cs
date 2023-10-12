@@ -48,7 +48,7 @@ namespace BurgerRoyale.Application.Services
                 addProductRequestDTO.CategoryId);
         }
 
-        public async Task<GetProductResponse> GetById(Guid id)
+        public async Task<GetProductResponse> GetByIdAsync(Guid id)
         {
             var response = new GetProductResponse();
 
@@ -95,6 +95,11 @@ namespace BurgerRoyale.Application.Services
                 Images = product.Images,
                 OrderProducts = product.OrderProducts
             };
+        }
+
+        public Task<UpdateProductResponse> UpdateAsync(Guid id, ProductDTO updateProductRequestDTO)
+        {
+            throw new NotImplementedException();
         }
     }
 }

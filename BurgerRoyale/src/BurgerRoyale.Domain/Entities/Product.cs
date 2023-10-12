@@ -20,6 +20,15 @@ namespace BurgerRoyale.Domain.Entities
 			CategoryId = categoryId;
 			ValidateEntity();
 		}
+		
+		public Product(Guid id, string name, string description, decimal price, Guid categoryId) : base(id) 
+		{
+			Name = name;
+			Description = description;
+			Price = price;
+			CategoryId = categoryId;
+			ValidateEntity();
+		}
 
         public void ValidateEntity()
         {

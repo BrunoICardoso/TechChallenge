@@ -119,7 +119,7 @@ namespace BurgerRoyale.UnitTests.Application
 
             #region Act(When)
 
-            GetProductResponse response = await productService.GetById(productId);
+            GetProductResponse response = await productService.GetByIdAsync(productId);
 
             #endregion
 
@@ -151,7 +151,7 @@ namespace BurgerRoyale.UnitTests.Application
 
             #region Act(When)
 
-            GetProductResponse response = await productService.GetById(productId);
+            GetProductResponse response = await productService.GetByIdAsync(productId);
 
             #endregion
 
@@ -159,6 +159,57 @@ namespace BurgerRoyale.UnitTests.Application
 
             Assert.False(response.IsValid);
             Assert.Equal("The product does not exist", response.Notifications.First().Message);
+
+            #endregion
+        }
+
+        [Fact]
+        public async Task Update_Product_By_Id()
+        {
+            #region Arrange(Given)
+
+            Guid productId = Guid.NewGuid();
+
+            string newName = "New Bacon burger 2.0";
+            Guid newCategoryId = Guid.NewGuid();
+            string newDescription = "new and still delicious bacon burger";
+            decimal newPrice = 40;
+
+            ProductDTO updateProductRequestDTO = new()
+            {
+                Name = newName,
+                CategoryId = newCategoryId,
+                Description = newDescription,
+                Price = newPrice,
+            };
+
+            var product = new Product(productId, "Bacon burger", "", 100, Guid.NewGuid());
+
+            productRepositoryMock
+                .Setup(repository => repository.GetByIdAsync(productId))
+                .ReturnsAsync(product);
+
+            #endregion
+
+            #region Act(When)
+
+            UpdateProductResponse response = await productService.UpdateAsync(productId, updateProductRequestDTO);
+
+            #endregion
+
+            #region Assert(Then)
+
+            Assert.NotNull(response);
+
+            Assert.True(response.IsValid);
+
+            productRepositoryMock
+                .Verify(repository => repository.UpdateAsync(It.Is<Product>(product => 
+                    product.Name == newName &&
+                    product.CategoryId == newCategoryId &&
+                    product.Description == newDescription &&
+                    product.Price == newPrice)), 
+                Times.Once);
 
             #endregion
         }

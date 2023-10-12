@@ -7,6 +7,8 @@ namespace BurgerRoyale.Application.Interface.Services
     {
         Task<AddProductResponse> AddAsync(ProductDTO addProductRequestDTO);
         
-        Task<GetProductResponse> GetById(Guid id);
+        Task<GetProductResponse> GetByIdAsync(Guid id);
+
+        Task<UpdateProductResponse> UpdateAsync(Guid id, ProductDTO updateProductRequestDTO);
     }
 }
