@@ -34,7 +34,7 @@ namespace BurgerRoyale.API.Controllers.Product
             return ValidationProblem(ModelState.AddErrosFromNofifications(response.Notifications));
         }
 
-        [HttpGet]
+        [HttpGet("{id:Guid}")]
         [ProducesResponseType(typeof(GetProductResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
@@ -50,7 +50,7 @@ namespace BurgerRoyale.API.Controllers.Product
             return ValidationProblem(ModelState.AddErrosFromNofifications(response.Notifications));
         }
         
-        [HttpPut]
+        [HttpPut("{id:Guid}")]
         [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
@@ -66,7 +66,7 @@ namespace BurgerRoyale.API.Controllers.Product
             return ValidationProblem(ModelState.AddErrosFromNofifications(response.Notifications));
         }
         
-        [HttpDelete]
+        [HttpDelete("{id:Guid}")]
         [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]

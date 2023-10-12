@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BurgerRoyale.Application\BurgerRoyale.Application.csproj" />
     <ProjectReference Include="..\BurgerRoyale.Infrastructure\BurgerRoyale.Infrastructure.csproj" />
   </ItemGroup>
 

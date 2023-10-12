@@ -47,8 +47,11 @@ builder.Services.AddSwaggerGen(options =>
 
 DependencyInjectionConfiguration.Register(builder.Services, builder.Configuration);
 
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+# region Services
+
+builder.Services.AddServices();
+
+#endregion
 
 var app = builder.Build();
 
