@@ -111,16 +111,33 @@ namespace BurgerRoyale.Application.Services
                 return response;
             }
 
-            var newProduct = new Product(
-                product!.Id,
+            Product? productUpdated = null;
+
+            try
+            {
+                productUpdated = CreatedUpdatedProduct(product!.Id, updateProductRequestDTO);
+            }
+            catch (DomainException ex)
+            {
+                response.AddNotification("Validation", ex.Message);
+            }
+
+            if (response.IsValid)
+            {
+                await _productRepository.UpdateAsync(productUpdated!);
+            }
+
+            return response;
+        }
+
+        private static Product CreatedUpdatedProduct(Guid productId, ProductDTO updateProductRequestDTO)
+        {
+            return new Product(
+                productId,
                 updateProductRequestDTO.Name,
                 updateProductRequestDTO.Description,
                 updateProductRequestDTO.Price,
                 updateProductRequestDTO.CategoryId);
-
-            await _productRepository.UpdateAsync(newProduct);
-
-            return response;
         }
     }
 }
