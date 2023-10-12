@@ -43,5 +43,13 @@
                 throw new DomainException(message);
             }
         }
+        
+        public static void AssertArgumentHasValidGuid(Guid guidValue, string message)
+        {
+            if (guidValue == Guid.Empty)
+            {
+                throw new DomainException(message);
+            }
+        }
     }
 }
