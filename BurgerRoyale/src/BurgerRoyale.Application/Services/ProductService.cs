@@ -1,5 +1,6 @@
 ﻿using BurgerRoyale.Application.DTO;
 using BurgerRoyale.Application.Interface.Services;
+using BurgerRoyale.Application.Models;
 using BurgerRoyale.Domain.Base;
 using BurgerRoyale.Domain.Entities;
 using BurgerRoyale.Domain.Interface.Repositories;
@@ -15,7 +16,7 @@ namespace BurgerRoyale.Application.Services
             _productRepository = productRepository;
         }
 
-        public async Task<AddProductResponse> AddAsync(AddProductRequestDTO addProductRequestDTO)
+        public async Task<AddProductResponse> AddAsync(ProductDTO addProductRequestDTO)
         {
             Product? product = null;
 
@@ -38,13 +39,18 @@ namespace BurgerRoyale.Application.Services
             return response;
         }
 
-        private static Product CreateProduct(AddProductRequestDTO addProductRequestDTO)
+        private static Product CreateProduct(ProductDTO addProductRequestDTO)
         {
             return new Product(
                 addProductRequestDTO.Name, 
                 addProductRequestDTO.Description, 
                 addProductRequestDTO.Price, 
                 addProductRequestDTO.CategoryId);
+        }
+
+        public Task<GetProductResponse> GetById(Guid id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

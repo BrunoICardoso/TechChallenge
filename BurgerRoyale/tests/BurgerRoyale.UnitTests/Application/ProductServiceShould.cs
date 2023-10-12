@@ -1,5 +1,6 @@
 ﻿using BurgerRoyale.Application.DTO;
 using BurgerRoyale.Application.Interface.Services;
+using BurgerRoyale.Application.Models;
 using BurgerRoyale.Application.Services;
 using BurgerRoyale.Domain.Entities;
 using BurgerRoyale.Domain.Interface.Repositories;
@@ -30,7 +31,7 @@ namespace BurgerRoyale.UnitTests.Application
             string description = "Delicious bacon burger";
             decimal price = 20;
 
-            AddProductRequestDTO addProductRequestDTO = new()
+            ProductDTO addProductRequestDTO = new()
             {
                 Name = name,
                 CategoryId = categoryId,
@@ -73,7 +74,7 @@ namespace BurgerRoyale.UnitTests.Application
             string description = "";
             decimal price = 0;
 
-            AddProductRequestDTO addProductRequestDTO = new()
+            ProductDTO addProductRequestDTO = new()
             {
                 Name = name,
                 CategoryId = categoryId,
@@ -98,6 +99,40 @@ namespace BurgerRoyale.UnitTests.Application
                 .Verify(repository => repository.AddAsync(It.IsAny<Product>()), 
                 Times.Never());
 
+            #endregion
+        }
+
+        [Fact]
+        public async Task Get_By_Id()
+        {
+            #region Arrange(Given)
+
+            Guid productId = Guid.NewGuid();
+
+            var product = new Product("Bacon burger", "", 100, Guid.NewGuid());
+
+            productRepositoryMock
+                .Setup(repository => repository.GetAsync(productId))
+                .ReturnsAsync(product);
+
+            #endregion
+
+            #region Act(When)
+
+            GetProductResponse response = await productService.GetById(productId);
+
+            #endregion
+
+            #region Assert(Then)
+
+            Assert.NotNull(response);
+            Assert.True(response.IsValid);
+            Assert.NotNull(response.Product);
+ 
+            Assert.Equal(product.Name, response.Product.Name);
+            Assert.Equal(product.Price, response.Product.Price);
+            Assert.Equal(product.CategoryId, response.Product.CategoryId);
+            
             #endregion
         }
     }
