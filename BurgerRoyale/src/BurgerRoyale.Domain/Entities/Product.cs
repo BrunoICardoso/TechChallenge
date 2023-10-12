@@ -24,6 +24,7 @@ namespace BurgerRoyale.Domain.Entities
         public void ValidateEntity()
         {
 			AssertionConcern.AssertArgumentNotEmpty(Name, "The name is required!");
+			AssertionConcern.AssertArgumentHasValidPrice(Price, "The price is invalid!");
         }
     }
 }

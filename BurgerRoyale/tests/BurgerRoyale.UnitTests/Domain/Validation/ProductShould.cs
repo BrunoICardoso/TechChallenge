@@ -42,7 +42,7 @@ namespace BurgerRoyale.UnitTests.Domain.Validation
 
             #region Assert(Then)
 
-            Assert.Equal("The price is required!", result.Message);
+            Assert.Equal("The price is invalid!", result.Message);
 
             #endregion
         }
