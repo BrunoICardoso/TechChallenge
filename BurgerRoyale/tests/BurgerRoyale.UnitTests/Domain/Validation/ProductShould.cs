@@ -46,5 +46,24 @@ namespace BurgerRoyale.UnitTests.Domain.Validation
 
             #endregion
         }
+        
+        [Fact]
+        public void Validate_When_Does_Not_Category()
+        {
+            #region Arrange(Given)
+            #endregion
+
+            #region Act(When)
+
+            DomainException result = Assert.Throws<DomainException>(() => new Product("Name", "", 10, Guid.Empty));
+
+            #endregion
+
+            #region Assert(Then)
+
+            Assert.Equal("The category is invalid!", result.Message);
+
+            #endregion
+        }
     }
 }
