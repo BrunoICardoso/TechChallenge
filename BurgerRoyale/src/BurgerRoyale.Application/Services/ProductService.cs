@@ -54,22 +54,32 @@ namespace BurgerRoyale.Application.Services
 
             Product? product = await _productRepository.GetByIdAsync(id);
 
-            if (product is null)
-            {
-                response.AddNotification("productId", "The product does not exist");
-            }
+            AddNotificationIfProductDoesNotExist(response, product);
 
-            if (!response.IsValid)
+            if (ResponseIsNotValid(response))
             {
                 return response;
             }
 
-            ProductDTO productDTO = CreateProductDTO(product);
+            ProductDTO productDTO = CreateProductDTO(product!);
 
             return new GetProductResponse
             {
                 Product = productDTO
             };
+        }
+
+        private static void AddNotificationIfProductDoesNotExist(GetProductResponse response, Product? product)
+        {
+            if (product is null)
+            {
+                response.AddNotification("productId", "The product does not exist");
+            }
+        }
+
+        private static bool ResponseIsNotValid(GetProductResponse response)
+        {
+            return !response.IsValid;
         }
 
         private static ProductDTO CreateProductDTO(Product product)
