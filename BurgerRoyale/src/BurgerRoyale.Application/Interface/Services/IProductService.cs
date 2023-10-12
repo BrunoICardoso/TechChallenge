@@ -1,4 +1,6 @@
-﻿namespace BurgerRoyale.UnitTests.Application
+﻿using BurgerRoyale.Application.DTO;
+
+namespace BurgerRoyale.Application.Interface.Services
 {
     public interface IProductService
     {

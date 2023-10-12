@@ -1,4 +1,5 @@
 ﻿using BurgerRoyale.Domain.ResponseDefault;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
@@ -9,13 +10,13 @@ using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Mvc
+namespace BurgerRoyale.API.ConfigController
 {
     public class CustomValidationModel : IActionFilter
     {
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            
+
         }
 
         public void OnActionExecuting(ActionExecutingContext context)

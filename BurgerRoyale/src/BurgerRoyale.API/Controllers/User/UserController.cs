@@ -1,8 +1,6 @@
-﻿using BurgerRoyale.Domain.Config.EndPoint;
+﻿using BurgerRoyale.API.ConfigController;
 using BurgerRoyale.Domain.DTO;
-using BurgerRoyale.Domain.Helpers;
 using BurgerRoyale.Domain.Interface.Services;
-using BurgerRoyale.Domain.Validation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BurgerRoyale.API.Controllers.User

@@ -1,4 +1,7 @@
-﻿using BurgerRoyale.Domain.Entities;
+﻿using BurgerRoyale.Application.DTO;
+using BurgerRoyale.Application.Interface.Services;
+using BurgerRoyale.Application.Services;
+using BurgerRoyale.Domain.Entities;
 using BurgerRoyale.Domain.Interface.Repositories;
 using Moq;
 

@@ -7,7 +7,7 @@ using System.Net;
 using System.Threading.Tasks;
 using BurgerRoyale.Domain.ResponseDefault;
 
-namespace BurgerRoyale.Domain.Config.EndPoint
+namespace BurgerRoyale.API.ConfigController
 {
     public class BaseController : ControllerBase
     {

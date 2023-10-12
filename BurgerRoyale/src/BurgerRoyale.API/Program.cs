@@ -1,3 +1,4 @@
+using BurgerRoyale.API.ConfigController;
 using BurgerRoyale.Application.Services;
 using BurgerRoyale.Domain.Interface.Repositories;
 using BurgerRoyale.Domain.Interface.Services;

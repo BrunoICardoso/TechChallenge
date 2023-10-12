@@ -1,4 +1,4 @@
-﻿using BurgerRoyale.Domain.Validation;
+﻿using BurgerRoyale.Domain.Helpers;
 
 namespace BurgerRoyale.UnitTests.Domain.Validation
 {

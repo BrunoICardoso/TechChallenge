@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace BurgerRoyale.Domain.Validation
+namespace BurgerRoyale.Domain.Helpers
 {
     public static class Validate
     {
@@ -34,7 +34,7 @@ namespace BurgerRoyale.Domain.Validation
         {
             int soma = numeros.Select((num, index) => num * (multiplicador - index)).Sum();
             int resto = soma % 11;
-            return (resto < 2) ? 0 : (11 - resto);
+            return resto < 2 ? 0 : 11 - resto;
         }
 
         public static bool IsEmailValid(string email)

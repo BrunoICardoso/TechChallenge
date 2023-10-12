@@ -1,12 +1,9 @@
 ﻿
+using BurgerRoyale.Domain.DTO;
 using BurgerRoyale.Domain.Entities;
-using BurgerRoyale.Domain.Helpers;
 using BurgerRoyale.Domain.Interface.Repositories;
-using BurgerRoyale.Domain.Interface.ResponseDefault;
 using BurgerRoyale.Domain.Interface.Services;
 using BurgerRoyale.Domain.ResponseDefault;
-using BurgerRoyale.Domain.Validation;
-using BurgerRoyale.Domain.DTO;
 using System.Net;
 
 namespace BurgerRoyale.Application.Services
