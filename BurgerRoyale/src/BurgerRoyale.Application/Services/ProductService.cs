@@ -1,9 +1,11 @@
-﻿using BurgerRoyale.Application.DTO;
+﻿using Azure;
+using BurgerRoyale.Application.DTO;
 using BurgerRoyale.Application.Interface.Services;
 using BurgerRoyale.Application.Models;
 using BurgerRoyale.Domain.Base;
 using BurgerRoyale.Domain.Entities;
 using BurgerRoyale.Domain.Interface.Repositories;
+using Flunt.Notifications;
 
 namespace BurgerRoyale.Application.Services
 {
@@ -63,13 +65,12 @@ namespace BurgerRoyale.Application.Services
 
             ProductDTO productDTO = CreateProductDTO(product!);
 
-            return new GetProductResponse
-            {
-                Product = productDTO
-            };
+            response.Product = productDTO;
+
+            return response;
         }
 
-        private static void AddNotificationIfProductDoesNotExist(GetProductResponse response, Product? product)
+        private static void AddNotificationIfProductDoesNotExist(Notifiable<Notification> response, Product? product)
         {
             if (product is null)
             {
@@ -77,7 +78,7 @@ namespace BurgerRoyale.Application.Services
             }
         }
 
-        private static bool ResponseIsNotValid(GetProductResponse response)
+        private static bool ResponseIsNotValid(Notifiable<Notification> response)
         {
             return !response.IsValid;
         }
@@ -99,10 +100,19 @@ namespace BurgerRoyale.Application.Services
 
         public async Task<UpdateProductResponse> UpdateAsync(Guid id, ProductDTO updateProductRequestDTO)
         {
+            var response = new UpdateProductResponse();
+
             Product? product = await _productRepository.GetByIdAsync(id);
 
+            AddNotificationIfProductDoesNotExist(response, product);
+
+            if (ResponseIsNotValid(response))
+            {
+                return response;
+            }
+
             var newProduct = new Product(
-                product.Id,
+                product!.Id,
                 updateProductRequestDTO.Name,
                 updateProductRequestDTO.Description,
                 updateProductRequestDTO.Price,
@@ -110,7 +120,7 @@ namespace BurgerRoyale.Application.Services
 
             await _productRepository.UpdateAsync(newProduct);
 
-            return new UpdateProductResponse();
+            return response;
         }
     }
 }
