@@ -1,7 +1,7 @@
 ﻿using BurgerRoyale.Application.Models;
-using BurgerRoyale.Domain.Base;
 using BurgerRoyale.Domain.DTO;
 using BurgerRoyale.Domain.Entities;
+using BurgerRoyale.Domain.Exceptions;
 using BurgerRoyale.Domain.Interface.Repositories;
 using BurgerRoyale.Domain.Interface.Services;
 using Flunt.Notifications;

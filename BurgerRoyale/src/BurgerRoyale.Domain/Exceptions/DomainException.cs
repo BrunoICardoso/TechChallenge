@@ -1,4 +1,4 @@
-﻿namespace BurgerRoyale.Domain.Base
+﻿namespace BurgerRoyale.Domain.Exceptions
 {
 	public class DomainException : Exception
 	{

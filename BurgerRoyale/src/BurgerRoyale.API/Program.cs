@@ -1,4 +1,5 @@
 using BurgerRoyale.API.ConfigController;
+using BurgerRoyale.API.Middleware;
 using BurgerRoyale.IOC;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -49,6 +50,8 @@ if (app.Environment.IsDevelopment())
 	app.UseSwagger();
 	app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 
