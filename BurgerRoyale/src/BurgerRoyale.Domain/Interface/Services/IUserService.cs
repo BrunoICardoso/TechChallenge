@@ -4,14 +4,12 @@ namespace BurgerRoyale.Domain.Interface.Services
 {
 	public interface IUserService
 	{
-		Task CreateAsync(UserDTO model);
+		Task<UserDTO> CreateAsync(UserDTO model);
 
-		Task Delete(string cpf);
+		Task Delete(Guid userId);
 
 		Task<UserDTO> GetByCpf(string cpf);
 
-		Task<UserDTO> GetByEmail(string email);
-
-		Task Update(UserDTO model);
+		Task<UserDTO> Update(Guid userId, UserDTO model);
 	}
 }

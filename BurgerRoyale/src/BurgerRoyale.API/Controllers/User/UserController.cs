@@ -18,8 +18,8 @@ namespace BurgerRoyale.API.Controllers.User
 			_userService = userService;
 		}
 
-		[HttpGet]
-		public async Task<IActionResult> GetUser(string cpf)
+		[HttpGet("{cpf}")]
+		public async Task<IActionResult> GetUser([FromRoute] string cpf)
 		{
 			var user = await _userService.GetByCpf(cpf);
 
@@ -31,25 +31,29 @@ namespace BurgerRoyale.API.Controllers.User
 		[HttpPost]
 		public async Task<IActionResult> CreateUser([FromBody] UserDTO user)
 		{
-			await _userService.CreateAsync(user);
+			var createdUser = await _userService.CreateAsync(user);
 
-			return IStatusCode(new ReturnAPI(HttpStatusCode.Created));
+			return IStatusCode(new ReturnAPI<UserDTO>(HttpStatusCode.Created, createdUser));
 		}
 
-		[HttpPut]
-		public async Task<IActionResult> UpdateUser([FromBody] UserDTO user)
+		[HttpPut("{userId}")]
+		public async Task<IActionResult> UpdateUser
+		(
+			[FromRoute] Guid userId,
+			[FromBody] UserDTO user
+		)
 		{
-			await _userService.Update(user);
+			var updatedUser = await _userService.Update(userId, user);
 
-			return IStatusCode(new ReturnAPI());
+			return IStatusCode(new ReturnAPI<UserDTO>(updatedUser));
 		}
 
-		[HttpDelete]
-		public async Task<IActionResult> DeleteUser(string cpf)
+		[HttpDelete("{userId}")]
+		public async Task<IActionResult> DeleteUser([FromRoute] Guid userId)
 		{
-			await _userService.Delete(cpf);
+			await _userService.Delete(userId);
 
-			return IStatusCode(new ReturnAPI());
+			return IStatusCode(new ReturnAPI(HttpStatusCode.NoContent));
 		}
 	}
 }
