@@ -16,11 +16,6 @@ namespace BurgerRoyale.Infrastructure.Context.EntityConfigs
 				.ValueGeneratedOnAdd();
 
 			builder
-				.HasOne(x => x.Status)
-				.WithMany(x => x.Orders)
-				.HasForeignKey(x => x.StatusId);
-
-			builder
 				.HasMany(x => x.OrderProducts)
 				.WithOne(x => x.Order)
 				.HasForeignKey(x => x.OrderId);

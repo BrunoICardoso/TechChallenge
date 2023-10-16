@@ -1,4 +1,6 @@
-﻿namespace BurgerRoyale.Domain.DTO
+﻿using BurgerRoyale.Domain.Enumerators;
+
+namespace BurgerRoyale.Domain.DTO
 {
 	public class ProductDTO
 	{
@@ -6,7 +8,7 @@
 
 		public string Name { get; set; } = string.Empty;
 
-		public Guid CategoryId { get; set; }
+		public ProductCategory Category { get; set; }
 
 		public string Description { get; set; } = string.Empty;
 

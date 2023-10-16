@@ -46,7 +46,7 @@ namespace BurgerRoyale.Application.Services
 				productDTO.Name,
 				productDTO.Description,
 				productDTO.Price,
-				productDTO.CategoryId);
+				productDTO.Category);
 		}
 
 		public async Task<GetProductResponse> GetByIdAsync(Guid id)
@@ -90,7 +90,7 @@ namespace BurgerRoyale.Application.Services
 				Name = product.Name,
 				Description = product.Description,
 				Price = product.Price,
-				CategoryId = product.CategoryId
+				Category = product.Category
 			};
 		}
 
@@ -133,7 +133,7 @@ namespace BurgerRoyale.Application.Services
 				updateProductRequestDTO.Name,
 				updateProductRequestDTO.Description,
 				updateProductRequestDTO.Price,
-				updateProductRequestDTO.CategoryId);
+				updateProductRequestDTO.Category);
 		}
 
 		public async Task<ProductResponse> RemoveAsync(Guid id)

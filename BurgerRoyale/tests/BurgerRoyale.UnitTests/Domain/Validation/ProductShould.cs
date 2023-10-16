@@ -1,4 +1,5 @@
 ﻿using BurgerRoyale.Domain.Entities;
+using BurgerRoyale.Domain.Enumerators;
 using BurgerRoyale.Domain.Exceptions;
 
 namespace BurgerRoyale.UnitTests.Domain.Validation
@@ -12,7 +13,7 @@ namespace BurgerRoyale.UnitTests.Domain.Validation
 		{
 			#region Act(When)
 
-			DomainException result = Assert.Throws<DomainException>(() => new Product(name, "", 0, Guid.NewGuid()));
+			DomainException result = Assert.Throws<DomainException>(() => new Product(name, "", 0, ProductCategory.Lanche));
 
 			#endregion Act(When)
 
@@ -30,29 +31,13 @@ namespace BurgerRoyale.UnitTests.Domain.Validation
 		{
 			#region Act(When)
 
-			DomainException result = Assert.Throws<DomainException>(() => new Product("Name", "", price, Guid.NewGuid()));
+			DomainException result = Assert.Throws<DomainException>(() => new Product("Name", "", price, ProductCategory.Lanche));
 
 			#endregion Act(When)
 
 			#region Assert(Then)
 
 			Assert.Equal("The price is invalid!", result.Message);
-
-			#endregion Assert(Then)
-		}
-
-		[Fact]
-		public void Validate_When_Does_Not_Category()
-		{
-			#region Act(When)
-
-			DomainException result = Assert.Throws<DomainException>(() => new Product("Name", "", 10, Guid.Empty));
-
-			#endregion Act(When)
-
-			#region Assert(Then)
-
-			Assert.Equal("The category is invalid!", result.Message);
 
 			#endregion Assert(Then)
 		}

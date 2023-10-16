@@ -2,6 +2,7 @@
 using BurgerRoyale.Application.Services;
 using BurgerRoyale.Domain.DTO;
 using BurgerRoyale.Domain.Entities;
+using BurgerRoyale.Domain.Enumerators;
 using BurgerRoyale.Domain.Interface.Repositories;
 using BurgerRoyale.Domain.Interface.Services;
 using Moq;
@@ -27,14 +28,14 @@ namespace BurgerRoyale.UnitTests.Application
 			#region Arrange(Given)
 
 			string name = "Bacon burger";
-			Guid categoryId = Guid.NewGuid();
+			ProductCategory category = ProductCategory.Lanche;
 			string description = "Delicious bacon burger";
 			decimal price = 20;
 
 			ProductDTO addProductRequestDTO = new()
 			{
 				Name = name,
-				CategoryId = categoryId,
+				Category = category,
 				Description = description,
 				Price = price,
 			};
@@ -56,7 +57,7 @@ namespace BurgerRoyale.UnitTests.Application
 				.Verify(
 					repository => repository.AddAsync(It.Is<Product>(product =>
 						product.Name == name &&
-						product.CategoryId == categoryId &&
+						product.Category == category &&
 						product.Description == description &&
 						product.Price == price)),
 					Times.Once());
@@ -70,14 +71,14 @@ namespace BurgerRoyale.UnitTests.Application
 			#region Arrange(Given)
 
 			string name = string.Empty;
-			Guid categoryId = Guid.Empty;
+			ProductCategory category = ProductCategory.Lanche;
 			string description = "";
 			decimal price = 0;
 
 			ProductDTO addProductRequestDTO = new()
 			{
 				Name = name,
-				CategoryId = categoryId,
+				Category = category,
 				Description = description,
 				Price = price,
 			};
@@ -109,7 +110,7 @@ namespace BurgerRoyale.UnitTests.Application
 
 			Guid productId = Guid.NewGuid();
 
-			var product = new Product("Bacon burger", "", 100, Guid.NewGuid());
+			var product = new Product("Bacon burger", "", 100, ProductCategory.Lanche);
 
 			productRepositoryMock
 				.Setup(repository => repository.GetByIdAsync(productId))
@@ -131,7 +132,7 @@ namespace BurgerRoyale.UnitTests.Application
 
 			Assert.Equal(product.Name, response.Product.Name);
 			Assert.Equal(product.Price, response.Product.Price);
-			Assert.Equal(product.CategoryId, response.Product.CategoryId);
+			Assert.Equal(product.Category, response.Product.Category);
 
 			#endregion Assert(Then)
 		}
@@ -171,19 +172,19 @@ namespace BurgerRoyale.UnitTests.Application
 			Guid productId = Guid.NewGuid();
 
 			string newName = "New Bacon burger 2.0";
-			Guid newCategoryId = Guid.NewGuid();
+			ProductCategory newCategory = ProductCategory.Lanche;
 			string newDescription = "new and still delicious bacon burger";
 			decimal newPrice = 40;
 
 			ProductDTO updateProductRequestDTO = new()
 			{
 				Name = newName,
-				CategoryId = newCategoryId,
+				Category = newCategory,
 				Description = newDescription,
 				Price = newPrice,
 			};
 
-			var product = new Product(productId, "Bacon burger", "", 100, Guid.NewGuid());
+			var product = new Product(productId, "Bacon burger", "", 100, newCategory);
 
 			productRepositoryMock
 				.Setup(repository => repository.GetByIdAsync(productId))
@@ -207,7 +208,7 @@ namespace BurgerRoyale.UnitTests.Application
 				.Verify(repository => repository.UpdateAsync(It.Is<Product>(product =>
 					product.Id == productId &&
 					product.Name == newName &&
-					product.CategoryId == newCategoryId &&
+					product.Category == newCategory &&
 					product.Description == newDescription &&
 					product.Price == newPrice)),
 				Times.Once);
@@ -245,55 +246,13 @@ namespace BurgerRoyale.UnitTests.Application
 		}
 
 		[Fact]
-		public async Task Return_Notification_When_Update_Product_With_Invalid_Request()
-		{
-			#region Arrange(Given)
-
-			Guid productId = Guid.NewGuid();
-
-			string name = string.Empty;
-			Guid categoryId = Guid.Empty;
-			string description = "";
-			decimal price = 0;
-
-			ProductDTO updateProductRequestDTO = new()
-			{
-				Name = name,
-				CategoryId = categoryId,
-				Description = description,
-				Price = price,
-			};
-
-			var product = new Product(productId, "Bacon burger", "", 100, Guid.NewGuid());
-
-			productRepositoryMock
-				.Setup(repository => repository.GetByIdAsync(productId))
-				.ReturnsAsync(product);
-
-			#endregion Arrange(Given)
-
-			#region Act(When)
-
-			ProductResponse response = await productService.UpdateAsync(productId, updateProductRequestDTO);
-
-			#endregion Act(When)
-
-			#region Assert(Then)
-
-			Assert.False(response.IsValid);
-			Assert.True(response.Notifications.Any());
-
-			#endregion Assert(Then)
-		}
-
-		[Fact]
 		public async Task Remove_Product()
 		{
 			#region Arrange(Given)
 
 			Guid productId = Guid.NewGuid();
 
-			var product = new Product(productId, "Bacon burger", "", 100, Guid.NewGuid());
+			var product = new Product(productId, "Bacon burger", "", 100, ProductCategory.Lanche);
 
 			productRepositoryMock
 				.Setup(repository => repository.GetByIdAsync(productId))
