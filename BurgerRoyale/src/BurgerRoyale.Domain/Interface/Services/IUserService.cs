@@ -1,9 +1,9 @@
-﻿using BurgerRoyale.Domain.DTO.Users;
+﻿using BurgerRoyale.Domain.DTO;
 using BurgerRoyale.Domain.Enumerators;
 
 namespace BurgerRoyale.Domain.Interface.Services
 {
-	public interface IUserService
+    public interface IUserService
 	{
 		Task<UserDTO> GetById(Guid userId);
 

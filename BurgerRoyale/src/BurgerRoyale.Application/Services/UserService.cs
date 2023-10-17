@@ -1,4 +1,4 @@
-﻿using BurgerRoyale.Domain.DTO.Users;
+﻿using BurgerRoyale.Domain.DTO;
 using BurgerRoyale.Domain.Entities;
 using BurgerRoyale.Domain.Enumerators;
 using BurgerRoyale.Domain.Exceptions;
@@ -8,7 +8,7 @@ using BurgerRoyale.Domain.Interface.Services;
 
 namespace BurgerRoyale.Application.Services
 {
-	public class UserService : IUserService
+    public class UserService : IUserService
 	{
 		private readonly IUserRepository _userRepository;
 

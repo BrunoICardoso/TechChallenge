@@ -2,7 +2,7 @@
 using BurgerRoyale.Domain.Enumerators;
 using BurgerRoyale.Domain.Helpers;
 
-namespace BurgerRoyale.Domain.DTO.Users
+namespace BurgerRoyale.Domain.DTO
 {
 	public class UserDTO
 	{

@@ -1,5 +1,5 @@
 ﻿using BurgerRoyale.API.ConfigController;
-using BurgerRoyale.Domain.DTO.Users;
+using BurgerRoyale.Domain.DTO;
 using BurgerRoyale.Domain.Enumerators;
 using BurgerRoyale.Domain.Interface.Services;
 using BurgerRoyale.Domain.ResponseDefault;
