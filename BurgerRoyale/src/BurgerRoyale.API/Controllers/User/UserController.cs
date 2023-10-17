@@ -1,5 +1,6 @@
 ﻿using BurgerRoyale.API.ConfigController;
-using BurgerRoyale.Domain.DTO;
+using BurgerRoyale.Domain.DTO.Users;
+using BurgerRoyale.Domain.Enumerators;
 using BurgerRoyale.Domain.Interface.Services;
 using BurgerRoyale.Domain.ResponseDefault;
 using Microsoft.AspNetCore.Mvc;
@@ -18,18 +19,24 @@ namespace BurgerRoyale.API.Controllers.User
 			_userService = userService;
 		}
 
-		[HttpGet("{cpf}")]
-		public async Task<IActionResult> GetUser([FromRoute] string cpf)
+		[HttpGet]
+		public async Task<IActionResult> GetUsers([FromQuery] UserType? userType)
 		{
-			var user = await _userService.GetByCpf(cpf);
+			var users = await _userService.GetUsers(userType);
 
-			return IStatusCode(
-				new ReturnAPI<UserDTO>(user)
-			);
+			return IStatusCode(new ReturnAPI<IEnumerable<UserDTO>>(users));
+		}
+
+		[HttpGet("{userId}")]
+		public async Task<IActionResult> GetUser([FromRoute] Guid userId)
+		{
+			var user = await _userService.GetById(userId);
+
+			return IStatusCode(new ReturnAPI<UserDTO>(user));
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> CreateUser([FromBody] UserDTO user)
+		public async Task<IActionResult> CreateUser([FromBody] RequestUserDTO user)
 		{
 			var createdUser = await _userService.CreateAsync(user);
 
@@ -40,7 +47,7 @@ namespace BurgerRoyale.API.Controllers.User
 		public async Task<IActionResult> UpdateUser
 		(
 			[FromRoute] Guid userId,
-			[FromBody] UserDTO user
+			[FromBody] RequestUserDTO user
 		)
 		{
 			var updatedUser = await _userService.Update(userId, user);

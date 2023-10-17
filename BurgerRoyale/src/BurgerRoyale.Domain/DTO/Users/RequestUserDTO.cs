@@ -1,8 +1,8 @@
 ﻿using BurgerRoyale.Domain.Enumerators;
 
-namespace BurgerRoyale.Domain.DTO
+namespace BurgerRoyale.Domain.DTO.Users
 {
-	public class UserDTO
+	public class RequestUserDTO
 	{
 		public string Cpf { get; set; }
 		public string Name { get; set; }

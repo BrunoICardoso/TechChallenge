@@ -1,9 +1,9 @@
-﻿using BurgerRoyale.Domain.DTO;
+﻿using BurgerRoyale.Domain.DTO.Users;
 using FluentValidation;
 
 namespace BurgerRoyale.API.Validators
 {
-	public class UserDTOValidator : AbstractValidator<UserDTO>
+	public class UserDTOValidator : AbstractValidator<RequestUserDTO>
 	{
 		public UserDTOValidator()
 		{

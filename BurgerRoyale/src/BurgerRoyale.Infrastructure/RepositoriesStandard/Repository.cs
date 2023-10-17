@@ -5,9 +5,8 @@ using System.Linq.Expressions;
 
 namespace BurgerRoyale.Infrastructure.RepositoriesStandard
 {
-    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+	public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 	{
-
 		protected readonly ApplicationDbContext _context;
 
 		public Repository(ApplicationDbContext applicationDbContext)
@@ -30,12 +29,12 @@ namespace BurgerRoyale.Infrastructure.RepositoriesStandard
 			return await _context.Set<TEntity>().Where(predicate).ToListAsync();
 		}
 
-        public async Task<TEntity> FindFirstDefaultAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            return await _context.Set<TEntity>().FirstOrDefaultAsync(predicate);
-        }
+		public async Task<TEntity> FindFirstDefaultAsync(Expression<Func<TEntity, bool>> predicate)
+		{
+			return await _context.Set<TEntity>().FirstOrDefaultAsync(predicate);
+		}
 
-        public async Task AddAsync(TEntity entity)
+		public async Task AddAsync(TEntity entity)
 		{
 			await _context.Set<TEntity>().AddAsync(entity);
 			await _context.SaveChangesAsync();
@@ -63,6 +62,11 @@ namespace BurgerRoyale.Infrastructure.RepositoriesStandard
 		{
 			_context.Set<TEntity>().Update(entity);
 			await _context.SaveChangesAsync();
+		}
+
+		public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate)
+		{
+			return await _context.Set<TEntity>().AnyAsync(predicate);
 		}
 	}
 }

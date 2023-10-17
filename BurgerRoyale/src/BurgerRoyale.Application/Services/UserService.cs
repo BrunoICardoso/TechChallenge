@@ -1,5 +1,6 @@
-﻿using BurgerRoyale.Domain.DTO;
+﻿using BurgerRoyale.Domain.DTO.Users;
 using BurgerRoyale.Domain.Entities;
+using BurgerRoyale.Domain.Enumerators;
 using BurgerRoyale.Domain.Exceptions;
 using BurgerRoyale.Domain.Helpers;
 using BurgerRoyale.Domain.Interface.Repositories;
@@ -27,83 +28,83 @@ namespace BurgerRoyale.Application.Services
 				throw new NotFoundException("CPF não encontrado");
 			}
 
-			return new UserDTO
-			{
-				Cpf = Format.FormatCpf(userEntity.Cpf),
-				Email = userEntity.Email,
-				Name = userEntity.Name,
-				UserType = userEntity.UserType
-			};
+			return new UserDTO(userEntity);
 		}
 
-		public async Task<UserDTO> CreateAsync(UserDTO model)
+		public async Task<UserDTO> CreateAsync(RequestUserDTO model)
 		{
 			var cpf = Format.NormalizeCpf(model.Cpf);
 
-			User? userEntity = await _userRepository.FindFirstDefaultAsync(x => x.Cpf == cpf);
+			bool userAlreadyExists = await _userRepository.AnyAsync(x => x.Cpf == cpf);
 
-			if (userEntity is not null)
+			if (userAlreadyExists)
 			{
 				throw new DomainException("CPF já cadastrado");
 			}
 
-			var user = new User
-			{
-				Cpf = cpf,
-				Email = model.Email,
-				Name = model.Name,
-				UserType = model.UserType
-			};
+			var user = new User(
+				cpf,
+				model.Email,
+				model.Name,
+				model.UserType
+			);
 
 			await _userRepository.AddAsync(user);
 
-			return new UserDTO
-			{
-				Cpf = Format.FormatCpf(user.Cpf),
-				Email = user.Email,
-				Name = user.Name,
-				UserType = user.UserType
-			};
+			return new UserDTO(user);
 		}
 
-		public async Task<UserDTO> Update(Guid userId, UserDTO model)
+		public async Task<UserDTO> Update(Guid userId, RequestUserDTO model)
 		{
 			var cpf = Format.NormalizeCpf(model.Cpf);
 
-			User? userEntity = await _userRepository.FindFirstDefaultAsync(x =>
+			User? user = await _userRepository.FindFirstDefaultAsync(x =>
 				x.Id == userId && x.Cpf == cpf
 			);
 
-			if (userEntity is null)
+			if (user is null)
 			{
 				throw new NotFoundException("CPF não encontrado");
 			}
 
-			userEntity.Name = model.Name;
-			userEntity.UserType = model.UserType;
-			userEntity.Email = model.Email;
+			user.SetDetails(model.Name, model.Email, model.UserType);
 
-			await _userRepository.UpdateAsync(userEntity);
+			await _userRepository.UpdateAsync(user);
 
-			return new UserDTO
-			{
-				Cpf = Format.FormatCpf(userEntity.Cpf),
-				Email = userEntity.Email,
-				Name = userEntity.Name,
-				UserType = userEntity.UserType
-			};
+			return new UserDTO(user);
 		}
 
 		public async Task Delete(Guid userId)
 		{
-			User? userEntity = await _userRepository.FindFirstDefaultAsync(x => x.Id == userId);
+			User? user = await _userRepository.FindFirstDefaultAsync(x => x.Id == userId);
 
-			if (userEntity is null)
+			if (user is null)
 			{
 				throw new NotFoundException("Usuário não encontrado");
 			}
 
-			_userRepository.Remove(userEntity);
+			_userRepository.Remove(user);
+		}
+
+		public async Task<UserDTO> GetById(Guid userId)
+		{
+			User? user = await _userRepository.FindFirstDefaultAsync(x => x.Id == userId);
+
+			if (user is null)
+			{
+				throw new NotFoundException("Usuário não encontrado");
+			}
+
+			return new UserDTO(user);
+		}
+
+		public async Task<IEnumerable<UserDTO>> GetUsers(UserType? userType)
+		{
+			var users = (userType == null)
+				? await _userRepository.GetAllAsync()
+				: await _userRepository.FindAsync(x => x.UserType == userType);
+
+			return users.Select(user => new UserDTO(user));
 		}
 	}
 }
