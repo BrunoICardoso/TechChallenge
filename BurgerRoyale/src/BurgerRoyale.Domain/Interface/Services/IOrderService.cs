@@ -8,12 +8,10 @@ namespace BurgerRoyale.Domain.Interface.Services
     {
         Task CreateAsync(CreateOrderDTO orderDTO);
 
-        Task<OrderDTO> GetByIdAsync(Guid id);
-
         Task<IEnumerable<OrderDTO>> GetOrdersAsync(OrderStatus? orderStatus);
 
-        Task<OrderDTO> UpdateAsync(Guid id, OrderDTO orderDTO);
+        Task UpdateOrderStatusAsync(Guid id, OrderStatus orderStatus);
 
-        Task<OrderDTO> RemoveAsync(Guid id);
+        Task RemoveAsync(Guid id);
     }
 }

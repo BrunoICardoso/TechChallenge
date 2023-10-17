@@ -3,6 +3,6 @@
     public class CreateOrderDTO
     {
         public Guid UserId { get; set; }
-        public IEnumerable<OrderProductDTO> OrderProducts { get; set; } = Enumerable.Empty<OrderProductDTO>();
+        public IEnumerable<CreateOrderProductDTO> OrderProducts { get; set; } = Enumerable.Empty<CreateOrderProductDTO>();
     }
 }

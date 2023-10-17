@@ -34,5 +34,18 @@ namespace BurgerRoyale.API.Controllers.Order
 
             return IStatusCode(new ReturnAPI(HttpStatusCode.Created));
         }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateOrderStatus(Guid id, [FromQuery] OrderStatus? orderStatus)
+        {
+            await _orderService.UpdateOrderStatusAsync(id, orderStatus.Value);
+            return IStatusCode(new ReturnAPI(HttpStatusCode.NoContent));
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteOrderAsync(Guid id)
+        {
+            await _orderService.RemoveAsync(id);
+            return IStatusCode(new ReturnAPI(HttpStatusCode.NoContent));
+        }
     }
 }

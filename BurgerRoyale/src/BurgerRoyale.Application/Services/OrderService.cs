@@ -48,17 +48,13 @@ namespace BurgerRoyale.Application.Services
             await _orderRepository.AddAsync(order);
         }
 
-        public Task<OrderDTO> GetByIdAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IEnumerable<OrderDTO>> GetOrdersAsync(OrderStatus? orderStatus)
         {
             var orders = await _orderRepository.GetOrders(orderStatus);
 
             var orderDTOs = orders.Select(order => new OrderDTO()
             {
+                OrderId = order.Id,
                 Status = order.Status.GetDescription(),
                 UserId = order.UserId,
                 OrderTime = order.OrderTime,
@@ -71,18 +67,39 @@ namespace BurgerRoyale.Application.Services
                     Price = x.ProductPrice
 
                 })
-            });
+            }).ToList();
+
+            for (int i = 0; i < orderDTOs.Count(); i++)
+                if (orderDTOs[i].OrderProducts != null && orderDTOs[i].OrderProducts.Count() > 0)
+                    foreach (var product in orderDTOs[i].OrderProducts)
+                        if (product != null)
+                            orderDTOs[i].TotalPrice += product.Price * product.Quantity;
+
             return orderDTOs;
         }
 
-        public Task<OrderDTO> RemoveAsync(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var order = await _orderRepository.FindFirstDefaultAsync(x => x.Id == id);
+
+            if (order is null)
+                throw new DomainException("Pedido inválido.");
+
+            _orderRepository.Remove(order);
         }
 
-        public Task<OrderDTO> UpdateAsync(Guid id, OrderDTO orderDTO)
+        public async Task UpdateOrderStatusAsync(Guid id, OrderStatus orderStatus)
         {
-            throw new NotImplementedException();
+            var order = await _orderRepository.FindFirstDefaultAsync(x => x.Id == id);
+
+            if (order is null)
+                throw new DomainException("Pedido inválido.");
+
+            if (order.Status == orderStatus)
+                throw new DomainException($"Pedido já possui status {orderStatus.GetDescription()}");
+
+            order.Status = orderStatus;
+            await _orderRepository.UpdateAsync(order);
         }
     }
 }
