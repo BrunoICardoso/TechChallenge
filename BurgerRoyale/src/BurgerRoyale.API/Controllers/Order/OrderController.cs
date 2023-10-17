@@ -1,5 +1,6 @@
 ﻿using BurgerRoyale.API.ConfigController;
 using BurgerRoyale.Domain.DTO;
+using BurgerRoyale.Domain.Enumerators;
 using BurgerRoyale.Domain.Interface.Services;
 using BurgerRoyale.Domain.ResponseDefault;
 using Microsoft.AspNetCore.Mvc;
@@ -17,8 +18,17 @@ namespace BurgerRoyale.API.Controllers.Order
             _orderService = orderService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetOrders([FromQuery] OrderStatus? orderStatus)
+        {
+            var orders = await _orderService.GetOrdersAsync(orderStatus);
+            return IStatusCode(
+                new ReturnAPI<IEnumerable<OrderDTO>>(orders)
+            );
+        }
+
         [HttpPost]
-        public async Task<IActionResult> CreateOrder([FromBody] OrderDTO order)
+        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDTO order)
         {
             await _orderService.CreateAsync(order);
 

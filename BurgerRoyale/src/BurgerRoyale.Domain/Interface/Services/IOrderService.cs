@@ -1,15 +1,16 @@
 ﻿using BurgerRoyale.Application.Models;
 using BurgerRoyale.Domain.DTO;
+using BurgerRoyale.Domain.Enumerators;
 
 namespace BurgerRoyale.Domain.Interface.Services
 {
     public interface IOrderService
     {
-        Task CreateAsync(OrderDTO orderDTO);
+        Task CreateAsync(CreateOrderDTO orderDTO);
 
         Task<OrderDTO> GetByIdAsync(Guid id);
 
-        Task<IEnumerable<OrderDTO>> GetAllOrdersAsync();
+        Task<IEnumerable<OrderDTO>> GetOrdersAsync(OrderStatus? orderStatus);
 
         Task<OrderDTO> UpdateAsync(Guid id, OrderDTO orderDTO);
 
