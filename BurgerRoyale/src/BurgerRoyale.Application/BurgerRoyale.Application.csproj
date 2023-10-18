@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Flunt" Version="2.0.5" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BurgerRoyale.Domain\BurgerRoyale.Domain.csproj" />
     <ProjectReference Include="..\BurgerRoyale.Infrastructure\BurgerRoyale.Infrastructure.csproj" />
   </ItemGroup>
