@@ -5,7 +5,7 @@ namespace BurgerRoyale.Domain.Interface.Services
 {
 	public interface IProductService
 	{
-		Task<ProductResponse> AddAsync(ProductDTO addProductRequestDTO);
+		Task<ProductDTO> AddAsync(ProductDTO addProductRequestDTO);
 
 		Task<GetProductResponse> GetByIdAsync(Guid id);
 

@@ -17,27 +17,16 @@ namespace BurgerRoyale.Application.Services
 			_productRepository = productRepository;
 		}
 
-		public async Task<ProductResponse> AddAsync(ProductDTO addProductRequestDTO)
+		public async Task<ProductDTO> AddAsync(ProductDTO addProductRequestDTO)
 		{
-			Product? product = null;
+			Product product = CreateProduct(addProductRequestDTO);
 
-			var response = new ProductResponse();
+			await _productRepository.AddAsync(product!);
 
-			try
-			{
-				product = CreateProduct(addProductRequestDTO);
-			}
-			catch (DomainException ex)
-			{
-				response.AddNotification("Validation", ex.Message);
-			}
+			addProductRequestDTO.Id = product.Id;
 
-			if (response.IsValid)
-			{
-				await _productRepository.AddAsync(product!);
-			}
 
-			return response;
+            return addProductRequestDTO;
 		}
 
 		private static Product CreateProduct(ProductDTO productDTO)

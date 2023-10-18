@@ -3,7 +3,9 @@ using BurgerRoyale.API.Extensions;
 using BurgerRoyale.Application.Models;
 using BurgerRoyale.Domain.DTO;
 using BurgerRoyale.Domain.Interface.Services;
+using BurgerRoyale.Domain.ResponseDefault;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace BurgerRoyale.API.Controllers.Product
 {
@@ -19,19 +21,14 @@ namespace BurgerRoyale.API.Controllers.Product
 		}
 
 		[HttpPost]
-		[ProducesResponseType(typeof(ProductResponse), StatusCodes.Status201Created)]
+		[ProducesResponseType(typeof(ProductDTO), StatusCodes.Status201Created)]
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
 		[ProducesDefaultResponseType]
 		public async Task<IActionResult> Add([FromBody] ProductDTO productDTO)
 		{
-			ProductResponse response = await _productService.AddAsync(productDTO);
+            ProductDTO response = await _productService.AddAsync(productDTO);
 
-			if (response.IsValid)
-			{
-				return StatusCode(StatusCodes.Status201Created, response);
-			}
-
-			return ValidationProblem(ModelState.AddErrosFromNofifications(response.Notifications));
+			return IStatusCode(new ReturnAPI<ProductDTO>(HttpStatusCode.Created, response));
 		}
 
 		[HttpGet("{id:Guid}")]

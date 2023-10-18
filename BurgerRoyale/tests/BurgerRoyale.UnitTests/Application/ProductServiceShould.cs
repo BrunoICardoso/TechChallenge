@@ -41,18 +41,18 @@ namespace BurgerRoyale.UnitTests.Application
 				Price = price,
 			};
 
-			#endregion Arrange(Given)
+            #endregion Arrange(Given)
 
-			#region Act(When)
+            #region Act(When)
 
-			ProductResponse response = await productService.AddAsync(addProductRequestDTO);
+            ProductDTO response = await productService.AddAsync(addProductRequestDTO);
 
 			#endregion Act(When)
 
 			#region Assert(Then)
 
 			Assert.NotNull(response);
-			Assert.True(response.IsValid);
+			Assert.NotEqual(Guid.Empty, response.Id);
 
 			productRepositoryMock
 				.Verify(
@@ -92,7 +92,7 @@ namespace BurgerRoyale.UnitTests.Application
 
 			try
 			{
-				ProductResponse response = await productService.AddAsync(addProductRequestDTO);
+				ProductDTO response = await productService.AddAsync(addProductRequestDTO);
 			} 
 			catch(Exception ex)
 			{
