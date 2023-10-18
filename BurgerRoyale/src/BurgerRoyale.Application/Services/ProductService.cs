@@ -37,31 +37,20 @@ namespace BurgerRoyale.Application.Services
 				productDTO.Category);
 		}
 
-		public async Task<GetProductResponse> GetByIdAsync(Guid id)
+		public async Task<ProductDTO> GetByIdAsync(Guid id)
 		{
-			var response = new GetProductResponse();
-
 			Product? product = await _productRepository.GetByIdAsync(id);
 
-			AddNotificationIfProductDoesNotExist(response, product);
+			ThrowExceptionIfProductDoesNotExit(product);
 
-			if (ResponseIsNotValid(response))
-			{
-				return response;
-			}
-
-			ProductDTO productDTO = CreateProductDTO(product!);
-
-			response.Product = productDTO;
-
-			return response;
+			return CreateProductDTO(product!);
 		}
 
-		private static void AddNotificationIfProductDoesNotExist(Notifiable<Notification> response, Product? product)
+		private static void ThrowExceptionIfProductDoesNotExit(Product? product)
 		{
 			if (product is null)
 			{
-				response.AddNotification("productId", "The product does not exist");
+				throw new NotFoundException("O produto não foi encontrado");
 			}
 		}
 
@@ -88,7 +77,7 @@ namespace BurgerRoyale.Application.Services
 
 			Product? product = await _productRepository.GetByIdAsync(id);
 
-			AddNotificationIfProductDoesNotExist(response, product);
+			ThrowExceptionIfProductDoesNotExit(product);
 
 			if (ResponseIsNotValid(response))
 			{
@@ -130,7 +119,7 @@ namespace BurgerRoyale.Application.Services
 
 			Product? product = await _productRepository.GetByIdAsync(id);
 
-			AddNotificationIfProductDoesNotExist(response, product);
+			ThrowExceptionIfProductDoesNotExit(product);
 
 			if (ResponseIsNotValid(response))
 			{

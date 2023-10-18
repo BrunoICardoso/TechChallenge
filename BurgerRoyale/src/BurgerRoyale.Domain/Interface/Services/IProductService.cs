@@ -7,7 +7,7 @@ namespace BurgerRoyale.Domain.Interface.Services
 	{
 		Task<ProductDTO> AddAsync(ProductDTO addProductRequestDTO);
 
-		Task<GetProductResponse> GetByIdAsync(Guid id);
+		Task<ProductDTO> GetByIdAsync(Guid id);
 
 		Task<ProductResponse> UpdateAsync(Guid id, ProductDTO updateProductRequestDTO);
 

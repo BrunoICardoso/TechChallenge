@@ -32,22 +32,17 @@ namespace BurgerRoyale.API.Controllers.Product
 		}
 
 		[HttpGet("{id:Guid}")]
-		[ProducesResponseType(typeof(GetProductResponse), StatusCodes.Status200OK)]
+		[ProducesResponseType(typeof(ProductDTO), StatusCodes.Status200OK)]
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
 		[ProducesDefaultResponseType]
 		public async Task<IActionResult> GetById(Guid id)
 		{
-			GetProductResponse response = await _productService.GetByIdAsync(id);
+            ProductDTO response = await _productService.GetByIdAsync(id);
 
-			if (response.IsValid)
-			{
-				return Ok(response);
-			}
+            return IStatusCode(new ReturnAPI<ProductDTO>(response));
+        }
 
-			return ValidationProblem(ModelState.AddErrosFromNofifications(response.Notifications));
-		}
-
-		[HttpPut("{id:Guid}")]
+        [HttpPut("{id:Guid}")]
 		[ProducesResponseType(typeof(ProductResponse), StatusCodes.Status200OK)]
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
 		[ProducesDefaultResponseType]
