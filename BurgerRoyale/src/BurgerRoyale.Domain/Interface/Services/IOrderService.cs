@@ -1,5 +1,4 @@
-﻿using BurgerRoyale.Application.Models;
-using BurgerRoyale.Domain.DTO;
+﻿using BurgerRoyale.Domain.DTO;
 using BurgerRoyale.Domain.Enumerators;
 
 namespace BurgerRoyale.Domain.Interface.Services

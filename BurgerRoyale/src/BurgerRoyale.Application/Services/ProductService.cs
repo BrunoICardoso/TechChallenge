@@ -1,14 +1,12 @@
-﻿using BurgerRoyale.Application.Models;
-using BurgerRoyale.Domain.DTO;
+﻿using BurgerRoyale.Domain.DTO;
 using BurgerRoyale.Domain.Entities;
 using BurgerRoyale.Domain.Exceptions;
 using BurgerRoyale.Domain.Interface.Repositories;
 using BurgerRoyale.Domain.Interface.Services;
-using Flunt.Notifications;
 
 namespace BurgerRoyale.Application.Services
 {
-	public class ProductService : IProductService
+    public class ProductService : IProductService
 	{
 		private readonly IProductRepository _productRepository;
 
@@ -54,11 +52,6 @@ namespace BurgerRoyale.Application.Services
 			}
 		}
 
-		private static bool ResponseIsNotValid(Notifiable<Notification> response)
-		{
-			return !response.IsValid;
-		}
-
 		private static ProductDTO CreateProductDTO(Product product)
 		{
 			return new ProductDTO
@@ -71,36 +64,17 @@ namespace BurgerRoyale.Application.Services
 			};
 		}
 
-		public async Task<ProductResponse> UpdateAsync(Guid id, ProductDTO updateProductRequestDTO)
+		public async Task<ProductDTO> UpdateAsync(Guid id, ProductDTO updateProductRequestDTO)
 		{
-			var response = new ProductResponse();
-
 			Product? product = await _productRepository.GetByIdAsync(id);
 
 			ThrowExceptionIfProductDoesNotExit(product);
 
-			if (ResponseIsNotValid(response))
-			{
-				return response;
-			}
+			Product? productUpdated = CreatedUpdatedProduct(product!.Id, updateProductRequestDTO);
+			
+			await _productRepository.UpdateAsync(productUpdated!);
 
-			Product? productUpdated = null;
-
-			try
-			{
-				productUpdated = CreatedUpdatedProduct(product!.Id, updateProductRequestDTO);
-			}
-			catch (DomainException ex)
-			{
-				response.AddNotification("Validation", ex.Message);
-			}
-
-			if (response.IsValid)
-			{
-				await _productRepository.UpdateAsync(productUpdated!);
-			}
-
-			return response;
+			return updateProductRequestDTO;
 		}
 
 		private static Product CreatedUpdatedProduct(Guid productId, ProductDTO updateProductRequestDTO)
@@ -113,22 +87,13 @@ namespace BurgerRoyale.Application.Services
 				updateProductRequestDTO.Category);
 		}
 
-		public async Task<ProductResponse> RemoveAsync(Guid id)
+		public async Task RemoveAsync(Guid id)
 		{
-			var response = new ProductResponse();
-
 			Product? product = await _productRepository.GetByIdAsync(id);
 
 			ThrowExceptionIfProductDoesNotExit(product);
 
-			if (ResponseIsNotValid(response))
-			{
-				return response;
-			}
-
 			_productRepository.Remove(product!);
-
-			return response;
 		}
 	}
 }
