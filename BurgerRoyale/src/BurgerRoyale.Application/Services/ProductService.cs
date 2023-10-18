@@ -25,7 +25,6 @@ namespace BurgerRoyale.Application.Services
 
 			addProductRequestDTO.Id = product.Id;
 
-
             return addProductRequestDTO;
 		}
 

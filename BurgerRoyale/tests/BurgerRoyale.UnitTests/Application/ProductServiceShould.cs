@@ -99,7 +99,6 @@ namespace BurgerRoyale.UnitTests.Application
 				threwException = ex;
 			}
 
-
 			#endregion Act(When)
 
 			#region Assert(Then)
@@ -149,7 +148,7 @@ namespace BurgerRoyale.UnitTests.Application
 		}
 
 		[Fact]
-		public async Task Return_Notification_When_Product_Does_Not_Exist()
+		public async Task Throw_Not_Found_Exception_When_Product_Does_Not_Exist()
 		{
 			#region Arrange(Given)
 
@@ -159,21 +158,31 @@ namespace BurgerRoyale.UnitTests.Application
 				.Setup(repository => repository.GetByIdAsync(productId))
 				.ReturnsAsync(() => null);
 
-			#endregion Arrange(Given)
+            #endregion Arrange(Given)
 
-			#region Act(When)
+            #region Act(When)
 
-			GetProductResponse response = await productService.GetByIdAsync(productId);
+            Exception? threwException = null;
 
-			#endregion Act(When)
+			try
+			{
+				GetProductResponse response = await productService.GetByIdAsync(productId);
+			}
+            catch (Exception ex)
+            {
+                threwException = ex;
+            }
 
-			#region Assert(Then)
+            #endregion Act(When)
 
-			Assert.False(response.IsValid);
-			Assert.Equal("The product does not exist", response.Notifications.First().Message);
+            #region Assert(Then)
 
-			#endregion Assert(Then)
-		}
+            Assert.NotNull(threwException);
+            Assert.Equal(typeof(NotFoundException), threwException.GetType());
+            Assert.Equal("O produto não foi encontrado", threwException.Message);
+
+            #endregion Assert(Then)
+        }
 
 		[Fact]
 		public async Task Update_Product()
