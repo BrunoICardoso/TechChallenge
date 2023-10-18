@@ -3,6 +3,7 @@ using BurgerRoyale.Application.Services;
 using BurgerRoyale.Domain.DTO;
 using BurgerRoyale.Domain.Entities;
 using BurgerRoyale.Domain.Enumerators;
+using BurgerRoyale.Domain.Exceptions;
 using BurgerRoyale.Domain.Interface.Repositories;
 using BurgerRoyale.Domain.Interface.Services;
 using Moq;
@@ -66,7 +67,7 @@ namespace BurgerRoyale.UnitTests.Application
 		}
 
 		[Fact]
-		public async Task Return_Notification_When_Request_Is_Invalid()
+		public async Task Throw_Domain_Exception_When_Request_Is_Invalid()
 		{
 			#region Arrange(Given)
 
@@ -87,14 +88,24 @@ namespace BurgerRoyale.UnitTests.Application
 
 			#region Act(When)
 
-			ProductResponse response = await productService.AddAsync(addProductRequestDTO);
+			Exception? threwException = null;
+
+			try
+			{
+				ProductResponse response = await productService.AddAsync(addProductRequestDTO);
+			} 
+			catch(Exception ex)
+			{
+				threwException = ex;
+			}
+
 
 			#endregion Act(When)
 
 			#region Assert(Then)
 
-			Assert.False(response.IsValid);
-			Assert.True(response.Notifications.Any());
+			Assert.NotNull(threwException);
+			Assert.Equal(typeof(DomainException), threwException.GetType());
 
 			productRepositoryMock
 				.Verify(repository => repository.AddAsync(It.IsAny<Product>()),
