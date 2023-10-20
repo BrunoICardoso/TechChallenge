@@ -28,7 +28,7 @@ namespace BurgerRoyale.Application.Services
 		{
 			if (orderDTO.UserId != Guid.Empty)
 			{
-				var user = await _userRepository.FindFirstDefaultAsync(x => x.Id == orderDTO.UserId);
+				var user = await _userRepository.GetByIdAsync(orderDTO.UserId);
 				if (user is null)
 					throw new DomainException("Usuário não encontrado.");
 			}
@@ -36,7 +36,7 @@ namespace BurgerRoyale.Application.Services
 			var orderProducts = new List<OrderProduct>();
 			foreach (var orderProduct in orderDTO.OrderProducts)
 			{
-				var product = await _productRepository.FindFirstDefaultAsync(x => x.Id == orderProduct.ProductId);
+				var product = await _productRepository.GetByIdAsync(orderProduct.ProductId);
 
 				if (product is null)
 					throw new DomainException("Produto(s) inválido(s).");
