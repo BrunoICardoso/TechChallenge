@@ -1,11 +1,11 @@
-﻿using BurgerRoyale.Application.Models;
-using BurgerRoyale.Application.Services;
+﻿using BurgerRoyale.Application.Services;
 using BurgerRoyale.Domain.DTO;
 using BurgerRoyale.Domain.Entities;
 using BurgerRoyale.Domain.Enumerators;
 using BurgerRoyale.Domain.Exceptions;
 using BurgerRoyale.Domain.Interface.Repositories;
 using BurgerRoyale.Domain.Interface.Services;
+using FluentAssertions;
 using Moq;
 using Xunit;
 
@@ -42,11 +42,11 @@ namespace BurgerRoyale.UnitTests.Application
 				Price = price,
 			};
 
-            #endregion Arrange(Given)
+			#endregion Arrange(Given)
 
-            #region Act(When)
+			#region Act(When)
 
-            ProductDTO response = await productService.AddAsync(addProductRequestDTO);
+			ProductDTO response = await productService.AddAsync(addProductRequestDTO);
 
 			#endregion Act(When)
 
@@ -89,23 +89,15 @@ namespace BurgerRoyale.UnitTests.Application
 
 			#region Act(When)
 
-			Exception? threwException = null;
-
-			try
-			{
-				ProductDTO response = await productService.AddAsync(addProductRequestDTO);
-			} 
-			catch(Exception ex)
-			{
-				threwException = ex;
-			}
+			Func<Task> task = async () => await productService.AddAsync(addProductRequestDTO);
 
 			#endregion Act(When)
 
 			#region Assert(Then)
 
-			Assert.NotNull(threwException);
-			Assert.Equal(typeof(DomainException), threwException.GetType());
+			await task.Should()
+				.ThrowAsync<DomainException>()
+				.WithMessage("The name is required!");
 
 			productRepositoryMock
 				.Verify(repository => repository.AddAsync(It.IsAny<Product>()),
@@ -131,19 +123,17 @@ namespace BurgerRoyale.UnitTests.Application
 
 			#region Act(When)
 
-			GetProductResponse response = await productService.GetByIdAsync(productId);
+			ProductDTO response = await productService.GetByIdAsync(productId);
 
 			#endregion Act(When)
 
 			#region Assert(Then)
 
 			Assert.NotNull(response);
-			Assert.True(response.IsValid);
-			Assert.NotNull(response.Product);
 
-			Assert.Equal(product.Name, response.Product.Name);
-			Assert.Equal(product.Price, response.Product.Price);
-			Assert.Equal(product.Category, response.Product.Category);
+			Assert.Equal(product.Name, response.Name);
+			Assert.Equal(product.Price, response.Price);
+			Assert.Equal(product.Category, response.Category);
 
 			#endregion Assert(Then)
 		}
@@ -159,31 +149,22 @@ namespace BurgerRoyale.UnitTests.Application
 				.Setup(repository => repository.GetByIdAsync(productId))
 				.ReturnsAsync(() => null);
 
-            #endregion Arrange(Given)
+			#endregion Arrange(Given)
 
-            #region Act(When)
+			#region Act(When)
 
-            Exception? threwException = null;
+			Func<Task> task = async () => await productService.GetByIdAsync(productId);
 
-			try
-			{
-				GetProductResponse response = await productService.GetByIdAsync(productId);
-			}
-            catch (Exception ex)
-            {
-                threwException = ex;
-            }
+			#endregion Act(When)
 
-            #endregion Act(When)
+			#region Assert(Then)
 
-            #region Assert(Then)
+			await task.Should()
+				.ThrowAsync<NotFoundException>()
+				.WithMessage("O produto não foi encontrado");
 
-            Assert.NotNull(threwException);
-            Assert.Equal(typeof(NotFoundException), threwException.GetType());
-            Assert.Equal("O produto não foi encontrado", threwException.Message);
-
-            #endregion Assert(Then)
-        }
+			#endregion Assert(Then)
+		}
 
 		[Fact]
 		public async Task Update_Product()
@@ -215,15 +196,13 @@ namespace BurgerRoyale.UnitTests.Application
 
 			#region Act(When)
 
-			ProductResponse response = await productService.UpdateAsync(productId, updateProductRequestDTO);
+			ProductDTO response = await productService.UpdateAsync(productId, updateProductRequestDTO);
 
 			#endregion Act(When)
 
 			#region Assert(Then)
 
 			Assert.NotNull(response);
-
-			Assert.True(response.IsValid);
 
 			productRepositoryMock
 				.Verify(repository => repository.UpdateAsync(It.Is<Product>(product =>
@@ -238,7 +217,7 @@ namespace BurgerRoyale.UnitTests.Application
 		}
 
 		[Fact]
-		public async Task Return_Notification_When_Update_Product_That_Does_Not_Exist()
+		public async Task Return_Exception_When_Update_Product_That_Does_Not_Exist()
 		{
 			#region Arrange(Given)
 
@@ -254,14 +233,14 @@ namespace BurgerRoyale.UnitTests.Application
 
 			#region Act(When)
 
-			ProductResponse response = await productService.UpdateAsync(productId, updateProductRequestDTO);
+			Func<Task> task = async () => await productService.UpdateAsync(productId, updateProductRequestDTO);
 
 			#endregion Act(When)
 
 			#region Assert(Then)
 
-			Assert.False(response.IsValid);
-			Assert.Equal("The product does not exist", response.Notifications.First().Message);
+			await task.Should()
+				.ThrowAsync<NotFoundException>();
 
 			#endregion Assert(Then)
 		}
@@ -283,14 +262,11 @@ namespace BurgerRoyale.UnitTests.Application
 
 			#region Act(When)
 
-			ProductResponse response = await productService.RemoveAsync(productId);
+			await productService.RemoveAsync(productId);
 
 			#endregion Act(When)
 
 			#region Assert(Then)
-
-			Assert.NotNull(response);
-			Assert.True(response.IsValid);
 
 			productRepositoryMock
 				.Verify(repository => repository.Remove(product),
@@ -300,7 +276,7 @@ namespace BurgerRoyale.UnitTests.Application
 		}
 
 		[Fact]
-		public async Task Return_Notification_When_Remove_Product_That_Does_Not_Exist()
+		public async Task Return_Exception_When_Remove_Product_That_Does_Not_Exist()
 		{
 			#region Arrange(Given)
 
@@ -314,14 +290,14 @@ namespace BurgerRoyale.UnitTests.Application
 
 			#region Act(When)
 
-			ProductResponse response = await productService.RemoveAsync(productId);
+			Func<Task> task = async () => await productService.RemoveAsync(productId);
 
 			#endregion Act(When)
 
 			#region Assert(Then)
 
-			Assert.False(response.IsValid);
-			Assert.Equal("The product does not exist", response.Notifications.First().Message);
+			await task.Should()
+				.ThrowAsync<NotFoundException>();
 
 			productRepositoryMock
 				.Verify(repository => repository.Remove(It.IsAny<Product>()),
