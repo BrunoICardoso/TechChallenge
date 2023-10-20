@@ -1,9 +1,11 @@
 ﻿using BurgerRoyale.IOC.Configurations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BurgerRoyale.IOC
 {
+	[ExcludeFromCodeCoverage]
 	public static class DependencyInjectionConfiguration
 	{
 		public static void Register

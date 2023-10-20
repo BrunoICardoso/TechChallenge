@@ -3,9 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BurgerRoyale.IOC.Configurations
 {
+	[ExcludeFromCodeCoverage]
 	public static class ConfigureDatabase
 	{
 		public static void Register
@@ -25,9 +27,8 @@ namespace BurgerRoyale.IOC.Configurations
 								  maxRetryCount: 3,
 								  maxRetryDelay: TimeSpan.FromSeconds(10),
 								  errorNumbersToAdd: null);
-							  
 						  });
 				});
-        }
+		}
 	}
 }

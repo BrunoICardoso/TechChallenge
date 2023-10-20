@@ -3,9 +3,11 @@ using BurgerRoyale.Domain.Interface.Repositories;
 using BurgerRoyale.Domain.Interface.Services;
 using BurgerRoyale.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BurgerRoyale.IOC.Configurations
 {
+	[ExcludeFromCodeCoverage]
 	public static class ConfigureServices
 	{
 		public static void Register
