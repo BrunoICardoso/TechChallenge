@@ -6,6 +6,7 @@ using BurgerRoyale.Domain.Enumerators;
 using BurgerRoyale.Domain.Interface.Repositories;
 using BurgerRoyale.Domain.Interface.Services;
 using Moq;
+using Xunit;
 
 namespace BurgerRoyale.UnitTests.Application
 {

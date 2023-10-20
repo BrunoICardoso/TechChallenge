@@ -1,4 +1,5 @@
 ﻿using BurgerRoyale.Domain.Helpers;
+using Xunit;
 
 namespace BurgerRoyale.UnitTests.Domain.Validation
 {
