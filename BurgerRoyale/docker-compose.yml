@@ -1,0 +1,32 @@
+version: '3.4'
+
+networks:
+  app-network:
+    driver: bridge
+
+services:
+  burgerroyale.api:
+    build:
+      context: .
+      dockerfile: src/BurgerRoyale.API/Dockerfile
+    depends_on:
+      - db
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db,1433;Database=BurgerRoyaleDb;User Id=SA;TrustServerCertificate=True;Password='65876Df&';
+    networks:
+      - app-network
+
+  db:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      SA_PASSWORD: "65876Df&"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - db-data:/var/opt/mssql
+    networks:
+      - app-network
+  
+volumes:
+  db-data:

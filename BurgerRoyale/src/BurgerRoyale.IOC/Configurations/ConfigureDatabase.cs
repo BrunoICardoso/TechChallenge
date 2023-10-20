@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace BurgerRoyale.IOC.Configurations
 {
@@ -17,8 +18,16 @@ namespace BurgerRoyale.IOC.Configurations
 				.AddEntityFrameworkSqlServer()
 				.AddDbContext<ApplicationDbContext>(options =>
 				{
-					options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+					options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+						  sqlServerOptionsAction: sqlOptions =>
+						  {
+							  sqlOptions.EnableRetryOnFailure(
+								  maxRetryCount: 3,
+								  maxRetryDelay: TimeSpan.FromSeconds(10),
+								  errorNumbersToAdd: null);
+							  
+						  });
 				});
-		}
+        }
 	}
 }
