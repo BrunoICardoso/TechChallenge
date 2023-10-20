@@ -1,9 +1,11 @@
 ﻿using BurgerRoyale.Domain.Entities;
-using BurgerRoyale.Infrastructure.Context.EntityConfigs;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
 namespace BurgerRoyale.Infrastructure.Context
 {
+	[ExcludeFromCodeCoverage]
 	public class ApplicationDbContext : DbContext
 	{
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -18,10 +20,7 @@ namespace BurgerRoyale.Infrastructure.Context
 		{
 			base.OnModelCreating(modelBuilder);
 
-			modelBuilder.ApplyConfiguration(new ProductEntityConfig());
-			modelBuilder.ApplyConfiguration(new UserEntityConfig());
-			modelBuilder.ApplyConfiguration(new OrderEntityConfig());
-			modelBuilder.ApplyConfiguration(new OrderProductEntityConfig());
+			modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 		}
 	}
 }

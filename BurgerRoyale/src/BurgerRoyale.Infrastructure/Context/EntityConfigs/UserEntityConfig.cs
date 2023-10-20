@@ -1,9 +1,11 @@
 ﻿using BurgerRoyale.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BurgerRoyale.Infrastructure.Context.EntityConfigs
 {
+	[ExcludeFromCodeCoverage]
 	public class UserEntityConfig : IEntityTypeConfiguration<User>
 	{
 		public void Configure(EntityTypeBuilder<User> builder)

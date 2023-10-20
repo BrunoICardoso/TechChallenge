@@ -5,7 +5,6 @@ using BurgerRoyale.IOC;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
@@ -63,8 +62,8 @@ app.MapControllers();
 
 using (var scope = app.Services.CreateScope())
 {
-    var dbContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
-    dbContext.Database.Migrate();
+	var dbContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
+	dbContext.Database.Migrate();
 }
 
 app.Run();

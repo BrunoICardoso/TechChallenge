@@ -2,9 +2,11 @@
 using BurgerRoyale.Domain.Enumerators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BurgerRoyale.Infrastructure.Context.EntityConfigs
 {
+	[ExcludeFromCodeCoverage]
 	public class ProductEntityConfig : IEntityTypeConfiguration<Product>
 	{
 		public void Configure(EntityTypeBuilder<Product> builder)
