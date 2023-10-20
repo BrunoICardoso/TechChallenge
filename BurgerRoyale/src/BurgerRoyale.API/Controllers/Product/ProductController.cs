@@ -1,13 +1,13 @@
 ﻿using BurgerRoyale.API.ConfigController;
-using BurgerRoyale.API.Extensions;
-using BurgerRoyale.Application.Models;
 using BurgerRoyale.Domain.DTO;
 using BurgerRoyale.Domain.Interface.Services;
+using BurgerRoyale.Domain.ResponseDefault;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace BurgerRoyale.API.Controllers.Product
 {
-	[Route("api/[controller]")]
+    [Route("api/[controller]")]
 	[ApiController]
 	public class ProductController : BaseController
 	{
@@ -19,67 +19,47 @@ namespace BurgerRoyale.API.Controllers.Product
 		}
 
 		[HttpPost]
-		[ProducesResponseType(typeof(ProductResponse), StatusCodes.Status201Created)]
+		[ProducesResponseType(typeof(ProductDTO), StatusCodes.Status201Created)]
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
 		[ProducesDefaultResponseType]
 		public async Task<IActionResult> Add([FromBody] ProductDTO productDTO)
 		{
-			ProductResponse response = await _productService.AddAsync(productDTO);
+            ProductDTO response = await _productService.AddAsync(productDTO);
 
-			if (response.IsValid)
-			{
-				return StatusCode(StatusCodes.Status201Created, response);
-			}
-
-			return ValidationProblem(ModelState.AddErrosFromNofifications(response.Notifications));
+			return IStatusCode(new ReturnAPI<ProductDTO>(HttpStatusCode.Created, response));
 		}
 
 		[HttpGet("{id:Guid}")]
-		[ProducesResponseType(typeof(GetProductResponse), StatusCodes.Status200OK)]
+		[ProducesResponseType(typeof(ProductDTO), StatusCodes.Status200OK)]
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
 		[ProducesDefaultResponseType]
 		public async Task<IActionResult> GetById(Guid id)
 		{
-			GetProductResponse response = await _productService.GetByIdAsync(id);
+            ProductDTO response = await _productService.GetByIdAsync(id);
 
-			if (response.IsValid)
-			{
-				return Ok(response);
-			}
+            return IStatusCode(new ReturnAPI<ProductDTO>(response));
+        }
 
-			return ValidationProblem(ModelState.AddErrosFromNofifications(response.Notifications));
-		}
-
-		[HttpPut("{id:Guid}")]
-		[ProducesResponseType(typeof(ProductResponse), StatusCodes.Status200OK)]
+        [HttpPut("{id:Guid}")]
+		[ProducesResponseType(typeof(ProductDTO), StatusCodes.Status200OK)]
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
 		[ProducesDefaultResponseType]
 		public async Task<IActionResult> Update(Guid id, [FromBody] ProductDTO productDTO)
 		{
-			ProductResponse response = await _productService.UpdateAsync(id, productDTO);
+            ProductDTO response = await _productService.UpdateAsync(id, productDTO);
 
-			if (response.IsValid)
-			{
-				return Ok(response);
-			}
+            return IStatusCode(new ReturnAPI<ProductDTO>(response));
+        }
 
-			return ValidationProblem(ModelState.AddErrosFromNofifications(response.Notifications));
-		}
-
-		[HttpDelete("{id:Guid}")]
-		[ProducesResponseType(typeof(ProductResponse), StatusCodes.Status200OK)]
+        [HttpDelete("{id:Guid}")]
+		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
 		[ProducesDefaultResponseType]
 		public async Task<IActionResult> Remove(Guid id)
 		{
-			ProductResponse response = await _productService.RemoveAsync(id);
+			await _productService.RemoveAsync(id);
 
-			if (response.IsValid)
-			{
-				return Ok(response);
-			}
-
-			return ValidationProblem(ModelState.AddErrosFromNofifications(response.Notifications));
-		}
-	}
+            return IStatusCode(new ReturnAPI(HttpStatusCode.NoContent));
+        }
+    }
 }

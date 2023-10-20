@@ -1,16 +1,15 @@
-﻿using BurgerRoyale.Application.Models;
-using BurgerRoyale.Domain.DTO;
+﻿using BurgerRoyale.Domain.DTO;
 
 namespace BurgerRoyale.Domain.Interface.Services
 {
-	public interface IProductService
+    public interface IProductService
 	{
-		Task<ProductResponse> AddAsync(ProductDTO addProductRequestDTO);
+		Task<ProductDTO> AddAsync(ProductDTO addProductRequestDTO);
 
-		Task<GetProductResponse> GetByIdAsync(Guid id);
+		Task<ProductDTO> GetByIdAsync(Guid id);
 
-		Task<ProductResponse> UpdateAsync(Guid id, ProductDTO updateProductRequestDTO);
+		Task<ProductDTO> UpdateAsync(Guid id, ProductDTO updateProductRequestDTO);
 
-		Task<ProductResponse> RemoveAsync(Guid id);
+		Task RemoveAsync(Guid id);
 	}
 }
