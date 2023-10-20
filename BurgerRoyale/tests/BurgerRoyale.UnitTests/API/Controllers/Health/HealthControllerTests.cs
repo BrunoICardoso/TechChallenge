@@ -1,7 +1,10 @@
 ﻿using BurgerRoyale.API.Controllers.Health;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using NSubstitute;
 using System.Net;
+using Xunit;
 
 namespace BurgerRoyale.UnitTests.API.Controllers.Health
 {

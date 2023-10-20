@@ -1,6 +1,7 @@
 ﻿using BurgerRoyale.Domain.Entities;
 using BurgerRoyale.Domain.Enumerators;
 using BurgerRoyale.Domain.Exceptions;
+using Xunit;
 
 namespace BurgerRoyale.UnitTests.Domain.Validation
 {
