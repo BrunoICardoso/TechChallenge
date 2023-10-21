@@ -3,18 +3,18 @@ using BurgerRoyale.Domain.Enumerators;
 
 namespace BurgerRoyale.Domain.Interface.Services
 {
-    public interface IUserService
+	public interface IUserService
 	{
-		Task<UserDTO> GetById(Guid userId);
+		Task<UserDTO> GetByIdAsync(Guid userId);
 
-		Task<IEnumerable<UserDTO>> GetUsers(UserType? userType);
+		Task<IEnumerable<UserDTO>> GetUsersAsync(UserType? userType);
 
 		Task<UserDTO> CreateAsync(RequestUserDTO model);
 
-		Task Delete(Guid userId);
+		Task DeleteAsync(Guid userId);
 
-		Task<UserDTO> GetByCpf(string cpf);
+		Task<UserDTO> GetByCpfAsync(string cpf);
 
-		Task<UserDTO> Update(Guid userId, RequestUserDTO model);
+		Task<UserDTO> UpdateAsync(Guid userId, RequestUserDTO model);
 	}
 }

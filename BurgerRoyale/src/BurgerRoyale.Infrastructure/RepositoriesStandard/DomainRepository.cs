@@ -3,7 +3,7 @@ using BurgerRoyale.Infrastructure.Context;
 
 namespace BurgerRoyale.Infrastructure.RepositoriesStandard
 {
-    public abstract class DomainRepository<TEntity> : Repository<TEntity>,
+	public abstract class DomainRepository<TEntity> : Repository<TEntity>,
 													  IDomainRepository<TEntity> where TEntity : class
 	{
 

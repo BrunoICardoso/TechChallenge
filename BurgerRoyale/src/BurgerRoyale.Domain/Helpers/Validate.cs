@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace BurgerRoyale.Domain.Helpers
+﻿namespace BurgerRoyale.Domain.Helpers
 {
 	public static class Validate
 	{

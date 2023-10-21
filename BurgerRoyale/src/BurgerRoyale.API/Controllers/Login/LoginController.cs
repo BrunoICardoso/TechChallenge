@@ -20,7 +20,7 @@ namespace BurgerRoyale.API.Controllers.User
 		[HttpPost]
 		public async Task<IActionResult> LoginByCpf([FromBody] LoginDTO loginModel)
 		{
-			var user = await _userService.GetByCpf(loginModel.Cpf);
+			var user = await _userService.GetByCpfAsync(loginModel.Cpf);
 
 			return IStatusCode(new ReturnAPI<UserDTO>(user));
 		}

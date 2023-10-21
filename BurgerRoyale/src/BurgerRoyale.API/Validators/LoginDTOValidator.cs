@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace BurgerRoyale.API.Validators
 {
-    public class UserDTOValidator : AbstractValidator<RequestUserDTO>
+	public class UserDTOValidator : AbstractValidator<RequestUserDTO>
 	{
 		public UserDTOValidator()
 		{

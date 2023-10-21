@@ -1,4 +1,5 @@
 ﻿using BurgerRoyale.Domain.Enumerators;
+using BurgerRoyale.Domain.Helpers;
 
 namespace BurgerRoyale.Domain.Entities
 {
@@ -11,7 +12,7 @@ namespace BurgerRoyale.Domain.Entities
 
 		public User(string cpf, string name, string email, UserType userType)
 		{
-			Cpf = cpf;
+			Cpf = Format.NormalizeCpf(cpf);
 			Name = name;
 			Email = email;
 			UserType = userType;

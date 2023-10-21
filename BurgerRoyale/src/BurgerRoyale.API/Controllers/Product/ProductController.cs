@@ -7,7 +7,7 @@ using System.Net;
 
 namespace BurgerRoyale.API.Controllers.Product
 {
-    [Route("api/[controller]")]
+	[Route("api/[controller]")]
 	[ApiController]
 	public class ProductController : BaseController
 	{
@@ -24,7 +24,7 @@ namespace BurgerRoyale.API.Controllers.Product
 		[ProducesDefaultResponseType]
 		public async Task<IActionResult> Add([FromBody] ProductDTO productDTO)
 		{
-            ProductDTO response = await _productService.AddAsync(productDTO);
+			ProductDTO response = await _productService.AddAsync(productDTO);
 
 			return IStatusCode(new ReturnAPI<ProductDTO>(HttpStatusCode.Created, response));
 		}
@@ -35,23 +35,23 @@ namespace BurgerRoyale.API.Controllers.Product
 		[ProducesDefaultResponseType]
 		public async Task<IActionResult> GetById(Guid id)
 		{
-            ProductDTO response = await _productService.GetByIdAsync(id);
+			ProductDTO response = await _productService.GetByIdAsync(id);
 
-            return IStatusCode(new ReturnAPI<ProductDTO>(response));
-        }
+			return IStatusCode(new ReturnAPI<ProductDTO>(response));
+		}
 
-        [HttpPut("{id:Guid}")]
+		[HttpPut("{id:Guid}")]
 		[ProducesResponseType(typeof(ProductDTO), StatusCodes.Status200OK)]
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
 		[ProducesDefaultResponseType]
 		public async Task<IActionResult> Update(Guid id, [FromBody] ProductDTO productDTO)
 		{
-            ProductDTO response = await _productService.UpdateAsync(id, productDTO);
+			ProductDTO response = await _productService.UpdateAsync(id, productDTO);
 
-            return IStatusCode(new ReturnAPI<ProductDTO>(response));
-        }
+			return IStatusCode(new ReturnAPI<ProductDTO>(response));
+		}
 
-        [HttpDelete("{id:Guid}")]
+		[HttpDelete("{id:Guid}")]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
 		[ProducesDefaultResponseType]
@@ -59,7 +59,7 @@ namespace BurgerRoyale.API.Controllers.Product
 		{
 			await _productService.RemoveAsync(id);
 
-            return IStatusCode(new ReturnAPI(HttpStatusCode.NoContent));
-        }
-    }
+			return IStatusCode(new ReturnAPI(HttpStatusCode.NoContent));
+		}
+	}
 }

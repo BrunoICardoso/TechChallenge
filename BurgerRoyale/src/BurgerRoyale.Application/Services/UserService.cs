@@ -8,7 +8,7 @@ using BurgerRoyale.Domain.Interface.Services;
 
 namespace BurgerRoyale.Application.Services
 {
-    public class UserService : IUserService
+	public class UserService : IUserService
 	{
 		private readonly IUserRepository _userRepository;
 
@@ -17,7 +17,7 @@ namespace BurgerRoyale.Application.Services
 			_userRepository = userRepository;
 		}
 
-		public async Task<UserDTO> GetByCpf(string cpf)
+		public async Task<UserDTO> GetByCpfAsync(string cpf)
 		{
 			cpf = Format.NormalizeCpf(cpf);
 
@@ -54,7 +54,7 @@ namespace BurgerRoyale.Application.Services
 			return new UserDTO(user);
 		}
 
-		public async Task<UserDTO> Update(Guid userId, RequestUserDTO model)
+		public async Task<UserDTO> UpdateAsync(Guid userId, RequestUserDTO model)
 		{
 			var cpf = Format.NormalizeCpf(model.Cpf);
 
@@ -64,7 +64,7 @@ namespace BurgerRoyale.Application.Services
 
 			if (user is null)
 			{
-				throw new NotFoundException("CPF não encontrado");
+				throw new NotFoundException("Usuário não encontrado");
 			}
 
 			user.SetDetails(model.Name, model.Email, model.UserType);
@@ -74,7 +74,7 @@ namespace BurgerRoyale.Application.Services
 			return new UserDTO(user);
 		}
 
-		public async Task Delete(Guid userId)
+		public async Task DeleteAsync(Guid userId)
 		{
 			User? user = await _userRepository.FindFirstDefaultAsync(x => x.Id == userId);
 
@@ -86,7 +86,7 @@ namespace BurgerRoyale.Application.Services
 			_userRepository.Remove(user);
 		}
 
-		public async Task<UserDTO> GetById(Guid userId)
+		public async Task<UserDTO> GetByIdAsync(Guid userId)
 		{
 			User? user = await _userRepository.FindFirstDefaultAsync(x => x.Id == userId);
 
@@ -98,7 +98,7 @@ namespace BurgerRoyale.Application.Services
 			return new UserDTO(user);
 		}
 
-		public async Task<IEnumerable<UserDTO>> GetUsers(UserType? userType)
+		public async Task<IEnumerable<UserDTO>> GetUsersAsync(UserType? userType)
 		{
 			var users = (userType == null)
 				? await _userRepository.GetAllAsync()

@@ -2,7 +2,7 @@
 
 namespace BurgerRoyale.Domain.Interface.Services
 {
-    public interface IProductService
+	public interface IProductService
 	{
 		Task<ProductDTO> AddAsync(ProductDTO addProductRequestDTO);
 

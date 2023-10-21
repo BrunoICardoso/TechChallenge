@@ -4,8 +4,8 @@ using BurgerRoyale.Domain.Interface.RepositoriesStandard;
 
 namespace BurgerRoyale.Domain.Interface.Repositories
 {
-    public interface IOrderRepository : IDomainRepository<Order>
-    {
-        Task<IEnumerable<Order>> GetOrders(OrderStatus? orderStatus);
-    }
+	public interface IOrderRepository : IDomainRepository<Order>
+	{
+		Task<IEnumerable<Order>> GetOrders(OrderStatus? orderStatus);
+	}
 }

@@ -3,7 +3,7 @@ using BurgerRoyale.Domain.Interface.RepositoriesStandard;
 
 namespace BurgerRoyale.Domain.Interface.Repositories
 {
-    public interface IUserRepository : IDomainRepository<User>
-    {
-    }
+	public interface IUserRepository : IDomainRepository<User>
+	{
+	}
 }

@@ -1,6 +1,4 @@
-﻿using BurgerRoyale.Domain.Enumerators;
-
-namespace BurgerRoyale.Domain.DTO
+﻿namespace BurgerRoyale.Domain.DTO
 {
 	public class LoginDTO
 	{

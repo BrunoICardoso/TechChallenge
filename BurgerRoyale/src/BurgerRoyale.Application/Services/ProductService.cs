@@ -6,7 +6,7 @@ using BurgerRoyale.Domain.Interface.Services;
 
 namespace BurgerRoyale.Application.Services
 {
-    public class ProductService : IProductService
+	public class ProductService : IProductService
 	{
 		private readonly IProductRepository _productRepository;
 
@@ -23,7 +23,7 @@ namespace BurgerRoyale.Application.Services
 
 			addProductRequestDTO.Id = product.Id;
 
-            return addProductRequestDTO;
+			return addProductRequestDTO;
 		}
 
 		private static Product CreateProduct(ProductDTO productDTO)
@@ -71,7 +71,7 @@ namespace BurgerRoyale.Application.Services
 			ThrowExceptionIfProductDoesNotExit(product);
 
 			Product? productUpdated = CreatedUpdatedProduct(product!.Id, updateProductRequestDTO);
-			
+
 			await _productRepository.UpdateAsync(productUpdated!);
 
 			return updateProductRequestDTO;

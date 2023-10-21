@@ -22,7 +22,7 @@ namespace BurgerRoyale.API.Controllers.User
 		[HttpGet]
 		public async Task<IActionResult> GetUsers([FromQuery] UserType? userType)
 		{
-			var users = await _userService.GetUsers(userType);
+			var users = await _userService.GetUsersAsync(userType);
 
 			return IStatusCode(new ReturnAPI<IEnumerable<UserDTO>>(users));
 		}
@@ -30,7 +30,7 @@ namespace BurgerRoyale.API.Controllers.User
 		[HttpGet("{userId}")]
 		public async Task<IActionResult> GetUser([FromRoute] Guid userId)
 		{
-			var user = await _userService.GetById(userId);
+			var user = await _userService.GetByIdAsync(userId);
 
 			return IStatusCode(new ReturnAPI<UserDTO>(user));
 		}
@@ -50,7 +50,7 @@ namespace BurgerRoyale.API.Controllers.User
 			[FromBody] RequestUserDTO user
 		)
 		{
-			var updatedUser = await _userService.Update(userId, user);
+			var updatedUser = await _userService.UpdateAsync(userId, user);
 
 			return IStatusCode(new ReturnAPI<UserDTO>(updatedUser));
 		}
@@ -58,7 +58,7 @@ namespace BurgerRoyale.API.Controllers.User
 		[HttpDelete("{userId}")]
 		public async Task<IActionResult> DeleteUser([FromRoute] Guid userId)
 		{
-			await _userService.Delete(userId);
+			await _userService.DeleteAsync(userId);
 
 			return IStatusCode(new ReturnAPI(HttpStatusCode.NoContent));
 		}

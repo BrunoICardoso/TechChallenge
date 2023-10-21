@@ -3,14 +3,14 @@ using BurgerRoyale.Domain.Enumerators;
 
 namespace BurgerRoyale.Domain.Interface.Services
 {
-    public interface IOrderService
-    {
-        Task CreateAsync(CreateOrderDTO orderDTO);
+	public interface IOrderService
+	{
+		Task CreateAsync(CreateOrderDTO orderDTO);
 
-        Task<IEnumerable<OrderDTO>> GetOrdersAsync(OrderStatus? orderStatus);
+		Task<IEnumerable<OrderDTO>> GetOrdersAsync(OrderStatus? orderStatus);
 
-        Task UpdateOrderStatusAsync(Guid id, OrderStatus orderStatus);
+		Task UpdateOrderStatusAsync(Guid id, OrderStatus orderStatus);
 
-        Task RemoveAsync(Guid id);
-    }
+		Task RemoveAsync(Guid id);
+	}
 }
