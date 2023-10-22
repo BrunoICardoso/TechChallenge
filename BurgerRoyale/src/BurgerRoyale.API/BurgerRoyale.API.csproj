@@ -25,6 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="BurgerRoyale.IntegrationTests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BurgerRoyale.Application\BurgerRoyale.Application.csproj" />
     <ProjectReference Include="..\BurgerRoyale.IOC\BurgerRoyale.IOC.csproj" />
   </ItemGroup>
