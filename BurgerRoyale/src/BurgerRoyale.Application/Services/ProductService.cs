@@ -15,18 +15,16 @@ namespace BurgerRoyale.Application.Services
 			_productRepository = productRepository;
 		}
 
-		public async Task<ProductDTO> AddAsync(ProductDTO addProductRequestDTO)
+		public async Task<ProductDTO> AddAsync(RequestProductDTO addProductRequestDTO)
 		{
 			Product product = CreateProduct(addProductRequestDTO);
 
 			await _productRepository.AddAsync(product!);
 
-			addProductRequestDTO.Id = product.Id;
+            return CreateProductDTO(product!);
+        }
 
-			return addProductRequestDTO;
-		}
-
-		private static Product CreateProduct(ProductDTO productDTO)
+		private static Product CreateProduct(RequestProductDTO productDTO)
 		{
 			return new Product(
 				productDTO.Name,
@@ -64,30 +62,29 @@ namespace BurgerRoyale.Application.Services
 			};
 		}
 
-		public async Task<ProductDTO> UpdateAsync(Guid id, ProductDTO updateProductRequestDTO)
-		{
-			Product? product = await _productRepository.GetByIdAsync(id);
+		public async Task<ProductDTO> UpdateAsync(Guid id, RequestProductDTO updateProductRequestDTO)
+        {
+            Product? product = await _productRepository.GetByIdAsync(id);
 
-			ThrowExceptionIfProductDoesNotExit(product);
+            ThrowExceptionIfProductDoesNotExit(product);
 
-			Product? productUpdated = CreatedUpdatedProduct(product!.Id, updateProductRequestDTO);
+            UpdateProduct(product!, updateProductRequestDTO);
 
-			await _productRepository.UpdateAsync(productUpdated!);
+            await _productRepository.UpdateAsync(product!);
 
-			return updateProductRequestDTO;
-		}
+            return CreateProductDTO(product!);
+        }
 
-		private static Product CreatedUpdatedProduct(Guid productId, ProductDTO updateProductRequestDTO)
-		{
-			return new Product(
-				productId,
+        private static void UpdateProduct(Product product, RequestProductDTO updateProductRequestDTO)
+        {
+            product!.SetDetails(
 				updateProductRequestDTO.Name,
-				updateProductRequestDTO.Description,
-				updateProductRequestDTO.Price,
-				updateProductRequestDTO.Category);
-		}
+                updateProductRequestDTO.Description,
+                updateProductRequestDTO.Price,
+                updateProductRequestDTO.Category);
+        }
 
-		public async Task RemoveAsync(Guid id)
+        public async Task RemoveAsync(Guid id)
 		{
 			Product? product = await _productRepository.GetByIdAsync(id);
 

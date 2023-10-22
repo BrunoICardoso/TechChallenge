@@ -22,7 +22,7 @@ namespace BurgerRoyale.API.Controllers.Product
 		[ProducesResponseType(typeof(ProductDTO), StatusCodes.Status201Created)]
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
 		[ProducesDefaultResponseType]
-		public async Task<IActionResult> Add([FromBody] ProductDTO productDTO)
+		public async Task<IActionResult> Add([FromBody] RequestProductDTO productDTO)
 		{
 			ProductDTO response = await _productService.AddAsync(productDTO);
 
@@ -44,7 +44,7 @@ namespace BurgerRoyale.API.Controllers.Product
 		[ProducesResponseType(typeof(ProductDTO), StatusCodes.Status200OK)]
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
 		[ProducesDefaultResponseType]
-		public async Task<IActionResult> Update(Guid id, [FromBody] ProductDTO productDTO)
+		public async Task<IActionResult> Update(Guid id, [FromBody] RequestProductDTO productDTO)
 		{
 			ProductDTO response = await _productService.UpdateAsync(id, productDTO);
 

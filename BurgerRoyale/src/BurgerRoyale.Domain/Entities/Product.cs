@@ -31,6 +31,14 @@ namespace BurgerRoyale.Domain.Entities
 			ValidateEntity();
 		}
 
+		public void SetDetails(string name, string description, decimal price, ProductCategory category)
+		{
+			Name = name;
+			Description = description;
+			Price = price;
+			Category = category;
+		}
+
 		public void ValidateEntity()
 		{
 			AssertionConcern.AssertArgumentNotEmpty(Name, "The name is required!");

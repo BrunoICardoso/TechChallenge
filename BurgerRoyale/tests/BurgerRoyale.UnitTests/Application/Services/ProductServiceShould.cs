@@ -34,7 +34,7 @@ namespace BurgerRoyale.UnitTests.Application.Services
 			string description = "Delicious bacon burger";
 			decimal price = 20;
 
-			ProductDTO addProductRequestDTO = new()
+            RequestProductDTO addProductRequestDTO = new()
 			{
 				Name = name,
 				Category = category,
@@ -77,7 +77,7 @@ namespace BurgerRoyale.UnitTests.Application.Services
 			string description = "";
 			decimal price = 0;
 
-			ProductDTO addProductRequestDTO = new()
+            RequestProductDTO addProductRequestDTO = new()
 			{
 				Name = name,
 				Category = category,
@@ -178,7 +178,7 @@ namespace BurgerRoyale.UnitTests.Application.Services
 			string newDescription = "new and still delicious bacon burger";
 			decimal newPrice = 40;
 
-			ProductDTO updateProductRequestDTO = new()
+            RequestProductDTO updateProductRequestDTO = new()
 			{
 				Name = newName,
 				Category = newCategory,
@@ -223,7 +223,7 @@ namespace BurgerRoyale.UnitTests.Application.Services
 
 			Guid productId = Guid.NewGuid();
 
-			ProductDTO updateProductRequestDTO = new();
+            RequestProductDTO updateProductRequestDTO = new();
 
 			productRepositoryMock
 				.Setup(repository => repository.GetByIdAsync(productId))
