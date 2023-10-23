@@ -1,5 +1,6 @@
 ﻿using BurgerRoyale.Domain.Exceptions;
 using BurgerRoyale.Domain.ResponseDefault;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Text.Json;
 
@@ -26,6 +27,7 @@ namespace BurgerRoyale.API.Middleware
 			}
 		}
 
+		[ExcludeFromCodeCoverage]
 		private async Task HandleExceptionAsync(HttpContext context, Exception exception)
 		{
 			context.Response.ContentType = "application/json; charset=utf-8";
@@ -39,22 +41,19 @@ namespace BurgerRoyale.API.Middleware
 			await context.Response.WriteAsync(JsonSerializer.Serialize(response));
 		}
 
-		private ReturnAPI GetErrorResponse(Exception exception, HttpStatusCode statusCode)
+		public ReturnAPI GetErrorResponse(Exception exception, HttpStatusCode statusCode)
 		{
-			return new ReturnAPI()
+			return new ReturnAPI(statusCode)
 			{
-				StatusCode = statusCode,
 				Message = exception.Message,
 				Exception = exception
 			};
 		}
 
-		public static HttpStatusCode MapHttpStatusCode(Exception exception) => exception switch
+		public HttpStatusCode MapHttpStatusCode(Exception exception) => exception switch
 		{
 			var e when e is DomainException => HttpStatusCode.BadRequest,
 			var e when e is NotFoundException => HttpStatusCode.NotFound,
-			var e when e is UnauthorizedAccessException => HttpStatusCode.Unauthorized,
-			var e when e is NotSupportedException => HttpStatusCode.UnprocessableEntity,
 			_ => HttpStatusCode.InternalServerError
 		};
 	}
