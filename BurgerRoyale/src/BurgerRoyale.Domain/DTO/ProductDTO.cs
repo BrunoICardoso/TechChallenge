@@ -1,4 +1,6 @@
-﻿using BurgerRoyale.Domain.Enumerators;
+﻿using BurgerRoyale.Domain.Entities;
+using BurgerRoyale.Domain.Enumerators;
+using BurgerRoyale.Domain.Helpers;
 
 namespace BurgerRoyale.Domain.DTO
 {
@@ -13,5 +15,19 @@ namespace BurgerRoyale.Domain.DTO
 		public string Description { get; set; } = string.Empty;
 
 		public decimal Price { get; set; }
+
+		public string CategoryDescription
+		{
+			get => Category.GetDescription();
+		}
+
+		public ProductDTO(Product product)
+		{
+			Id = product.Id;
+			Name = product.Name;
+			Description = product.Description;
+			Price = product.Price;
+			Category = product.Category;
+		}
 	}
 }
