@@ -1,7 +1,6 @@
 using BurgerRoyale.Domain.DTO;
 using BurgerRoyale.IntegrationTests.Extensions;
 using BurgerRoyale.IntegrationTests.Helpers;
-using System.Text.Json;
 using TechTalk.SpecFlow.Assist;
 
 namespace BurgerRoyale.IntegrationTests.StepDefinitions
@@ -31,7 +30,7 @@ namespace BurgerRoyale.IntegrationTests.StepDefinitions
         {
             RequestProductDTO productRequest = _scenarioContext.Get<RequestProductDTO>("productRequest");
 
-            string productRequestJson = JsonSerializer.Serialize(productRequest);
+            string productRequestJson = System.Text.Json.JsonSerializer.Serialize(productRequest);
 
             var productStringContent = StringContentHelper.Create(productRequestJson);
 
@@ -41,7 +40,7 @@ namespace BurgerRoyale.IntegrationTests.StepDefinitions
         }
 
         [Then(@"The product should be added")]
-        public void ThenTheProductShouldBeAdded()
+        public async Task ThenTheProductShouldBeAdded()
         {
             var httpResponse = _scenarioContext.Get<HttpResponseMessage>("httpResponse");
 
@@ -49,10 +48,12 @@ namespace BurgerRoyale.IntegrationTests.StepDefinitions
 
             var request = _scenarioContext.Get<RequestProductDTO>("productRequest");
 
-            ProductDTO response = httpResponse.DeserializeTo<ProductDTO>();
+            var responseContent = await httpResponse.Content.ReadAsStringAsync();
+            var response = httpResponse.DeserializeTo<ProductDTO>(responseContent);
 
             response.Should().NotBeNull();
-            response.Id.Should().NotBeEmpty();
+
+            response!.Id.Should().NotBeEmpty();
             response.Name.Should().Be(request.Name);
             response.Category.Should().Be(request.Category);
             response.Description.Should().Be(request.Description);

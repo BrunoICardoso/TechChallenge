@@ -61,7 +61,7 @@ namespace BurgerRoyale.Domain.ResponseDefault
 			Data = data;
 		}
 
-		public ReturnAPI(HttpStatusCode statusCode, TData data)
+        public ReturnAPI(HttpStatusCode statusCode, TData data)
 		{
 			StatusCode = statusCode;
 			Data = data;

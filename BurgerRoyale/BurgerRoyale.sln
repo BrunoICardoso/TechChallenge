@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurgerRoyale.IOC", "src\Bur
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{8D222E9C-1FE7-4E1A-93FC-853078AE9141}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurgerRoyale.IntegrationTests", "tests\BurgerRoyale.IntegrationTests\BurgerRoyale.IntegrationTests.csproj", "{1D5B28DA-A090-4413-A409-034213734F14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurgerRoyale.IntegrationTests", "tests\BurgerRoyale.IntegrationTests\BurgerRoyale.IntegrationTests.csproj", "{1D5B28DA-A090-4413-A409-034213734F14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

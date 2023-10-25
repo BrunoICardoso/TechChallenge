@@ -1,17 +1,15 @@
-﻿using System.Text.Json;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace BurgerRoyale.IntegrationTests.Extensions
 {
     internal static class HttpClientExtensions
     {
-        public static T DeserializeTo<T>(this HttpResponseMessage httpResponseMessage)
+        public static T DeserializeTo<T>(this HttpResponseMessage httpResponseMessage, string content)
         {
-            var contentStr = httpResponseMessage.Content.ReadAsStringAsync().Result;
-
-            if (string.IsNullOrEmpty(contentStr))
-                return default(T);
-
-            return JsonSerializer.Deserialize<T>(httpResponseMessage.Content.ReadAsStream());
+            JObject jsonObject = JObject.Parse(content);
+            JObject? dataObject = jsonObject["data"] as JObject;
+            return JsonConvert.DeserializeObject<T>(dataObject.ToString());
         }
     }
 }
