@@ -4,25 +4,25 @@ using BurgerRoyale.Domain.Interface.Services;
 using BurgerRoyale.Domain.ResponseDefault;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BurgerRoyale.API.Controllers.User
+namespace BurgerRoyale.API.Controllers.Login
 {
-	[Route("api/[controller]")]
-	[ApiController]
-	public class LoginController : BaseController
-	{
-		private readonly IUserService _userService;
+    [Route("api/[controller]")]
+    [ApiController]
+    public class LoginController : BaseController
+    {
+        private readonly IUserService _userService;
 
-		public LoginController(IUserService userService)
-		{
-			_userService = userService;
-		}
+        public LoginController(IUserService userService)
+        {
+            _userService = userService;
+        }
 
-		[HttpPost]
-		public async Task<IActionResult> LoginByCpf([FromBody] LoginDTO loginModel)
-		{
-			var user = await _userService.GetByCpfAsync(loginModel.Cpf);
+        [HttpPost]
+        public async Task<IActionResult> LoginByCpf([FromBody] LoginDTO loginModel)
+        {
+            var user = await _userService.GetByCpfAsync(loginModel.Cpf);
 
-			return IStatusCode(new ReturnAPI<UserDTO>(user));
-		}
-	}
+            return IStatusCode(new ReturnAPI<UserDTO>(user));
+        }
+    }
 }

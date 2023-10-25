@@ -1,4 +1,5 @@
 using BurgerRoyale.Domain.DTO;
+using BurgerRoyale.IntegrationTests.Extensions;
 using BurgerRoyale.IntegrationTests.Helpers;
 using System.Text.Json;
 using TechTalk.SpecFlow.Assist;
@@ -12,10 +13,10 @@ namespace BurgerRoyale.IntegrationTests.StepDefinitions
 
         private readonly HttpClient _httpClient;
 
-        public ProductStepDefinitions(ScenarioContext scenarioContext, HttpClient httpClient)
+        public ProductStepDefinitions(ScenarioContext scenarioContext, HttpClientInject httpClientInject)
         {
             _scenarioContext = scenarioContext;
-            _httpClient = httpClient;
+            _httpClient = httpClientInject.GetProgram().CreateClient();
         }
 
         [Given(@"I want to add a product with the following data")]
@@ -32,7 +33,9 @@ namespace BurgerRoyale.IntegrationTests.StepDefinitions
 
             string productRequestJson = JsonSerializer.Serialize(productRequest);
 
-            var httpResponse = await _httpClient.PostAsync(HttpClientRequest.Path, new StringContent(productRequestJson));
+            var productStringContent = StringContentHelper.Create(productRequestJson);
+
+            var httpResponse = await _httpClient.PostAsync($"{HttpClientRequest.Path}/api/Product", productStringContent);
 
             _scenarioContext["httpResponse"] = httpResponse;
         }
@@ -43,6 +46,17 @@ namespace BurgerRoyale.IntegrationTests.StepDefinitions
             var httpResponse = _scenarioContext.Get<HttpResponseMessage>("httpResponse");
 
             httpResponse.EnsureSuccessStatusCode();
+
+            var request = _scenarioContext.Get<RequestProductDTO>("productRequest");
+
+            ProductDTO response = httpResponse.DeserializeTo<ProductDTO>();
+
+            response.Should().NotBeNull();
+            response.Id.Should().NotBeEmpty();
+            response.Name.Should().Be(request.Name);
+            response.Category.Should().Be(request.Category);
+            response.Description.Should().Be(request.Description);
+            response.Price.Should().Be(request.Price);
         }
     }
 }
