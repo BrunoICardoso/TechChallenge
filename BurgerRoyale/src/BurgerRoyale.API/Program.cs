@@ -64,7 +64,7 @@ using (var scope = app.Services.CreateScope())
 {
 	var dbContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
     
-	if (dbContext.Database.CanConnect())
+	if (!dbContext.Database.CanConnect())
     {
         dbContext.Database.Migrate();
     }
