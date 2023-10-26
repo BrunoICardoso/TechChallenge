@@ -80,7 +80,7 @@ namespace BurgerRoyale.Application.Services
 
 		public async Task RemoveAsync(Guid id)
 		{
-			var order = await _orderRepository.FindFirstDefaultAsync(x => x.Id == id);
+			var order = await _orderRepository.GetByIdAsync(id);
 
 			if (order is null)
 				throw new DomainException("Pedido inválido.");
@@ -90,7 +90,7 @@ namespace BurgerRoyale.Application.Services
 
 		public async Task UpdateOrderStatusAsync(Guid id, OrderStatus orderStatus)
 		{
-			var order = await _orderRepository.FindFirstDefaultAsync(x => x.Id == id);
+			var order = await _orderRepository.GetByIdAsync(id);
 
 			if (order is null)
 				throw new DomainException("Pedido inválido.");

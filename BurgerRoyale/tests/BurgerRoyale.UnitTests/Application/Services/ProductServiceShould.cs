@@ -7,6 +7,7 @@ using BurgerRoyale.Domain.Interface.Repositories;
 using BurgerRoyale.Domain.Interface.Services;
 using FluentAssertions;
 using Moq;
+using System.Linq.Expressions;
 using Xunit;
 
 namespace BurgerRoyale.UnitTests.Application.Services
@@ -34,7 +35,7 @@ namespace BurgerRoyale.UnitTests.Application.Services
 			string description = "Delicious bacon burger";
 			decimal price = 20;
 
-            RequestProductDTO addProductRequestDTO = new()
+			RequestProductDTO addProductRequestDTO = new()
 			{
 				Name = name,
 				Category = category,
@@ -77,7 +78,7 @@ namespace BurgerRoyale.UnitTests.Application.Services
 			string description = "";
 			decimal price = 0;
 
-            RequestProductDTO addProductRequestDTO = new()
+			RequestProductDTO addProductRequestDTO = new()
 			{
 				Name = name,
 				Category = category,
@@ -178,7 +179,7 @@ namespace BurgerRoyale.UnitTests.Application.Services
 			string newDescription = "new and still delicious bacon burger";
 			decimal newPrice = 40;
 
-            RequestProductDTO updateProductRequestDTO = new()
+			RequestProductDTO updateProductRequestDTO = new()
 			{
 				Name = newName,
 				Category = newCategory,
@@ -223,7 +224,7 @@ namespace BurgerRoyale.UnitTests.Application.Services
 
 			Guid productId = Guid.NewGuid();
 
-            RequestProductDTO updateProductRequestDTO = new();
+			RequestProductDTO updateProductRequestDTO = new();
 
 			productRepositoryMock
 				.Setup(repository => repository.GetByIdAsync(productId))
@@ -304,6 +305,68 @@ namespace BurgerRoyale.UnitTests.Application.Services
 				Times.Never);
 
 			#endregion Assert(Then)
+		}
+
+		[Fact]
+		public async Task GivenNoCategory_WhenGetListOfProducts_ThenShouldGetAllProducts()
+		{
+			// arrange
+			var products = new List<Product> {
+				new Product("Product 1", "", 100, ProductCategory.Lanche),
+				new Product("Product 2", "", 100, ProductCategory.Acompanhamento)
+			};
+
+			productRepositoryMock
+				.Setup(repository => repository.GetAllAsync())
+				.ReturnsAsync(products);
+
+			// act
+			var response = await productService.GetListAsync(null);
+
+			// assert
+			response.Should().BeAssignableTo<IEnumerable<ProductDTO>>();
+			response.Should().HaveCount(2);
+
+			productRepositoryMock.Verify(
+				x => x.GetAllAsync(),
+				Times.Once()
+			);
+
+			productRepositoryMock.Verify(
+				x => x.FindAsync(It.IsAny<Expression<Func<Product, bool>>>()),
+				Times.Never()
+			);
+		}
+
+		[Fact]
+		public async Task GivenCategory_WhenGetListOfProducts_ThenShouldFindProductsOfCategory()
+		{
+			// arrange
+			var products = new List<Product> {
+				new Product("Product 1", "", 100, ProductCategory.Lanche),
+				new Product("Product 2", "", 100, ProductCategory.Lanche)
+			};
+
+			productRepositoryMock
+				.Setup(repository => repository.FindAsync(It.IsAny<Expression<Func<Product, bool>>>()))
+				.ReturnsAsync(products);
+
+			// act
+			var response = await productService.GetListAsync(ProductCategory.Lanche);
+
+			// assert
+			response.Should().BeAssignableTo<IEnumerable<ProductDTO>>();
+			response.Should().HaveCount(2);
+
+			productRepositoryMock.Verify(
+				x => x.FindAsync(It.IsAny<Expression<Func<Product, bool>>>()),
+				Times.Once()
+			);
+
+			productRepositoryMock.Verify(
+				x => x.GetAllAsync(),
+				Times.Never()
+			);
 		}
 	}
 }

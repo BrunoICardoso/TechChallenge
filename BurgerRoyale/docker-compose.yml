@@ -13,6 +13,8 @@ services:
       - db
     environment:
       - ConnectionStrings__DefaultConnection=Server=db,1433;Database=BurgerRoyaleDb;User Id=SA;TrustServerCertificate=True;Password='65876Df&';
+    ports:
+      - "5000:80"
     networks:
       - app-network
 

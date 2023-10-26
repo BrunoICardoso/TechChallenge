@@ -7,16 +7,15 @@ EXPOSE 5000
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["BurgerRoyale.API/BurgerRoyale.API.csproj", "BurgerRoyale.API/"]
-COPY ["BurgerRoyale.Application/BurgerRoyale.Application.csproj", "BurgerRoyale.Application/"]
-COPY ["BurgerRoyale.Domain/BurgerRoyale.Domain.csproj", "BurgerRoyale.Domain/"]
-COPY ["BurgerRoyale.Infrastructure/BurgerRoyale.Infrastructure.csproj", "BurgerRoyale.Infrastructure/"]
-COPY ["BurgerRoyale.IOC/BurgerRoyale.IOC.csproj", "BurgerRoyale.IOC/"]
-RUN dotnet restore "BurgerRoyale.API/BurgerRoyale.API.csproj"
+COPY ["src/BurgerRoyale.API/BurgerRoyale.API.csproj", "src/BurgerRoyale.API/"]
+COPY ["src/BurgerRoyale.Application/BurgerRoyale.Application.csproj", "src/BurgerRoyale.Application/"]
+COPY ["src/BurgerRoyale.Domain/BurgerRoyale.Domain.csproj", "src/BurgerRoyale.Domain/"]
+COPY ["src/BurgerRoyale.Infrastructure/BurgerRoyale.Infrastructure.csproj", "src/BurgerRoyale.Infrastructure/"]
+COPY ["src/BurgerRoyale.IOC/BurgerRoyale.IOC.csproj", "src/BurgerRoyale.IOC/"]
+RUN dotnet restore "src/BurgerRoyale.API/BurgerRoyale.API.csproj"
 COPY . .
-WORKDIR "/src/BurgerRoyale.API"
+WORKDIR "/src/src/BurgerRoyale.API"
 RUN dotnet build "BurgerRoyale.API.csproj" -c Release -o /app/build
-RUN dotnet tool restore
 
 FROM build AS publish
 RUN dotnet publish "BurgerRoyale.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
@@ -24,9 +23,4 @@ RUN dotnet publish "BurgerRoyale.API.csproj" -c Release -o /app/publish /p:UseAp
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "BurgerRoyale.API.dll"]
-
