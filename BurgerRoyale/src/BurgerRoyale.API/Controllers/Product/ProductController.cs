@@ -23,7 +23,7 @@ namespace BurgerRoyale.API.Controllers.Product
 		[HttpGet]
         [SwaggerOperation(Summary = "Get a list of products", Description = "Retrieves a list of products based on the specified category.")]
         [ProducesResponseType(typeof(IEnumerable<ReturnAPI<ProductDTO>>), StatusCodes.Status200OK)]
-		[ProducesResponseType(typeof(IEnumerable<ReturnAPI<ProductDTO>>), StatusCodes.Status400BadRequest)]
+		[ProducesResponseType(typeof(ReturnAPI), StatusCodes.Status400BadRequest)]
 		[ProducesDefaultResponseType]
 		public async Task<IActionResult> GetList([FromQuery] ProductCategory? productCategory)
 		{
@@ -35,7 +35,7 @@ namespace BurgerRoyale.API.Controllers.Product
 		[HttpPost]
         [SwaggerOperation(Summary = "Add a new product", Description = "Creates a new product.")]
         [ProducesResponseType(typeof(ReturnAPI<ProductDTO>), StatusCodes.Status201Created)]
-		[ProducesResponseType(typeof(ReturnAPI<ProductDTO>), StatusCodes.Status400BadRequest)]
+		[ProducesResponseType(typeof(ReturnAPI), StatusCodes.Status400BadRequest)]
 		[ProducesDefaultResponseType]
 		public async Task<IActionResult> Add([FromBody] RequestProductDTO productDTO)
 		{
@@ -47,7 +47,7 @@ namespace BurgerRoyale.API.Controllers.Product
 		[HttpGet("{id:Guid}")]
         [SwaggerOperation(Summary = "Get a product by ID", Description = "Retrieves a product by its ID.")]
         [ProducesResponseType(typeof(ReturnAPI<ProductDTO>), StatusCodes.Status200OK)]
-		[ProducesResponseType(typeof(ReturnAPI<ProductDTO>), StatusCodes.Status400BadRequest)]
+		[ProducesResponseType(typeof(ReturnAPI), StatusCodes.Status400BadRequest)]
 		[ProducesDefaultResponseType]
 		public async Task<IActionResult> GetById([FromRoute] Guid id)
 		{
@@ -59,7 +59,7 @@ namespace BurgerRoyale.API.Controllers.Product
 		[HttpPut("{id:Guid}")]
         [SwaggerOperation(Summary = "Update a product", Description = "Updates an existing product by its ID.")]
         [ProducesResponseType(typeof(ReturnAPI<ProductDTO>), StatusCodes.Status200OK)]
-		[ProducesResponseType(typeof(ReturnAPI<ProductDTO>), StatusCodes.Status400BadRequest)]
+		[ProducesResponseType(typeof(ReturnAPI), StatusCodes.Status400BadRequest)]
 		[ProducesDefaultResponseType]
 		public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] RequestProductDTO productDTO)
 		{
