@@ -5,33 +5,25 @@ using System.Net;
 
 namespace BurgerRoyale.API.Controllers.Health;
 
-/// <summary>
-/// Health check controller
-/// </summary>
+
 [Route("health")]
 public class HealthController : Controller
 {
 	private readonly HealthCheckService _healthCheckService;
 
-	/// <summary>
-	/// Constructor
-	/// </summary>
-	/// <param name="healthCheckService">HealthCheck Service from DI</param>
 	public HealthController(HealthCheckService healthCheckService)
 	{
 		_healthCheckService = healthCheckService;
 	}
 
-	/// <summary>
-	/// GetHealthCheck - Get health status of the application
-	/// </summary>
-	/// <remarks>Provides API Health indication</remarks>
-	/// <response code="200">API is healthy</response>
-	/// <response code="503">API is unhealthy or in degraded state</response>
 	[HttpGet]
+    [SwaggerOperation(Summary = "GetHealthCheck - Get health status of the application", Description = "Provides API Health indication.")]
+    [ProducesResponseType(typeof(HealthReport), StatusCodes.Status200OK)]
 	[SwaggerResponse((int)HttpStatusCode.OK, "Api is healthy")]
+    [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status503ServiceUnavailable)]
 	[SwaggerResponse((int)HttpStatusCode.ServiceUnavailable, "Api is not healthy")]
-	public async Task<IActionResult> GetHealthCheck(CancellationToken cancellationToken)
+    [ProducesDefaultResponseType]
+    public async Task<IActionResult> GetHealthCheck(CancellationToken cancellationToken)
 	{
 		var report = await _healthCheckService.CheckHealthAsync(cancellationToken);
 
