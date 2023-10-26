@@ -27,6 +27,7 @@ namespace BurgerRoyale.IOC.Configurations
 
 			services.AddScoped<IUserRepository, UserRepository>();
 			services.AddScoped<IProductRepository, ProductRepository>();
+			services.AddScoped<IProductImageRepository, ProductImageRepository>();
 			services.AddScoped<IOrderRepository, OrderRepository>();
 
 			#endregion Repositories

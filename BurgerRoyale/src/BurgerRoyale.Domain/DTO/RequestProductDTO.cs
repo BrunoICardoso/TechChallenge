@@ -11,5 +11,7 @@ namespace BurgerRoyale.Domain.DTO
         public string Description { get; set; } = string.Empty;
 
         public decimal Price { get; set; }
+
+        public List<ProductImageDTO>? Images { get; set; }
     }
 }
