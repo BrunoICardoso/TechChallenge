@@ -1,4 +1,4 @@
-﻿using BurgerRoyale.API.Controllers.User;
+﻿using BurgerRoyale.API.Controllers.Login;
 using BurgerRoyale.Domain.DTO;
 using BurgerRoyale.Domain.Interface.Services;
 using BurgerRoyale.Domain.ResponseDefault;
@@ -11,7 +11,7 @@ using Xunit;
 
 namespace BurgerRoyale.UnitTests.API.Controllers.Login
 {
-	public class LoginControllerTests
+    public class LoginControllerTests
 	{
 		private readonly Mock<IUserService> _userService;
 		private readonly LoginController _loginController;
