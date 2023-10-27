@@ -14,3 +14,8 @@ Scenario: Get products by category
 	Given I have a product added with category "Lanche"
 	When I get products given the category "Lanche"
 	Then I should only see the products with "Lanche" category
+
+Scenario: Get product
+	Given I have a product added with category "Lanche"
+	When I get this product
+	Then I should only see the product

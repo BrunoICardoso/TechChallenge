@@ -102,5 +102,33 @@ namespace BurgerRoyale.IntegrationTests.StepDefinitions
             products.Should().HaveCountGreaterThanOrEqualTo(1);
             products.All(product => product.Category == category).Should().BeTrue();
         }
+
+        [When(@"I get this product")]
+        public async Task WhenIGetThisProduct()
+        {
+            var productAdded = _scenarioContext.Get<ProductDTO>("productAdded");
+
+            var httpResponse = await _httpClient.GetAsync($"{HttpClientRequest.Path}/api/Product/{productAdded.Id}");
+            _scenarioContext["httpResponse"] = httpResponse;
+        }
+
+        [Then(@"I should only see the product")]
+        public async Task ThenIShouldOnlySeeTheProduct()
+        {
+            var productAdded = _scenarioContext.Get<ProductDTO>("productAdded");
+
+            var httpResponse = _scenarioContext.Get<HttpResponseMessage>("httpResponse");
+            httpResponse.EnsureSuccessStatusCode();
+
+            var responseContent = await httpResponse.Content.ReadAsStringAsync();
+            var product = httpResponse.DeserializeTo<ProductDTO>(responseContent);
+
+            product.Should().NotBeNull();
+            product.Id.Should().Be(productAdded.Id);
+            product.Name.Should().Be(productAdded.Name);
+            product.Description.Should().Be(productAdded.Description);
+            product.Category.Should().Be(productAdded.Category);
+            product.Price.Should().Be(productAdded.Price);
+        }
     }
 }
