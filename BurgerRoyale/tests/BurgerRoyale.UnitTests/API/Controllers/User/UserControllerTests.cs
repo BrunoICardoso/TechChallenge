@@ -30,7 +30,7 @@ namespace BurgerRoyale.UnitTests.API.Controllers.User
         {
             // arrange
             _userService
-                .Setup(x => x.GetUsersAsync(It.IsAny<UserType>()))
+                .Setup(x => x.GetUsersAsync(UserType.Customer))
                 .ReturnsAsync(new List<UserDTO>());
 
             // act
