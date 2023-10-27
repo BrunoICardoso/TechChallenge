@@ -1,4 +1,5 @@
 using BurgerRoyale.Domain.DTO;
+using BurgerRoyale.Domain.Enumerators;
 using BurgerRoyale.IntegrationTests.Extensions;
 using BurgerRoyale.IntegrationTests.Helpers;
 using TechTalk.SpecFlow.Assist;
@@ -43,7 +44,6 @@ namespace BurgerRoyale.IntegrationTests.StepDefinitions
         public async Task ThenTheProductShouldBeAdded()
         {
             var httpResponse = _scenarioContext.Get<HttpResponseMessage>("httpResponse");
-
             httpResponse.EnsureSuccessStatusCode();
 
             var request = _scenarioContext.Get<RequestProductDTO>("productRequest");
@@ -58,6 +58,49 @@ namespace BurgerRoyale.IntegrationTests.StepDefinitions
             response.Category.Should().Be(request.Category);
             response.Description.Should().Be(request.Description);
             response.Price.Should().Be(request.Price);
+        }
+
+        [Given(@"I have a product added with category ""([^""]*)""")]
+        public async Task GivenIHaveAProductAddedWithCategory(ProductCategory category)
+        {
+            var productRequest = new RequestProductDTO
+            {
+                Name = "Burger a moda da casa",
+                Category = category,
+                Description = "A delicious one",
+                Price = 60
+            };
+
+            _scenarioContext["productRequest"] = productRequest;
+
+            await WhenIRequestToAddTheProduct();
+
+            var httpResponse = _scenarioContext.Get<HttpResponseMessage>("httpResponse");
+            var responseContent = await httpResponse.Content.ReadAsStringAsync();
+            var productAdded = httpResponse.DeserializeTo<ProductDTO>(responseContent);
+            _scenarioContext["productAdded"] = productAdded;
+        }
+
+        [When(@"I get products given the category ""([^""]*)""")]
+        public async Task WhenIGetProductsGivenTheCategory(ProductCategory category)
+        {
+            var httpResponse = await _httpClient.GetAsync($"{HttpClientRequest.Path}/api/Product?productCategory={category}");
+
+            _scenarioContext["httpResponse"] = httpResponse;
+        }
+
+        [Then(@"I should only see the products with ""([^""]*)"" category")]
+        public async Task ThenIShouldOnlySeeTheProductsWithCategory(ProductCategory category)
+        {
+            var httpResponse = _scenarioContext.Get<HttpResponseMessage>("httpResponse");
+            httpResponse.EnsureSuccessStatusCode();
+
+            var responseContent = await httpResponse.Content.ReadAsStringAsync();
+
+            var products = httpResponse.DeserializeTo<IEnumerable<ProductDTO>>(responseContent);
+
+            products.Should().HaveCountGreaterThanOrEqualTo(1);
+            products.All(product => product.Category == category).Should().BeTrue();
         }
     }
 }

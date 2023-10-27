@@ -8,7 +8,7 @@ namespace BurgerRoyale.IntegrationTests.Extensions
         public static T DeserializeTo<T>(this HttpResponseMessage httpResponseMessage, string content)
         {
             JObject jsonObject = JObject.Parse(content);
-            JObject? dataObject = jsonObject["data"] as JObject;
+            var dataObject = jsonObject["data"];
             return JsonConvert.DeserializeObject<T>(dataObject.ToString());
         }
     }
