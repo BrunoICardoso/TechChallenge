@@ -139,7 +139,6 @@ namespace BurgerRoyale.IntegrationTests.StepDefinitions
             var updateRequest = updateProductData.CreateInstance<RequestProductDTO>();
             _scenarioContext["updateRequest"] = updateRequest;
 
-
             string updateProductRequestJson = System.Text.Json.JsonSerializer.Serialize(updateRequest);
 
             var updateProductStringContent = StringContentHelper.Create(updateProductRequestJson);
@@ -149,8 +148,8 @@ namespace BurgerRoyale.IntegrationTests.StepDefinitions
             _scenarioContext["httpResponse"] = httpResponse;
         }
 
-        [Then(@"I should the product updated")]
-        public async Task ThenIShouldTheProductUpdated()
+        [Then(@"the product should be updated")]
+        public async Task ThenTheProductShouldBeUpdated()
         {
             var productAdded = _scenarioContext.Get<ProductDTO>("productAdded");
 
@@ -169,6 +168,22 @@ namespace BurgerRoyale.IntegrationTests.StepDefinitions
             updatedProduct.Description.Should().Be(updateRequest.Description);
             updatedProduct.Category.Should().Be(updateRequest.Category);
             updatedProduct.Price.Should().Be(updateRequest.Price);
+        }
+
+        [When(@"I delete this product")]
+        public async Task WhenIDeleteThisProduct()
+        {
+            var productAdded = _scenarioContext.Get<ProductDTO>("productAdded");
+
+            var httpResponse = await _httpClient.DeleteAsync($"{HttpClientRequest.Path}/api/Product/{productAdded.Id}");
+            _scenarioContext["httpResponse"] = httpResponse;
+        }
+
+        [Then(@"the product should be deleted")]
+        public void ThenTheProductShouldBeDeleted()
+        {
+            var httpResponse = _scenarioContext.Get<HttpResponseMessage>("httpResponse");
+            httpResponse.EnsureSuccessStatusCode();
         }
     }
 }

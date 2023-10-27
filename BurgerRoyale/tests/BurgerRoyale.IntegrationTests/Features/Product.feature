@@ -28,4 +28,9 @@ Scenario: Update a product
 		| Category    | Sobremesa                   |
 		| Description | Delicioso pudim             |
 		| Price       | 35                          |
-	Then I should the product updated
+	Then the product should be updated
+
+Scenario: Delete a product
+	Given I have a product added with category "Lanche"
+	When I delete this product
+	Then the product should be deleted
