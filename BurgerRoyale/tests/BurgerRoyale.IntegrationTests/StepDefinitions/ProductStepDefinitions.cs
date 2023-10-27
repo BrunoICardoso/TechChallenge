@@ -130,5 +130,45 @@ namespace BurgerRoyale.IntegrationTests.StepDefinitions
             product.Category.Should().Be(productAdded.Category);
             product.Price.Should().Be(productAdded.Price);
         }
+
+        [When(@"I update this product with the following data")]
+        public async Task WhenIUpdateThisProductWithTheFollowingData(Table updateProductData)
+        {
+            var productAdded = _scenarioContext.Get<ProductDTO>("productAdded");
+
+            var updateRequest = updateProductData.CreateInstance<RequestProductDTO>();
+            _scenarioContext["updateRequest"] = updateRequest;
+
+
+            string updateProductRequestJson = System.Text.Json.JsonSerializer.Serialize(updateRequest);
+
+            var updateProductStringContent = StringContentHelper.Create(updateProductRequestJson);
+
+            var httpResponse = await _httpClient.PutAsync($"{HttpClientRequest.Path}/api/Product/{productAdded.Id}", updateProductStringContent);
+
+            _scenarioContext["httpResponse"] = httpResponse;
+        }
+
+        [Then(@"I should the product updated")]
+        public async Task ThenIShouldTheProductUpdated()
+        {
+            var productAdded = _scenarioContext.Get<ProductDTO>("productAdded");
+
+            var httpResponse = _scenarioContext.Get<HttpResponseMessage>("httpResponse");
+            httpResponse.EnsureSuccessStatusCode();
+
+            var responseContent = await httpResponse.Content.ReadAsStringAsync();
+            var updatedProduct = httpResponse.DeserializeTo<ProductDTO>(responseContent);
+
+            updatedProduct.Should().NotBeNull();
+            updatedProduct.Id.Should().Be(productAdded.Id);
+            
+            var updateRequest = _scenarioContext.Get<RequestProductDTO>("updateRequest");
+            
+            updatedProduct.Name.Should().Be(updateRequest.Name);
+            updatedProduct.Description.Should().Be(updateRequest.Description);
+            updatedProduct.Category.Should().Be(updateRequest.Category);
+            updatedProduct.Price.Should().Be(updateRequest.Price);
+        }
     }
 }
