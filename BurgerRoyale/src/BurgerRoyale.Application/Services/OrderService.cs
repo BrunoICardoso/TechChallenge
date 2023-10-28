@@ -26,14 +26,14 @@ namespace BurgerRoyale.Application.Services
 
 		public async Task CreateAsync(CreateOrderDTO orderDTO)
 		{
-			if (orderDTO.UserId != Guid.Empty)
+			if (orderDTO.UserId.HasValue && orderDTO.UserId != Guid.Empty)
 			{
-				var user = await _userRepository.GetByIdAsync(orderDTO.UserId);
+				var user = await _userRepository.GetByIdAsync(orderDTO.UserId.Value);
 				if (user is null)
 					throw new NotFoundException("Usuário não encontrado.");
 			}
 
-            var order = new Order(orderDTO.UserId);
+            var order = new Order(orderDTO.UserId ?? Guid.Empty);
 
 			foreach (var orderProduct in orderDTO.OrderProducts)
 			{

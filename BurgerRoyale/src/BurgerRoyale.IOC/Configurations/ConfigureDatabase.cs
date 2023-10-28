@@ -1,4 +1,5 @@
 ﻿using BurgerRoyale.Infrastructure.Context;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace BurgerRoyale.IOC.Configurations
 {
-	[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
 	public static class ConfigureDatabase
 	{
 		public static void Register
@@ -29,5 +30,17 @@ namespace BurgerRoyale.IOC.Configurations
 						  });
 				});
 		}
+
+		public static void RunMigrations(WebApplication app)
+		{
+            using var scope = app.Services.CreateScope();
+
+            var dbContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
+
+            if (dbContext is not null && !dbContext.Database.CanConnect())
+            {
+                dbContext.Database.Migrate();
+            }
+        }
 	}
 }

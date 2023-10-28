@@ -9,7 +9,6 @@ namespace BurgerRoyale.API.Validators
 		{
 			When(w => w is not null, () =>
 			{
-				RuleFor(r => r.UserId).NotNull();
 				RuleFor(r => r.OrderProducts).NotNull().NotEmpty().WithMessage("Nenhum produto adicionado.");
 				RuleForEach(r => r.OrderProducts).ChildRules(x =>
 				{
