@@ -1,10 +1,9 @@
 using BurgerRoyale.API.ConfigController;
 using BurgerRoyale.API.Middleware;
-using BurgerRoyale.Infrastructure.Context;
 using BurgerRoyale.IOC;
+using BurgerRoyale.IOC.Configurations;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
@@ -60,14 +59,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-using (var scope = app.Services.CreateScope())
-{
-	var dbContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
-    
-	if (dbContext.Database.CanConnect())
-    {
-        dbContext.Database.Migrate();
-    }
-}
+ConfigureDatabase.RunMigrations(app);
 
 app.Run();

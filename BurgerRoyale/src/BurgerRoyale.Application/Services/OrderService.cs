@@ -26,26 +26,27 @@ namespace BurgerRoyale.Application.Services
 
 		public async Task CreateAsync(CreateOrderDTO orderDTO)
 		{
-			if (orderDTO.UserId != Guid.Empty)
+			if (orderDTO.UserId.HasValue && orderDTO.UserId != Guid.Empty)
 			{
-				var user = await _userRepository.GetByIdAsync(orderDTO.UserId);
+				var user = await _userRepository.GetByIdAsync(orderDTO.UserId.Value);
 				if (user is null)
-					throw new DomainException("Usuário não encontrado.");
+					throw new NotFoundException("Usuário não encontrado.");
 			}
 
-			var orderProducts = new List<OrderProduct>();
+            var order = new Order(orderDTO.UserId ?? Guid.Empty);
+
 			foreach (var orderProduct in orderDTO.OrderProducts)
 			{
 				var product = await _productRepository.GetByIdAsync(orderProduct.ProductId);
 
 				if (product is null)
-					throw new DomainException("Produto(s) inválido(s).");
+					throw new NotFoundException("Produto(s) inválido(s).");
 
-				var newOrderProduct = new OrderProduct(new Guid(), orderProduct.ProductId, product.Price, orderProduct.Quantity);
-				orderProducts.Add(newOrderProduct);
+				var newOrderProduct = new OrderProduct(order.Id, orderProduct.ProductId, product.Price, orderProduct.Quantity);
+
+				order.AddProduct(newOrderProduct);
 			}
 
-			var order = new Order() { OrderTime = DateTime.Now, Status = OrderStatus.Recebido, UserId = orderDTO.UserId, OrderProducts = orderProducts };
 			await _orderRepository.AddAsync(order);
 		}
 
@@ -53,27 +54,7 @@ namespace BurgerRoyale.Application.Services
 		{
 			var orders = await _orderRepository.GetOrders(orderStatus);
 
-			var orderDTOs = orders.Select(order => new OrderDTO()
-			{
-				OrderId = order.Id,
-				Status = order.Status.GetDescription(),
-				UserId = order.UserId,
-				OrderTime = order.OrderTime,
-				CloseTime = order.CloseTime,
-				OrderProducts = order.OrderProducts.Select(x => new OrderProductDTO()
-				{
-					ProductId = x.ProductId,
-					ProductName = x.Product.Name,
-					Quantity = x.Quantity,
-					Price = x.ProductPrice
-				})
-			}).ToList();
-
-			for (int i = 0; i < orderDTOs.Count(); i++)
-				if (orderDTOs[i].OrderProducts != null && orderDTOs[i].OrderProducts.Count() > 0)
-					foreach (var product in orderDTOs[i].OrderProducts)
-						if (product != null)
-							orderDTOs[i].TotalPrice += product.Price * product.Quantity;
+			var orderDTOs = orders.Select(order => new OrderDTO(order)).ToList();
 
 			return orderDTOs;
 		}
@@ -98,7 +79,8 @@ namespace BurgerRoyale.Application.Services
 			if (order.Status == orderStatus)
 				throw new DomainException($"Pedido já possui status {orderStatus.GetDescription()}");
 
-			order.Status = orderStatus;
+			order.SetStatus(orderStatus);
+
 			await _orderRepository.UpdateAsync(order);
 		}
 	}

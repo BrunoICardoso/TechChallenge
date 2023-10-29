@@ -2,7 +2,7 @@
 {
 	public class CreateOrderDTO
 	{
-		public Guid UserId { get; set; }
+		public Guid? UserId { get; set; }
 		public IEnumerable<CreateOrderProductDTO> OrderProducts { get; set; } = Enumerable.Empty<CreateOrderProductDTO>();
 	}
 }

@@ -216,24 +216,13 @@ namespace BurgerRoyale.UnitTests.Application.Services
             // Order product
             OrderProduct orderProduct = new OrderProduct(orderId, productId, productPrice, quantity, product);
 
-            var orderProducts = new List<OrderProduct>
-            {
-                orderProduct
-            };
-
-            var orderTime = DateTime.Now;
             var userId = Guid.NewGuid();
             var orderStatus = OrderStatus.EmPreparacao;
 
             //Pedido
-            Order order = new()
-            {
-                UserId = userId,
-                Status = orderStatus,
-                OrderTime = orderTime,
-                CloseTime = null,
-                OrderProducts = orderProducts
-            };
+            Order order = new(userId);
+            order.AddProduct(orderProduct);
+            order.SetStatus(orderStatus);
 
             var orderList = new List<Order>
             {
@@ -286,24 +275,13 @@ namespace BurgerRoyale.UnitTests.Application.Services
             // Order product
             OrderProduct orderProduct = new OrderProduct(orderId, productId, productPrice, quantity, product);
 
-            var orderProducts = new List<OrderProduct>
-            {
-                orderProduct
-            };
-
-            var orderTime = DateTime.Now;
             var userId = Guid.NewGuid();
             var orderStatus = OrderStatus.EmPreparacao;
 
             //Pedido
-            Order order = new()
-            {
-                UserId = userId,
-                Status = orderStatus,
-                OrderTime = orderTime,
-                CloseTime = null,
-                OrderProducts = orderProducts
-            };
+            Order order = new(userId);
+            order.AddProduct(orderProduct);
+            order.SetStatus(orderStatus);
 
             var orderList = new List<Order>
             {
@@ -359,24 +337,13 @@ namespace BurgerRoyale.UnitTests.Application.Services
             // Order product
             OrderProduct orderProduct = new OrderProduct(orderId, productId, productPrice, quantity, product);
 
-            var orderProducts = new List<OrderProduct>
-            {
-                orderProduct
-            };
-
-            var orderTime = DateTime.Now;
             var userId = Guid.NewGuid();
             var orderStatus = OrderStatus.EmPreparacao;
 
             //Pedido
-            Order order = new()
-            {
-                UserId = userId,
-                Status = orderStatus,
-                OrderTime = orderTime,
-                CloseTime = null,
-                OrderProducts = orderProducts
-            };
+            Order order = new(userId);
+            order.AddProduct(orderProduct);
+            order.SetStatus(orderStatus);
 
             var orderList = new List<Order>
             {
@@ -433,24 +400,13 @@ namespace BurgerRoyale.UnitTests.Application.Services
             // Order product
             OrderProduct orderProduct = new OrderProduct(orderId, productId, productPrice, quantity, product);
 
-            var orderProducts = new List<OrderProduct>
-            {
-                orderProduct
-            };
-
-            var orderTime = DateTime.Now;
             var userId = Guid.NewGuid();
             var orderStatus = OrderStatus.EmPreparacao;
 
             //Pedido
-            Order order = new()
-            {
-                UserId = userId,
-                Status = orderStatus,
-                OrderTime = orderTime,
-                CloseTime = null,
-                OrderProducts = orderProducts
-            };
+            Order order = new(userId);
+            order.AddProduct(orderProduct);
+            order.SetStatus(orderStatus);
 
             var orderList = new List<Order>
             {
@@ -506,24 +462,13 @@ namespace BurgerRoyale.UnitTests.Application.Services
             // Order product
             OrderProduct orderProduct = new OrderProduct(orderId, productId, productPrice, quantity, product);
 
-            var orderProducts = new List<OrderProduct>
-            {
-                orderProduct
-            };
-
-            var orderTime = DateTime.Now;
             var userId = Guid.NewGuid();
             var orderStatus = OrderStatus.EmPreparacao;
 
             //Pedido
-            Order order = new()
-            {
-                UserId = userId,
-                Status = orderStatus,
-                OrderTime = orderTime,
-                CloseTime = null,
-                OrderProducts = orderProducts
-            };
+            Order order = new(userId);
+            order.AddProduct(orderProduct);
+            order.SetStatus(orderStatus);
 
             var orderList = new List<Order>
             {
@@ -580,24 +525,13 @@ namespace BurgerRoyale.UnitTests.Application.Services
             // Order product
             OrderProduct orderProduct = new OrderProduct(orderId, productId, productPrice, quantity, product);
 
-            var orderProducts = new List<OrderProduct>
-            {
-                orderProduct
-            };
-
-            var orderTime = DateTime.Now;
             var userId = Guid.NewGuid();
             var orderStatus = OrderStatus.EmPreparacao;
 
             //Pedido
-            Order order = new()
-            {
-                UserId = userId,
-                Status = orderStatus,
-                OrderTime = orderTime,
-                CloseTime = null,
-                OrderProducts = orderProducts
-            };
+            Order order = new(userId);
+            order.AddProduct(orderProduct);
+            order.SetStatus(orderStatus);
 
             var orderList = new List<Order>
             {
