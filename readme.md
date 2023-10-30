@@ -14,7 +14,7 @@ Antes de prosseguir, certifique-se de que você tenha o Docker e o Docker Compos
 1. Clone o repositório do projeto BurgerRoyale.API, caso ainda não tenha feito isso:
 
    ```shell
-   git clone <URL_DO_REPOSITORIO>
+   git clone https://github.com/BrunoICardoso/TechChallenge.git
    ```
 
 2. Navegue para o diretório raiz do projeto:
