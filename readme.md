@@ -1,3 +1,8 @@
+# Burger Royale
+
+Esta solução foi desenvolvida como uma API a ser utilizada na gestão de produtos e pedidos de uma lanchonete.
+
+
 # Execução do Docker Compose para o projeto BurgerRoyale.API
 
 Este guia demonstrará como executar o projeto BurgerRoyale.API usando Docker Compose.
@@ -26,14 +31,25 @@ Antes de prosseguir, certifique-se de que você tenha o Docker e o Docker Compos
 3. Agora, você está pronto para iniciar o Docker Compose. Execute o seguinte comando no terminal:
 
    ```shell
+   docker-compose build
+   ```
+   
+    Obs.: Esse comando é necessário apenas no caso de alguma alteração ter sido realizada no código da aplicação. Assim garantimos que a execução será realizada com a versão mais recente de nosso código.
+
+4. Em seguida, execute o seguinte comando no terminal:
+
+   ```shell
    docker-compose up
    ```
    
     Isso iniciará os serviços definidos no arquivo `docker-compose.yml`, que incluem a aplicação `burgerroyale.api` e um banco de dados `db`.
 
-4. Após a conclusão do processo de inicialização, você poderá acessar a API BurgerRoyale em http://localhost:5000. Certifique-se de que a aplicação esteja em execução e acessível.
+5. Após a conclusão do processo de inicialização, você poderá acessar a API BurgerRoyale em http://localhost:5000. Certifique-se de que a aplicação esteja em execução e acessível.
 
-5. Para encerrar os serviços e remover os contêineres, pressione Ctrl + C no terminal e execute o seguinte comando
+    -  No endereço http://localhost:5000/swagger é possível acessar a documentação dos endpoints disponíveis na API.
+    - Uma collection do Postman (`BurgerRoyale.postman_collection.json`) também se encontra disponível no repositório para facilitar a utilização da API.
+
+6. Para encerrar os serviços e remover os contêineres, pressione Ctrl + C no terminal e execute o seguinte comando
    ```shell
    docker-compose down
    ```
