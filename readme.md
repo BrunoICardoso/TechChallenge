@@ -10,6 +10,7 @@ Este guia demonstrará como executar o projeto BurgerRoyale.API usando Docker Co
 ## Pré-requisitos
 
 Antes de prosseguir, certifique-se de que você tenha o Docker e o Docker Compose instalados em sua máquina.
+Após as instalação, certifique-se que o Docker esteja em execução para seguir com os passos abaixo.
 
 - [Docker](https://docs.docker.com/get-docker/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
@@ -25,7 +26,7 @@ Antes de prosseguir, certifique-se de que você tenha o Docker e o Docker Compos
 2. Navegue para o diretório raiz do projeto:
 
    ```shell
-   cd <NOME_DO_DIRETORIO_DO_PROJETO>
+   cd TechChallenge\BurgerRoyale
    ```
    
 3. Agora, você está pronto para iniciar o Docker Compose. Execute o seguinte comando no terminal:
@@ -44,7 +45,7 @@ Antes de prosseguir, certifique-se de que você tenha o Docker e o Docker Compos
    
     Isso iniciará os serviços definidos no arquivo `docker-compose.yml`, que incluem a aplicação `burgerroyale.api` e um banco de dados `db`.
 
-5. Após a conclusão do processo de inicialização, você poderá acessar a API BurgerRoyale em http://localhost:5000. Certifique-se de que a aplicação esteja em execução e acessível.
+5. Após a conclusão do processo de inicialização, a API estará disponível em http://localhost:5000. 
 
     -  No endereço http://localhost:5000/swagger é possível acessar a documentação dos endpoints disponíveis na API.
     - Uma collection do Postman (`BurgerRoyale.postman_collection.json`) também se encontra disponível no repositório para facilitar a utilização da API.
