@@ -8,6 +8,7 @@ namespace BurgerRoyale.Domain.Entities
         public DateTime OrderTime { get; private set; }
         public DateTime? CloseTime { get; private set; }
         public OrderStatus Status { get; private set; }
+        public int OrderNumber { get; private set; }
 
         public virtual List<OrderProduct> OrderProducts { get; private set; } = new List<OrderProduct>();
 
@@ -23,6 +24,10 @@ namespace BurgerRoyale.Domain.Entities
             OrderProducts.Add(orderProduct);
         }
 
+        public void SetOrderNumber(int orderNumber)
+        {
+            OrderNumber = orderNumber;
+        }
         public void SetStatus(OrderStatus status)
         {
             Status = status;
