@@ -15,9 +15,9 @@ namespace BurgerRoyale.Infrastructure.Repositories
 
 		public async Task<IEnumerable<Order>> GetOrders(OrderStatus? orderStatus)
 		{
-			var query = _context.Orders.Include(x => x.OrderProducts).ThenInclude(x => x.Product).Where(x => x.Status != OrderStatus.Finalizado);
+			var query = _context.Orders.Include(x => x.OrderProducts).ThenInclude(x => x.Product);
 			if (orderStatus == null)
-                return await query.OrderByDescending(x => x.Status).ThenBy(x => x.OrderTime).ToListAsync();
+                return await query.Where(x => x.Status != OrderStatus.Finalizado).OrderByDescending(x => x.Status).ThenBy(x => x.OrderTime).ToListAsync();
 
             return await query.Where(x => x.Status == orderStatus).OrderByDescending(x => x.Status).ThenBy(x => x.OrderTime).ToListAsync();
         }
