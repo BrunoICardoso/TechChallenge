@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F4455E74-59D9-4C06-B57A-637DAB121AA0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FakePaymentService.Domain", "src\FakePaymentService.Domain\FakePaymentService.Domain.csproj", "{F94BA7C7-FABE-460D-A3ED-07B2893FF66B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FakePaymentMicroservice.Infrastructure", "src\FakePaymentMicroservice.Infrastructure\FakePaymentMicroservice.Infrastructure.csproj", "{E53941AF-3D76-45C2-B455-8B0758EC7016}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FakePaymentMicroservice.Application", "src\FakePaymentMicroservice.Application\FakePaymentMicroservice.Application.csproj", "{E883D5C2-3A90-4442-B336-CBAC50331AFD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FakePaymentMicroservice.IOC", "src\FakePaymentMicroservice.IOC\FakePaymentMicroservice.IOC.csproj", "{A431B1B7-3E35-4447-BE95-50C2D6B7863D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FakePaymentMicroservice.API", "src\FakePaymentMicroservice.API\FakePaymentMicroservice.API.csproj", "{76281BDF-44FD-4691-A618-E3F5C76F48EB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F94BA7C7-FABE-460D-A3ED-07B2893FF66B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F94BA7C7-FABE-460D-A3ED-07B2893FF66B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F94BA7C7-FABE-460D-A3ED-07B2893FF66B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F94BA7C7-FABE-460D-A3ED-07B2893FF66B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E53941AF-3D76-45C2-B455-8B0758EC7016}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E53941AF-3D76-45C2-B455-8B0758EC7016}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E53941AF-3D76-45C2-B455-8B0758EC7016}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E53941AF-3D76-45C2-B455-8B0758EC7016}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E883D5C2-3A90-4442-B336-CBAC50331AFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E883D5C2-3A90-4442-B336-CBAC50331AFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E883D5C2-3A90-4442-B336-CBAC50331AFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E883D5C2-3A90-4442-B336-CBAC50331AFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A431B1B7-3E35-4447-BE95-50C2D6B7863D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A431B1B7-3E35-4447-BE95-50C2D6B7863D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A431B1B7-3E35-4447-BE95-50C2D6B7863D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A431B1B7-3E35-4447-BE95-50C2D6B7863D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76281BDF-44FD-4691-A618-E3F5C76F48EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76281BDF-44FD-4691-A618-E3F5C76F48EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76281BDF-44FD-4691-A618-E3F5C76F48EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76281BDF-44FD-4691-A618-E3F5C76F48EB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F94BA7C7-FABE-460D-A3ED-07B2893FF66B} = {F4455E74-59D9-4C06-B57A-637DAB121AA0}
+		{E53941AF-3D76-45C2-B455-8B0758EC7016} = {F4455E74-59D9-4C06-B57A-637DAB121AA0}
+		{E883D5C2-3A90-4442-B336-CBAC50331AFD} = {F4455E74-59D9-4C06-B57A-637DAB121AA0}
+		{A431B1B7-3E35-4447-BE95-50C2D6B7863D} = {F4455E74-59D9-4C06-B57A-637DAB121AA0}
+		{76281BDF-44FD-4691-A618-E3F5C76F48EB} = {F4455E74-59D9-4C06-B57A-637DAB121AA0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {40D2B100-27D3-4760-B232-BC1AAACF7E1A}
+	EndGlobalSection
+EndGlobal
