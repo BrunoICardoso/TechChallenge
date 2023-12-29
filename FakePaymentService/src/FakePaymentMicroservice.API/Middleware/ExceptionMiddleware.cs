@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using FakePaymentService.Domain.Exceptions;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Text.Json;
 
@@ -47,8 +48,9 @@ namespace FakePaymentService.API.Middleware
 			);
 		}
 
-		public HttpStatusCode MapHttpStatusCode(Exception exception) => exception switch
+		private HttpStatusCode MapHttpStatusCode(Exception exception) => exception switch
 		{
+			NotFoundException => HttpStatusCode.NotFound,
 			_ => HttpStatusCode.InternalServerError
 		};
 	}
