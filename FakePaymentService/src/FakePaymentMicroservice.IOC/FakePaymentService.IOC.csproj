@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FakePaymentMicroservice.Application\FakePaymentMicroservice.Application.csproj" />
-    <ProjectReference Include="..\FakePaymentMicroservice.Infrastructure\FakePaymentMicroservice.Infrastructure.csproj" />
+    <ProjectReference Include="..\FakePaymentMicroservice.Infrastructure\FakePaymentService.Infrastructure.csproj" />
+    <ProjectReference Include="..\FakePaymentService.Domain\FakePaymentService.Domain.csproj" />
   </ItemGroup>
 
 </Project>

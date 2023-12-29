@@ -1,9 +1,9 @@
-﻿using FakePaymentMicroservice.Domain.Entities;
-using FakePaymentMicroservice.Domain.Interface.RepositoriesStandard;
+﻿using FakePaymentService.Domain.Entities;
+using FakePaymentService.Domain.Interface.RepositoriesStandard;
 
-namespace FakePaymentMicroservice.Domain.Interface.Repositories
+namespace FakePaymentService.Domain.Interface.Repositories
 {
-    public interface IProductImageRepository : IDomainRepository<ProductImage>
-    {
-    }
+	public interface IPaymentRepository : IDomainRepository<Payment>
+	{
+	}
 }

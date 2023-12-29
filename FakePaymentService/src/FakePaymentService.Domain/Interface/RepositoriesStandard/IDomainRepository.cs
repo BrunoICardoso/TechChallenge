@@ -1,6 +1,6 @@
-﻿namespace FakePaymentMicroservice.Domain.Interface.RepositoriesStandard
+﻿namespace FakePaymentService.Domain.Interface.RepositoriesStandard
 {
-    public interface IDomainRepository<TEntity> : IRepository<TEntity>, IDisposable where TEntity : class
-    {
-    }
+	public interface IDomainRepository<TEntity> : IRepository<TEntity>, IDisposable where TEntity : class
+	{
+	}
 }

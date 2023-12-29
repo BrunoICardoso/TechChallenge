@@ -1,7 +1,7 @@
-﻿namespace FakePaymentMicroservice.Domain.Entities
+﻿namespace FakePaymentService.Domain.Entities
 {
-    public class Payment : Entity
-    {
+	public class Payment : Entity
+	{
 
-    }
+	}
 }

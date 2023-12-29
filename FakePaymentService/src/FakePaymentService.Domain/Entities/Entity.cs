@@ -1,17 +1,17 @@
-﻿namespace FakePaymentMicroservice.Domain.Entities
+﻿namespace FakePaymentService.Domain.Entities
 {
-    public class Entity
-    {
-        public Guid Id { get; private set; }
+	public class Entity
+	{
+		public Guid Id { get; private set; }
 
-        public Entity()
-        {
-            Id = Guid.NewGuid();
-        }
+		public Entity()
+		{
+			Id = Guid.NewGuid();
+		}
 
-        public Entity(Guid id)
-        {
-            Id = id;
-        }
-    }
+		public Entity(Guid id)
+		{
+			Id = id;
+		}
+	}
 }

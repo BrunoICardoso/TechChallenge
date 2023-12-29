@@ -1,20 +1,20 @@
-﻿using FakePaymentMicroservice.Infrastructure.Context;
+﻿using FakePaymentService.Infrastructure.Context;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
 
-namespace FakePaymentMicroservice.IOC.Configurations
+namespace FakePaymentService.IOC.Configurations
 {
-    [ExcludeFromCodeCoverage]
-    public static class ConfigureHealthChecks
-    {
-        public static void Register
-        (
-            IServiceCollection services
-        )
-        {
-            services
-                .AddHealthChecks()
-                .AddDbContextCheck<ApplicationDbContext>();
-        }
-    }
+	[ExcludeFromCodeCoverage]
+	public static class ConfigureHealthChecks
+	{
+		public static void Register
+		(
+			IServiceCollection services
+		)
+		{
+			services
+				.AddHealthChecks()
+				.AddDbContextCheck<ApplicationDbContext>();
+		}
+	}
 }

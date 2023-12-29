@@ -7,20 +7,20 @@ EXPOSE 5000
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["src/FakePaymentMicroservice.API/FakePaymentMicroservice.API.csproj", "src/FakePaymentMicroservice.API/"]
-COPY ["src/FakePaymentMicroservice.Application/FakePaymentMicroservice.Application.csproj", "src/FakePaymentMicroservice.Application/"]
-COPY ["src/FakePaymentMicroservice.Domain/FakePaymentMicroservice.Domain.csproj", "src/FakePaymentMicroservice.Domain/"]
-COPY ["src/FakePaymentMicroservice.Infrastructure/FakePaymentMicroservice.Infrastructure.csproj", "src/FakePaymentMicroservice.Infrastructure/"]
-COPY ["src/FakePaymentMicroservice.IOC/FakePaymentMicroservice.IOC.csproj", "src/FakePaymentMicroservice.IOC/"]
-RUN dotnet restore "src/FakePaymentMicroservice.API/FakePaymentMicroservice.API.csproj"
+COPY ["src/FakePaymentService.API/FakePaymentService.API.csproj", "src/FakePaymentService.API/"]
+COPY ["src/FakePaymentService.Application/FakePaymentService.Application.csproj", "src/FakePaymentService.Application/"]
+COPY ["src/FakePaymentService.Domain/FakePaymentService.Domain.csproj", "src/FakePaymentService.Domain/"]
+COPY ["src/FakePaymentService.Infrastructure/FakePaymentService.Infrastructure.csproj", "src/FakePaymentService.Infrastructure/"]
+COPY ["src/FakePaymentService.IOC/FakePaymentService.IOC.csproj", "src/FakePaymentService.IOC/"]
+RUN dotnet restore "src/FakePaymentService.API/FakePaymentService.API.csproj"
 COPY . .
-WORKDIR "/src/src/FakePaymentMicroservice.API"
-RUN dotnet build "FakePaymentMicroservice.API.csproj" -c Release -o /app/build
+WORKDIR "/src/src/FakePaymentService.API"
+RUN dotnet build "FakePaymentService.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "FakePaymentMicroservice.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "FakePaymentService.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "FakePaymentMicroservice.API.dll"]
+ENTRYPOINT ["dotnet", "FakePaymentService.API.dll"]

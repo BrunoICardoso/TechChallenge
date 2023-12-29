@@ -1,6 +1,6 @@
 {
     "profiles": {
-        "FakePaymentMicroservice.Application": {
+        "FakePaymentService.Application": {
             "commandName": "Project",
             "launchBrowser": true,
             "environmentVariables": {

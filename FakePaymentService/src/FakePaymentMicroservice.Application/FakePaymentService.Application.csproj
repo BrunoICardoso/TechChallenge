@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FakePaymentMicroservice.Domain\FakePaymentMicroservice.Domain.csproj" />
-    <ProjectReference Include="..\FakePaymentMicroservice.Infrastructure\FakePaymentMicroservice.Infrastructure.csproj" />
+    <ProjectReference Include="..\FakePaymentService.Domain\FakePaymentService.Domain.csproj" />
   </ItemGroup>
 
 </Project>

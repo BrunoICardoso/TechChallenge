@@ -1,14 +1,14 @@
-﻿using FakePaymentMicroservice.Domain.Entities;
-using FakePaymentMicroservice.Domain.Interface.Repositories;
-using FakePaymentMicroservice.Infrastructure.Context;
-using FakePaymentMicroservice.Infrastructure.RepositoriesStandard;
+﻿using FakePaymentService.Domain.Entities;
+using FakePaymentService.Domain.Interface.Repositories;
+using FakePaymentService.Infrastructure.Context;
+using FakePaymentService.Infrastructure.RepositoriesStandard;
 
-namespace FakePaymentMicroservice.Infrastructure.Repositories
+namespace FakePaymentService.Infrastructure.Repositories
 {
-    public class ProductImageRepository : DomainRepository<ProductImage>, IProductImageRepository
-    {
-        public ProductImageRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
-        {
-        }
-    }
+	public class PaymentRepository : DomainRepository<Payment>, IPaymentRepository
+	{
+		public PaymentRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
+		{
+		}
+	}
 }
