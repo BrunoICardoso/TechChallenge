@@ -7,7 +7,14 @@ namespace FakePaymentService.Infrastructure.Services
 	{
 		public async Task NotifyPaymentAsync(string callbackUrl)
 		{
-			await callbackUrl.PostAsync();
+			try
+			{
+				await callbackUrl.PostAsync();
+			}
+			catch (Exception)
+			{
+				return;
+			}
 		}
 	}
 }
