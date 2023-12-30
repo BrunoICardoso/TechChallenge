@@ -2,6 +2,7 @@
 using FakePaymentService.Domain.Interface.Repositories;
 using FakePaymentService.Domain.Interface.Services;
 using FakePaymentService.Infrastructure.Repositories;
+using FakePaymentService.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
 
@@ -18,6 +19,7 @@ namespace FakePaymentService.IOC.Configurations
 			#region Services
 
 			services.AddScoped<IPaymentService, PaymentService>();
+			services.AddScoped<INotificationService, NotificationService>();
 
 			#endregion Services
 

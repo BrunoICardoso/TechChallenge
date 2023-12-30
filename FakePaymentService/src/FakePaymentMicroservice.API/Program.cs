@@ -4,6 +4,7 @@ using FakePaymentService.IOC.Configurations;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.OpenApi.Models;
+using System.Globalization;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo("en-US");
 
 builder.Services.AddSwaggerGen(options =>
 {

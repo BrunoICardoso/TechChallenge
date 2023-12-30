@@ -1,4 +1,5 @@
-﻿using FakePaymentService.Domain.Dtos;
+﻿using FakePaymentService.API.Controllers.Payments.Requests;
+using FakePaymentService.Domain.Dtos;
 using FakePaymentService.Domain.Interface.Services;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -22,10 +23,10 @@ public class PaymentsController : ControllerBase
 	[ProducesDefaultResponseType]
 	public async Task<IActionResult> RequestPayment
 	(
-		[FromBody] CreatePaymentRequestViewModel request
+		[FromBody] CreatePaymentRequest request
 	)
 	{
-		var paymentRequest = await _paymentService.RequestPayment(
+		var paymentRequest = await _paymentService.RequestPaymentAsync(
 			request.Amount,
 			request.ClientIdentifier,
 			request.CallbackUrl
@@ -41,19 +42,19 @@ public class PaymentsController : ControllerBase
 	[ProducesDefaultResponseType]
 	public async Task<IActionResult> GetPaymentRequest([FromRoute] Guid paymentRequestId)
 	{
-		var paymentRequest = await _paymentService.GetPayment(paymentRequestId);
+		var paymentRequest = await _paymentService.GetPaymentAsync(paymentRequestId);
 
 		return Ok(paymentRequest);
 	}
 
 	[HttpGet("{paymentRequestId:Guid}:pay")]
 	[SwaggerOperation(Summary = "Make payment", Description = "Make payment")]
-	[ProducesResponseType(typeof(PaymentDTO), StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status404NotFound)]
 	[ProducesDefaultResponseType]
 	public async Task<IActionResult> MakePayment([FromRoute] Guid paymentRequestId)
 	{
-		await _paymentService.MakePayment(paymentRequestId);
+		await _paymentService.MakePaymentAsync(paymentRequestId);
 
 		return Ok();
 	}

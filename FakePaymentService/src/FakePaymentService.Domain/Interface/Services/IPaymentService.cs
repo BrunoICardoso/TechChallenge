@@ -4,10 +4,10 @@ namespace FakePaymentService.Domain.Interface.Services
 {
 	public interface IPaymentService
 	{
-		Task<PaymentDTO> RequestPayment(decimal amount, Guid? clientIdentifier, string? callbackUrl);
+		Task<PaymentDTO> RequestPaymentAsync(decimal amount, Guid? clientIdentifier, string? callbackUrl);
 
-		Task MakePayment(Guid paymentRequestId);
+		Task MakePaymentAsync(Guid paymentRequestId);
 
-		Task<PaymentDTO> GetPayment(Guid paymentRequestId);
+		Task<PaymentDTO> GetPaymentAsync(Guid paymentRequestId);
 	}
 }

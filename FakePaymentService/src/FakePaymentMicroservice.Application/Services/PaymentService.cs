@@ -10,13 +10,19 @@ namespace FakePaymentService.Application.Services;
 public class PaymentService : IPaymentService
 {
 	private readonly IPaymentRepository _paymentRepository;
+	private readonly INotificationService _notificationService;
 
-	public PaymentService(IPaymentRepository paymentRepository)
+	public PaymentService
+	(
+		IPaymentRepository paymentRepository,
+		INotificationService notificationService
+	)
 	{
 		_paymentRepository = paymentRepository;
+		_notificationService = notificationService;
 	}
 
-	public async Task<PaymentDTO> RequestPayment(decimal amount, Guid? clientIdentifier, string? callbackUrl)
+	public async Task<PaymentDTO> RequestPaymentAsync(decimal amount, Guid? clientIdentifier, string? callbackUrl)
 	{
 		var paymentRequest = new Payment(amount, clientIdentifier, callbackUrl);
 
@@ -25,7 +31,7 @@ public class PaymentService : IPaymentService
 		return new PaymentDTO(paymentRequest);
 	}
 
-	public async Task MakePayment(Guid paymentRequestId)
+	public async Task MakePaymentAsync(Guid paymentRequestId)
 	{
 		var paymentRequest = await _paymentRepository.FindFirstDefaultAsync(
 			x => x.Id == paymentRequestId && x.Status == PaymentStatus.Pending
@@ -37,9 +43,14 @@ public class PaymentService : IPaymentService
 		paymentRequest.Pay();
 
 		await _paymentRepository.UpdateAsync(paymentRequest);
+
+		if (!string.IsNullOrWhiteSpace(paymentRequest.CallbackUrl))
+		{
+			await _notificationService.NotifyPaymentAsync(paymentRequest.CallbackUrl);
+		}
 	}
 
-	public async Task<PaymentDTO> GetPayment(Guid paymentRequestId)
+	public async Task<PaymentDTO> GetPaymentAsync(Guid paymentRequestId)
 	{
 		var paymentRequest = await _paymentRepository.GetByIdAsync(paymentRequestId);
 
