@@ -1,20 +1,19 @@
 ﻿using FakePaymentService.Domain.Interface.Services;
-using Flurl.Http;
 
 namespace FakePaymentService.Infrastructure.Services
 {
 	public class NotificationService : INotificationService
 	{
+		private readonly HttpClient _httpClient;
+
+		public NotificationService(HttpClient httpClient)
+		{
+			_httpClient = httpClient;
+		}
+
 		public async Task NotifyPaymentAsync(string callbackUrl)
 		{
-			try
-			{
-				await callbackUrl.PostAsync();
-			}
-			catch (Exception)
-			{
-				return;
-			}
+			await _httpClient.PostAsync(callbackUrl, null);
 		}
 	}
 }
