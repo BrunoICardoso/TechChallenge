@@ -7,13 +7,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F4455E74-59D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FakePaymentService.Domain", "src\FakePaymentService.Domain\FakePaymentService.Domain.csproj", "{F94BA7C7-FABE-460D-A3ED-07B2893FF66B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FakePaymentService.Infrastructure", "src\FakePaymentMicroservice.Infrastructure\FakePaymentService.Infrastructure.csproj", "{E53941AF-3D76-45C2-B455-8B0758EC7016}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FakePaymentService.Infrastructure", "src\FakePaymentService.Infrastructure\FakePaymentService.Infrastructure.csproj", "{E53941AF-3D76-45C2-B455-8B0758EC7016}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FakePaymentService.Application", "src\FakePaymentMicroservice.Application\FakePaymentService.Application.csproj", "{E883D5C2-3A90-4442-B336-CBAC50331AFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FakePaymentService.Application", "src\FakePaymentService.Application\FakePaymentService.Application.csproj", "{E883D5C2-3A90-4442-B336-CBAC50331AFD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FakePaymentService.IOC", "src\FakePaymentMicroservice.IOC\FakePaymentService.IOC.csproj", "{A431B1B7-3E35-4447-BE95-50C2D6B7863D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FakePaymentService.IOC", "src\FakePaymentService.IOC\FakePaymentService.IOC.csproj", "{A431B1B7-3E35-4447-BE95-50C2D6B7863D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FakePaymentService.API", "src\FakePaymentMicroservice.API\FakePaymentService.API.csproj", "{76281BDF-44FD-4691-A618-E3F5C76F48EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FakePaymentService.API", "src\FakePaymentService.API\FakePaymentService.API.csproj", "{76281BDF-44FD-4691-A618-E3F5C76F48EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
