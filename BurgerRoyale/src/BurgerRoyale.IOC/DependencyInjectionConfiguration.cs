@@ -17,6 +17,7 @@ namespace BurgerRoyale.IOC
 			ConfigureDatabase.Register(services, configuration);
 			ConfigureHealthChecks.Register(services);
 			ConfigureServices.Register(services);
+			ConfigureHttpClient.Register(services, configuration);
 		}
 	}
 }
