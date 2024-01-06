@@ -33,7 +33,7 @@ public class PaymentServiceShould
 
         #region Act(When)
 
-        await paymentService.Send(orderId, price);
+        await paymentService.SendAsync(orderId, price);
 
         #endregion
 

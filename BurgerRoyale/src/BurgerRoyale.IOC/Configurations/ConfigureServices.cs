@@ -1,4 +1,6 @@
-﻿using BurgerRoyale.Application.Services;
+﻿using BurgerRoyale.Application.ExternalServices.Payment.Interface;
+using BurgerRoyale.Application.ExternalServices.Payment.Services;
+using BurgerRoyale.Application.Services;
 using BurgerRoyale.Domain.Interface.Repositories;
 using BurgerRoyale.Domain.Interface.Services;
 using BurgerRoyale.Infrastructure.Repositories;
@@ -21,11 +23,16 @@ namespace BurgerRoyale.IOC.Configurations
 			services.AddScoped<IProductService, ProductService>();
 			services.AddScoped<IOrderService, OrderService>();
 
-			#endregion Services
+            #endregion Services
+            services.AddScoped<IPaymentService, PaymentService>();
+			services.AddHttpClient();
+            #region External Services
 
-			#region Repositories
+            #endregion
 
-			services.AddScoped<IUserRepository, UserRepository>();
+            #region Repositories
+
+            services.AddScoped<IUserRepository, UserRepository>();
 			services.AddScoped<IProductRepository, ProductRepository>();
 			services.AddScoped<IProductImageRepository, ProductImageRepository>();
 			services.AddScoped<IOrderRepository, OrderRepository>();

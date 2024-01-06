@@ -55,7 +55,7 @@ public class OrderService : IOrderService
 
         await _orderRepository.AddAsync(order);
 
-        await _paymentService.Send(order.Id, order.Price);
+        await _paymentService.SendAsync(order.Id, order.Price);
 
         return order.OrderNumber;
     }

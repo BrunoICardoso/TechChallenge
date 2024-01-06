@@ -2,5 +2,5 @@
 
 public interface IPaymentService
 {
-    Task Send(Guid orderId, decimal price);
+    Task SendAsync(Guid orderId, decimal price);
 }
