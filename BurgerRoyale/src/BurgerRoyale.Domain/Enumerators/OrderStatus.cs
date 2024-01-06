@@ -4,10 +4,13 @@ namespace BurgerRoyale.Domain.Enumerators
 {
 	public enum OrderStatus
 	{
-		[Description("Recebido")]
+        [Description("Recebido")]
 		Recebido,
 
-		[Description("Em preparação")]
+        [Description("Pagamento aprovado")]
+        PagamentoAprovado,
+
+        [Description("Em preparação")]
 		EmPreparacao,
 
 		[Description("Pronto")]

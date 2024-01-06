@@ -4,6 +4,7 @@ using BurgerRoyale.Application.Services;
 using BurgerRoyale.Domain.Interface.Repositories;
 using BurgerRoyale.Domain.Interface.Services;
 using BurgerRoyale.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
 
@@ -24,10 +25,11 @@ namespace BurgerRoyale.IOC.Configurations
 			services.AddScoped<IOrderService, OrderService>();
 
             #endregion Services
-            services.AddScoped<IPaymentService, PaymentService>();
-			services.AddHttpClient();
-            #region External Services
 
+            #region External Services
+            services.AddScoped<IPaymentService, PaymentService>();
+            services.AddHttpClient();
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             #endregion
 
             #region Repositories

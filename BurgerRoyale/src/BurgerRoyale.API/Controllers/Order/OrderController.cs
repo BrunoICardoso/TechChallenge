@@ -55,6 +55,17 @@ namespace BurgerRoyale.API.Controllers.Order
             return IStatusCode(new ReturnAPI(HttpStatusCode.NoContent));
         }
 
+        [HttpPost("{id:Guid}")]
+        [SwaggerOperation(Summary = "Approve order payment", Description = "Updates an existing order to 'Payment approved' by its ID.")]
+        [ProducesResponseType(typeof(ReturnAPI<HttpStatusCode>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ReturnAPI), StatusCodes.Status400BadRequest)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> ApproveOrderPayment(Guid id)
+        {
+            await _orderService.UpdateOrderStatusAsync(id, OrderStatus.PagamentoAprovado);
+            return IStatusCode(new ReturnAPI(HttpStatusCode.NoContent));
+        }
+
         [HttpDelete("{id:Guid}")]
         [SwaggerOperation(Summary = "Delete an order by ID", Description = "Deletes an order by its ID.")]
         [ProducesResponseType(typeof(ReturnAPI<HttpStatusCode>), StatusCodes.Status204NoContent)]
