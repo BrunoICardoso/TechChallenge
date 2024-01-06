@@ -1,4 +1,5 @@
-﻿using BurgerRoyale.Application.Services;
+﻿using BurgerRoyale.Application.ExternalServices.Interface;
+using BurgerRoyale.Application.Services;
 using BurgerRoyale.Domain.DTO;
 using BurgerRoyale.Domain.Entities;
 using BurgerRoyale.Domain.Enumerators;
@@ -8,565 +9,614 @@ using BurgerRoyale.Domain.Interface.Services;
 using Moq;
 using Xunit;
 
-namespace BurgerRoyale.UnitTests.Application.Services
+namespace BurgerRoyale.UnitTests.Application.Services;
+
+public class OrderServiceShould
 {
-    public class OrderServiceShould
+    private readonly Mock<IOrderRepository> orderRepositoryMock;
+    private readonly Mock<IProductRepository> productRepositoryMock;
+    private readonly Mock<IUserRepository> userRepositoryMock;
+    private readonly Mock<IPaymentService> paymentServiceMock;
+    private readonly IOrderService orderService;
+
+    public OrderServiceShould()
     {
-        private readonly Mock<IOrderRepository> orderRepositoryMock;
-        private readonly Mock<IProductRepository> productRepositoryMock;
-        private readonly Mock<IUserRepository> userRepositoryMock;
+        orderRepositoryMock = new Mock<IOrderRepository>();
+        productRepositoryMock = new Mock<IProductRepository>();
+        userRepositoryMock = new Mock<IUserRepository>();
+        paymentServiceMock = new Mock<IPaymentService>();
 
-        private readonly IOrderService orderService;
+        orderService = new OrderService(
+            orderRepositoryMock.Object, 
+            productRepositoryMock.Object, 
+            userRepositoryMock.Object);
+    }
 
-        public OrderServiceShould()
+    [Fact]
+    public async Task Create_New_Order()
+    {
+        #region Arrange(Given)
+
+        // Usuário
+        var userId = Guid.NewGuid();
+        var user = new User("52998224725", "Mike", "mike@gmail.com", UserType.Customer);
+
+        userRepositoryMock
+            .Setup(x => x.GetByIdAsync(userId))
+            .ReturnsAsync(user);
+
+        //Produto
+        var productId = Guid.NewGuid();
+        var product = new Product("Burger", "Big burger", 20, ProductCategory.Lanche);
+
+        productRepositoryMock
+            .Setup(x => x.GetByIdAsync(productId))
+            .ReturnsAsync(product);
+
+        CreateOrderProductDTO orderProduct = new CreateOrderProductDTO()
         {
-            orderRepositoryMock = new Mock<IOrderRepository>();
-            productRepositoryMock = new Mock<IProductRepository>();
-            userRepositoryMock = new Mock<IUserRepository>();
-            orderService = new OrderService(orderRepositoryMock.Object, productRepositoryMock.Object, userRepositoryMock.Object);
-        }
+            ProductId = productId,
+            Quantity = 1
+        };
 
-        [Fact]
-        public async Task Create_New_Order()
+        var orderProducts = new List<CreateOrderProductDTO>
         {
-            #region Arrange(Given)
+            orderProduct
+        };
 
-            // Usuário
-            var userId = Guid.NewGuid();
-            var user = new User("52998224725", "Mike", "mike@gmail.com", UserType.Customer);
-
-            userRepositoryMock
-                .Setup(x => x.GetByIdAsync(userId))
-                .ReturnsAsync(user);
-
-            //Produto
-            var productId = Guid.NewGuid();
-            var product = new Product("Burger", "Big burger", 20, ProductCategory.Lanche);
-
-            productRepositoryMock
-                .Setup(x => x.GetByIdAsync(productId))
-                .ReturnsAsync(product);
-
-            CreateOrderProductDTO orderProduct = new CreateOrderProductDTO()
-            {
-                ProductId = productId,
-                Quantity = 1
-            };
-
-            var orderProducts = new List<CreateOrderProductDTO>
-            {
-                orderProduct
-            };
-
-            //Pedido
-            CreateOrderDTO orderDTO = new()
-            {
-                UserId = userId,
-                OrderProducts = orderProducts
-            };
-
-            #endregion Arrange(Given)
-
-            #region Act(When)
-
-            var exception = await Record.ExceptionAsync(async () => await orderService.CreateAsync(orderDTO));
-
-            #endregion Act(When)
-
-            #region Assert(Then)
-
-            Assert.Null(exception);
-
-            orderRepositoryMock
-                .Verify(
-                    repository => repository.AddAsync(It.Is<Order>(order =>
-                        order.OrderProducts.Count() == 1 &&
-                        order.UserId == orderDTO.UserId)),
-                    Times.Once());
-
-            #endregion Assert(Then)
-        }
-
-        [Fact]
-        public async Task CreateOrder_WithInvalidUser_ThenShouldGiveAnException()
+        //Pedido
+        CreateOrderDTO orderDTO = new()
         {
-            #region Arrange(Given)
+            UserId = userId,
+            OrderProducts = orderProducts
+        };
 
-            // Usuário
-            var userId = Guid.NewGuid();
-            var user = new User("52998224725", "Mike", "mike@gmail.com", UserType.Customer);
+        #endregion Arrange(Given)
 
-            userRepositoryMock
-                .Setup(x => x.GetByIdAsync(userId))
-                .ReturnsAsync(user);
+        #region Act(When)
 
-            //Produto
-            var productId = Guid.NewGuid();
-            var product = new Product("Burger", "Big burger", 20, ProductCategory.Lanche);
+        var exception = await Record.ExceptionAsync(async () => await orderService.CreateAsync(orderDTO));
 
-            productRepositoryMock
-                .Setup(x => x.GetByIdAsync(productId))
-                .ReturnsAsync(product);
+        #endregion Act(When)
 
-            CreateOrderProductDTO orderProduct = new CreateOrderProductDTO()
-            {
-                ProductId = productId,
-                Quantity = 1
-            };
+        #region Assert(Then)
 
-            var orderProducts = new List<CreateOrderProductDTO>
-            {
-                orderProduct
-            };
+        Assert.Null(exception);
 
-            //Pedido
-            CreateOrderDTO orderDTO = new()
-            {
-                UserId = Guid.NewGuid(),
-                OrderProducts = orderProducts
-            };
+        orderRepositoryMock
+            .Verify(
+                repository => repository.AddAsync(It.Is<Order>(order =>
+                    order.OrderProducts.Count() == 1 &&
+                    order.UserId == orderDTO.UserId)),
+                Times.Once());
 
-            #endregion Arrange(Given)
+        #endregion Assert(Then)
+    }
 
-            #region Act(When)
+    public async Task Send_Payment_Request_When_Create_Order()
+    {
+        #region Arrange(Given)
 
-            var exception = await Record.ExceptionAsync(async () => await orderService.CreateAsync(orderDTO));
+        var user = new User("52998224725", "Mike", "mike@gmail.com", UserType.Customer);
 
-            #endregion Act(When)
+        userRepositoryMock
+            .Setup(x => x.GetByIdAsync(user.Id))
+            .ReturnsAsync(user);
 
-            #region Assert(Then)
+        var product = new Product("Burger", "Big burger", 20, ProductCategory.Lanche);
 
-            Assert.NotNull(exception);
-            Assert.Equal("Usuário não encontrado.", exception.Message);
+        productRepositoryMock
+            .Setup(x => x.GetByIdAsync(product.Id))
+            .ReturnsAsync(product);
 
-            #endregion Assert(Then)
-        }
-
-        [Fact]
-        public async Task CreateOrder_WithInvalidProduct_ThenShouldGiveAnException()
+        CreateOrderDTO orderDTO = new()
         {
-            #region Arrange(Given)
-
-            // Usuário
-            var userId = Guid.NewGuid();
-            var user = new User("52998224725", "Mike", "mike@gmail.com", UserType.Customer);
-
-            userRepositoryMock
-                .Setup(x => x.GetByIdAsync(userId))
-                .ReturnsAsync(user);
-
-            //Produto
-            var productId = Guid.NewGuid();
-            var product = new Product("Burger", "Big burger", 20, ProductCategory.Lanche);
-
-            productRepositoryMock
-                .Setup(x => x.GetByIdAsync(productId))
-                .ReturnsAsync(product);
-
-            CreateOrderProductDTO orderProduct = new CreateOrderProductDTO()
+            UserId = user.Id,
+            OrderProducts = new CreateOrderProductDTO[]
             {
-                ProductId = Guid.NewGuid(),
-                Quantity = 1
-            };
+                new()
+                {
+                    ProductId = product.Id,
+                    Quantity = 1
+                }
+            }
+        };
 
-            var orderProducts = new List<CreateOrderProductDTO>
-            {
-                orderProduct
-            };
+        #endregion
 
-            //Pedido
-            CreateOrderDTO orderDTO = new()
-            {
-                UserId = userId,
-                OrderProducts = orderProducts
-            };
+        #region Act(When)
 
-            #endregion Arrange(Given)
+        await orderService.CreateAsync(orderDTO);
 
-            #region Act(When)
+        #endregion
 
-            var exception = await Record.ExceptionAsync(async () => await orderService.CreateAsync(orderDTO));
+        #region Assert(Then)
 
-            #endregion Act(When)
+        //paymentServiceMock
+        //    .Verify(service => service.Send(It.Is<Guid>(orderId => orderId != Guid.Empty), )
 
-            #region Assert(Then)
+        #endregion
+    }
 
-            Assert.NotNull(exception);
-            Assert.Equal("Produto(s) inválido(s).", exception.Message);
+    [Fact]
+    public async Task CreateOrder_WithInvalidUser_ThenShouldGiveAnException()
+    {
+        #region Arrange(Given)
 
-            #endregion Assert(Then)
-        }
+        // Usuário
+        var userId = Guid.NewGuid();
+        var user = new User("52998224725", "Mike", "mike@gmail.com", UserType.Customer);
 
-        [Fact]
-        public async Task Get_Orders()
+        userRepositoryMock
+            .Setup(x => x.GetByIdAsync(userId))
+            .ReturnsAsync(user);
+
+        //Produto
+        var productId = Guid.NewGuid();
+        var product = new Product("Burger", "Big burger", 20, ProductCategory.Lanche);
+
+        productRepositoryMock
+            .Setup(x => x.GetByIdAsync(productId))
+            .ReturnsAsync(product);
+
+        CreateOrderProductDTO orderProduct = new CreateOrderProductDTO()
         {
-            #region Arrange(Given)
+            ProductId = productId,
+            Quantity = 1
+        };
 
-            // Produto
-            var productId = Guid.NewGuid();
-            var productName = "Test";
-            var productDesc = "Test description";
-            var orderId = Guid.NewGuid();
-            decimal productPrice = 30;
-            int quantity = 1;
-            var productCategory = ProductCategory.Sobremesa;
-
-            var product = new Product(productName, productDesc, productPrice, productCategory);
-
-            // Order product
-            OrderProduct orderProduct = new OrderProduct(orderId, productId, productPrice, quantity, product);
-
-            var userId = Guid.NewGuid();
-            var orderStatus = OrderStatus.EmPreparacao;
-
-            //Pedido
-            Order order = new(userId);
-            order.AddProduct(orderProduct);
-            order.SetStatus(orderStatus);
-
-            var orderList = new List<Order>
-            {
-                order
-            };
-
-            orderRepositoryMock
-                .Setup(x => x.GetOrders(null))
-                .ReturnsAsync(orderList);
-
-            #endregion Arrange(Given)
-
-            #region Act(When)
-
-            var orders = await orderService.GetOrdersAsync(null);
-
-            #endregion Act(When)
-
-            #region Assert(Then)
-
-            orderRepositoryMock
-                .Verify(
-                    repository => repository.GetOrders(null),
-                    Times.Once());
-
-            Assert.NotNull(orders);
-            Assert.Single(orders);
-            Assert.Equal(30, orders.FirstOrDefault().TotalPrice);
-            Assert.Equal(OrderStatus.EmPreparacao.GetDescription(), orders.FirstOrDefault().Status);
-
-            #endregion Assert(Then)
-        }
-
-        [Fact]
-        public async Task Remove_Order()
+        var orderProducts = new List<CreateOrderProductDTO>
         {
-            #region Arrange(Given)
+            orderProduct
+        };
 
-            // Produto
-            var productId = Guid.NewGuid();
-            var productName = "Test";
-            var productDesc = "Test description";
-            var orderId = Guid.NewGuid();
-            decimal productPrice = 30;
-            int quantity = 1;
-            var productCategory = ProductCategory.Sobremesa;
-
-            var product = new Product(productName, productDesc, productPrice, productCategory);
-
-            // Order product
-            OrderProduct orderProduct = new OrderProduct(orderId, productId, productPrice, quantity, product);
-
-            var userId = Guid.NewGuid();
-            var orderStatus = OrderStatus.EmPreparacao;
-
-            //Pedido
-            Order order = new(userId);
-            order.AddProduct(orderProduct);
-            order.SetStatus(orderStatus);
-
-            var orderList = new List<Order>
-            {
-                order
-            };
-
-            orderRepositoryMock
-                .Setup(x => x.GetOrders(null))
-                .ReturnsAsync(orderList);
-
-            orderRepositoryMock
-                .Setup(x => x.GetByIdAsync(orderId))
-                .ReturnsAsync(order);
-
-            #endregion Arrange(Given)
-
-            #region Act(When)
-
-            var exception = await Record.ExceptionAsync(async () => await orderService.RemoveAsync(orderId));
-
-            #endregion Act(When)
-
-            #region Assert(Then)
-
-            Assert.Null(exception);
-
-            orderRepositoryMock
-                .Verify(
-                    repository => repository.Remove(It.Is<Order>(order =>
-                        order.OrderProducts.Count() == 1 &&
-                        order.UserId == order.UserId)),
-                    Times.Once());
-
-            #endregion Assert(Then)
-        }
-
-        [Fact]
-        public async Task RemoveOrder_UsingInvalidOrderId_ThenShouldGiveAnException()
+        //Pedido
+        CreateOrderDTO orderDTO = new()
         {
-            #region Arrange(Given)
+            UserId = Guid.NewGuid(),
+            OrderProducts = orderProducts
+        };
 
-            // Produto
-            var productId = Guid.NewGuid();
-            var productName = "Test";
-            var productDesc = "Test description";
-            var orderId = Guid.NewGuid();
-            decimal productPrice = 30;
-            int quantity = 1;
-            var productCategory = ProductCategory.Sobremesa;
+        #endregion Arrange(Given)
 
-            var product = new Product(productName, productDesc, productPrice, productCategory);
+        #region Act(When)
 
-            // Order product
-            OrderProduct orderProduct = new OrderProduct(orderId, productId, productPrice, quantity, product);
+        var exception = await Record.ExceptionAsync(async () => await orderService.CreateAsync(orderDTO));
 
-            var userId = Guid.NewGuid();
-            var orderStatus = OrderStatus.EmPreparacao;
+        #endregion Act(When)
 
-            //Pedido
-            Order order = new(userId);
-            order.AddProduct(orderProduct);
-            order.SetStatus(orderStatus);
+        #region Assert(Then)
 
-            var orderList = new List<Order>
-            {
-                order
-            };
+        Assert.NotNull(exception);
+        Assert.Equal("Usuário não encontrado.", exception.Message);
 
-            orderRepositoryMock
-                .Setup(x => x.GetOrders(null))
-                .ReturnsAsync(orderList);
+        #endregion Assert(Then)
+    }
 
-            orderRepositoryMock
-                .Setup(x => x.GetByIdAsync(orderId))
-                .ReturnsAsync(order);
+    [Fact]
+    public async Task CreateOrder_WithInvalidProduct_ThenShouldGiveAnException()
+    {
+        #region Arrange(Given)
 
-            #endregion Arrange(Given)
+        // Usuário
+        var userId = Guid.NewGuid();
+        var user = new User("52998224725", "Mike", "mike@gmail.com", UserType.Customer);
 
-            #region Act(When)
+        userRepositoryMock
+            .Setup(x => x.GetByIdAsync(userId))
+            .ReturnsAsync(user);
 
-            var exception = await Record.ExceptionAsync(async () => await orderService.RemoveAsync(Guid.NewGuid()));
+        //Produto
+        var productId = Guid.NewGuid();
+        var product = new Product("Burger", "Big burger", 20, ProductCategory.Lanche);
 
-            #endregion Act(When)
+        productRepositoryMock
+            .Setup(x => x.GetByIdAsync(productId))
+            .ReturnsAsync(product);
 
-            #region Assert(Then)
-
-            Assert.NotNull(exception);
-            Assert.Equal("Pedido inválido.", exception.Message);
-
-            orderRepositoryMock
-                .Verify(
-                    repository => repository.Remove(It.Is<Order>(order =>
-                        order.OrderProducts.Count() == 1 &&
-                        order.UserId == order.UserId)),
-                    Times.Never());
-
-            #endregion Assert(Then)
-        }
-
-        [Fact]
-        public async Task Update_Order_Status()
+        CreateOrderProductDTO orderProduct = new CreateOrderProductDTO()
         {
-            #region Arrange(Given)
+            ProductId = Guid.NewGuid(),
+            Quantity = 1
+        };
 
-            // Produto
-            var productId = Guid.NewGuid();
-            var productName = "Test";
-            var productDesc = "Test description";
-            var orderId = Guid.NewGuid();
-            decimal productPrice = 30;
-            int quantity = 1;
-            var productCategory = ProductCategory.Sobremesa;
-
-            var product = new Product(productName, productDesc, productPrice, productCategory);
-
-            // Order product
-            OrderProduct orderProduct = new OrderProduct(orderId, productId, productPrice, quantity, product);
-
-            var userId = Guid.NewGuid();
-            var orderStatus = OrderStatus.EmPreparacao;
-
-            //Pedido
-            Order order = new(userId);
-            order.AddProduct(orderProduct);
-            order.SetStatus(orderStatus);
-
-            var orderList = new List<Order>
-            {
-                order
-            };
-
-            orderRepositoryMock
-                .Setup(x => x.GetOrders(null))
-                .ReturnsAsync(orderList);
-
-            orderRepositoryMock
-                .Setup(x => x.GetByIdAsync(orderId))
-                .ReturnsAsync(order);
-
-            #endregion Arrange(Given)
-
-            #region Act(When)
-
-            var exception = await Record.ExceptionAsync(async () => await orderService.UpdateOrderStatusAsync(orderId, OrderStatus.Pronto));
-
-            #endregion Act(When)
-
-            #region Assert(Then)
-
-            Assert.Null(exception);
-
-            orderRepositoryMock
-                .Verify(
-                    repository => repository.UpdateAsync(It.Is<Order>(order =>
-                        order.OrderProducts.Count() == 1 &&
-                        order.UserId == order.UserId)),
-                    Times.Once());
-
-            #endregion Assert(Then)
-        }
-
-        [Fact]
-        public async Task UpdateStatus_WithInvalidOrderId_ThenShouldGiveAnException()
+        var orderProducts = new List<CreateOrderProductDTO>
         {
-            #region Arrange(Given)
+            orderProduct
+        };
 
-            // Produto
-            var productId = Guid.NewGuid();
-            var productName = "Test";
-            var productDesc = "Test description";
-            var orderId = Guid.NewGuid();
-            decimal productPrice = 30;
-            int quantity = 1;
-            var productCategory = ProductCategory.Sobremesa;
-
-            var product = new Product(productName, productDesc, productPrice, productCategory);
-
-            // Order product
-            OrderProduct orderProduct = new OrderProduct(orderId, productId, productPrice, quantity, product);
-
-            var userId = Guid.NewGuid();
-            var orderStatus = OrderStatus.EmPreparacao;
-
-            //Pedido
-            Order order = new(userId);
-            order.AddProduct(orderProduct);
-            order.SetStatus(orderStatus);
-
-            var orderList = new List<Order>
-            {
-                order
-            };
-
-            orderRepositoryMock
-                .Setup(x => x.GetOrders(null))
-                .ReturnsAsync(orderList);
-
-            orderRepositoryMock
-                .Setup(x => x.GetByIdAsync(orderId))
-                .ReturnsAsync(order);
-
-            #endregion Arrange(Given)
-
-            #region Act(When)
-
-            var exception = await Record.ExceptionAsync(async () => await orderService.UpdateOrderStatusAsync(Guid.NewGuid(), OrderStatus.Pronto));
-
-            #endregion Act(When)
-
-            #region Assert(Then)
-
-            Assert.NotNull(exception);
-            Assert.Equal("Pedido inválido.", exception.Message);
-
-            orderRepositoryMock
-                .Verify(
-                    repository => repository.UpdateAsync(It.Is<Order>(order =>
-                        order.OrderProducts.Count() == 1 &&
-                        order.UserId == order.UserId)),
-                    Times.Never());
-
-            #endregion Assert(Then)
-        }
-
-        [Fact]
-        public async Task UpdateStatus_WithSameStatus_ThenShouldGiveAnException()
+        //Pedido
+        CreateOrderDTO orderDTO = new()
         {
-            #region Arrange(Given)
+            UserId = userId,
+            OrderProducts = orderProducts
+        };
 
-            // Produto
-            var productId = Guid.NewGuid();
-            var productName = "Test";
-            var productDesc = "Test description";
-            var orderId = Guid.NewGuid();
-            decimal productPrice = 30;
-            int quantity = 1;
-            var productCategory = ProductCategory.Sobremesa;
+        #endregion Arrange(Given)
 
-            var product = new Product(productName, productDesc, productPrice, productCategory);
+        #region Act(When)
 
-            // Order product
-            OrderProduct orderProduct = new OrderProduct(orderId, productId, productPrice, quantity, product);
+        var exception = await Record.ExceptionAsync(async () => await orderService.CreateAsync(orderDTO));
 
-            var userId = Guid.NewGuid();
-            var orderStatus = OrderStatus.EmPreparacao;
+        #endregion Act(When)
 
-            //Pedido
-            Order order = new(userId);
-            order.AddProduct(orderProduct);
-            order.SetStatus(orderStatus);
+        #region Assert(Then)
 
-            var orderList = new List<Order>
-            {
-                order
-            };
+        Assert.NotNull(exception);
+        Assert.Equal("Produto(s) inválido(s).", exception.Message);
 
-            orderRepositoryMock
-                .Setup(x => x.GetOrders(null))
-                .ReturnsAsync(orderList);
+        #endregion Assert(Then)
+    }
 
-            orderRepositoryMock
-                .Setup(x => x.GetByIdAsync(orderId))
-                .ReturnsAsync(order);
+    [Fact]
+    public async Task Get_Orders()
+    {
+        #region Arrange(Given)
 
-            #endregion Arrange(Given)
+        // Produto
+        var productId = Guid.NewGuid();
+        var productName = "Test";
+        var productDesc = "Test description";
+        var orderId = Guid.NewGuid();
+        decimal productPrice = 30;
+        int quantity = 1;
+        var productCategory = ProductCategory.Sobremesa;
 
-            #region Act(When)
+        var product = new Product(productName, productDesc, productPrice, productCategory);
 
-            var exception = await Record.ExceptionAsync(async () => await orderService.UpdateOrderStatusAsync(orderId, OrderStatus.EmPreparacao));
+        // Order product
+        OrderProduct orderProduct = new OrderProduct(orderId, productId, productPrice, quantity, product);
 
-            #endregion Act(When)
+        var userId = Guid.NewGuid();
+        var orderStatus = OrderStatus.EmPreparacao;
 
-            #region Assert(Then)
+        //Pedido
+        Order order = new(userId);
+        order.AddProduct(orderProduct);
+        order.SetStatus(orderStatus);
 
-            Assert.NotNull(exception);
-            Assert.Equal($"Pedido já possui status {orderStatus.GetDescription()}", exception.Message);
+        var orderList = new List<Order>
+        {
+            order
+        };
 
-            orderRepositoryMock
-                .Verify(
-                    repository => repository.UpdateAsync(It.Is<Order>(order =>
-                        order.OrderProducts.Count() == 1 &&
-                        order.UserId == order.UserId)),
-                    Times.Never());
+        orderRepositoryMock
+            .Setup(x => x.GetOrders(null))
+            .ReturnsAsync(orderList);
 
-            #endregion Assert(Then)
-        }
+        #endregion Arrange(Given)
+
+        #region Act(When)
+
+        var orders = await orderService.GetOrdersAsync(null);
+
+        #endregion Act(When)
+
+        #region Assert(Then)
+
+        orderRepositoryMock
+            .Verify(
+                repository => repository.GetOrders(null),
+                Times.Once());
+
+        Assert.NotNull(orders);
+        Assert.Single(orders);
+        Assert.Equal(30, orders.FirstOrDefault().TotalPrice);
+        Assert.Equal(OrderStatus.EmPreparacao.GetDescription(), orders.FirstOrDefault().Status);
+
+        #endregion Assert(Then)
+    }
+
+    [Fact]
+    public async Task Remove_Order()
+    {
+        #region Arrange(Given)
+
+        // Produto
+        var productId = Guid.NewGuid();
+        var productName = "Test";
+        var productDesc = "Test description";
+        var orderId = Guid.NewGuid();
+        decimal productPrice = 30;
+        int quantity = 1;
+        var productCategory = ProductCategory.Sobremesa;
+
+        var product = new Product(productName, productDesc, productPrice, productCategory);
+
+        // Order product
+        OrderProduct orderProduct = new OrderProduct(orderId, productId, productPrice, quantity, product);
+
+        var userId = Guid.NewGuid();
+        var orderStatus = OrderStatus.EmPreparacao;
+
+        //Pedido
+        Order order = new(userId);
+        order.AddProduct(orderProduct);
+        order.SetStatus(orderStatus);
+
+        var orderList = new List<Order>
+        {
+            order
+        };
+
+        orderRepositoryMock
+            .Setup(x => x.GetOrders(null))
+            .ReturnsAsync(orderList);
+
+        orderRepositoryMock
+            .Setup(x => x.GetByIdAsync(orderId))
+            .ReturnsAsync(order);
+
+        #endregion Arrange(Given)
+
+        #region Act(When)
+
+        var exception = await Record.ExceptionAsync(async () => await orderService.RemoveAsync(orderId));
+
+        #endregion Act(When)
+
+        #region Assert(Then)
+
+        Assert.Null(exception);
+
+        orderRepositoryMock
+            .Verify(
+                repository => repository.Remove(It.Is<Order>(order =>
+                    order.OrderProducts.Count() == 1 &&
+                    order.UserId == order.UserId)),
+                Times.Once());
+
+        #endregion Assert(Then)
+    }
+
+    [Fact]
+    public async Task RemoveOrder_UsingInvalidOrderId_ThenShouldGiveAnException()
+    {
+        #region Arrange(Given)
+
+        // Produto
+        var productId = Guid.NewGuid();
+        var productName = "Test";
+        var productDesc = "Test description";
+        var orderId = Guid.NewGuid();
+        decimal productPrice = 30;
+        int quantity = 1;
+        var productCategory = ProductCategory.Sobremesa;
+
+        var product = new Product(productName, productDesc, productPrice, productCategory);
+
+        // Order product
+        OrderProduct orderProduct = new OrderProduct(orderId, productId, productPrice, quantity, product);
+
+        var userId = Guid.NewGuid();
+        var orderStatus = OrderStatus.EmPreparacao;
+
+        //Pedido
+        Order order = new(userId);
+        order.AddProduct(orderProduct);
+        order.SetStatus(orderStatus);
+
+        var orderList = new List<Order>
+        {
+            order
+        };
+
+        orderRepositoryMock
+            .Setup(x => x.GetOrders(null))
+            .ReturnsAsync(orderList);
+
+        orderRepositoryMock
+            .Setup(x => x.GetByIdAsync(orderId))
+            .ReturnsAsync(order);
+
+        #endregion Arrange(Given)
+
+        #region Act(When)
+
+        var exception = await Record.ExceptionAsync(async () => await orderService.RemoveAsync(Guid.NewGuid()));
+
+        #endregion Act(When)
+
+        #region Assert(Then)
+
+        Assert.NotNull(exception);
+        Assert.Equal("Pedido inválido.", exception.Message);
+
+        orderRepositoryMock
+            .Verify(
+                repository => repository.Remove(It.Is<Order>(order =>
+                    order.OrderProducts.Count() == 1 &&
+                    order.UserId == order.UserId)),
+                Times.Never());
+
+        #endregion Assert(Then)
+    }
+
+    [Fact]
+    public async Task Update_Order_Status()
+    {
+        #region Arrange(Given)
+
+        // Produto
+        var productId = Guid.NewGuid();
+        var productName = "Test";
+        var productDesc = "Test description";
+        var orderId = Guid.NewGuid();
+        decimal productPrice = 30;
+        int quantity = 1;
+        var productCategory = ProductCategory.Sobremesa;
+
+        var product = new Product(productName, productDesc, productPrice, productCategory);
+
+        // Order product
+        OrderProduct orderProduct = new OrderProduct(orderId, productId, productPrice, quantity, product);
+
+        var userId = Guid.NewGuid();
+        var orderStatus = OrderStatus.EmPreparacao;
+
+        //Pedido
+        Order order = new(userId);
+        order.AddProduct(orderProduct);
+        order.SetStatus(orderStatus);
+
+        var orderList = new List<Order>
+        {
+            order
+        };
+
+        orderRepositoryMock
+            .Setup(x => x.GetOrders(null))
+            .ReturnsAsync(orderList);
+
+        orderRepositoryMock
+            .Setup(x => x.GetByIdAsync(orderId))
+            .ReturnsAsync(order);
+
+        #endregion Arrange(Given)
+
+        #region Act(When)
+
+        var exception = await Record.ExceptionAsync(async () => await orderService.UpdateOrderStatusAsync(orderId, OrderStatus.Pronto));
+
+        #endregion Act(When)
+
+        #region Assert(Then)
+
+        Assert.Null(exception);
+
+        orderRepositoryMock
+            .Verify(
+                repository => repository.UpdateAsync(It.Is<Order>(order =>
+                    order.OrderProducts.Count() == 1 &&
+                    order.UserId == order.UserId)),
+                Times.Once());
+
+        #endregion Assert(Then)
+    }
+
+    [Fact]
+    public async Task UpdateStatus_WithInvalidOrderId_ThenShouldGiveAnException()
+    {
+        #region Arrange(Given)
+
+        // Produto
+        var productId = Guid.NewGuid();
+        var productName = "Test";
+        var productDesc = "Test description";
+        var orderId = Guid.NewGuid();
+        decimal productPrice = 30;
+        int quantity = 1;
+        var productCategory = ProductCategory.Sobremesa;
+
+        var product = new Product(productName, productDesc, productPrice, productCategory);
+
+        // Order product
+        OrderProduct orderProduct = new OrderProduct(orderId, productId, productPrice, quantity, product);
+
+        var userId = Guid.NewGuid();
+        var orderStatus = OrderStatus.EmPreparacao;
+
+        //Pedido
+        Order order = new(userId);
+        order.AddProduct(orderProduct);
+        order.SetStatus(orderStatus);
+
+        var orderList = new List<Order>
+        {
+            order
+        };
+
+        orderRepositoryMock
+            .Setup(x => x.GetOrders(null))
+            .ReturnsAsync(orderList);
+
+        orderRepositoryMock
+            .Setup(x => x.GetByIdAsync(orderId))
+            .ReturnsAsync(order);
+
+        #endregion Arrange(Given)
+
+        #region Act(When)
+
+        var exception = await Record.ExceptionAsync(async () => await orderService.UpdateOrderStatusAsync(Guid.NewGuid(), OrderStatus.Pronto));
+
+        #endregion Act(When)
+
+        #region Assert(Then)
+
+        Assert.NotNull(exception);
+        Assert.Equal("Pedido inválido.", exception.Message);
+
+        orderRepositoryMock
+            .Verify(
+                repository => repository.UpdateAsync(It.Is<Order>(order =>
+                    order.OrderProducts.Count() == 1 &&
+                    order.UserId == order.UserId)),
+                Times.Never());
+
+        #endregion Assert(Then)
+    }
+
+    [Fact]
+    public async Task UpdateStatus_WithSameStatus_ThenShouldGiveAnException()
+    {
+        #region Arrange(Given)
+
+        // Produto
+        var productId = Guid.NewGuid();
+        var productName = "Test";
+        var productDesc = "Test description";
+        var orderId = Guid.NewGuid();
+        decimal productPrice = 30;
+        int quantity = 1;
+        var productCategory = ProductCategory.Sobremesa;
+
+        var product = new Product(productName, productDesc, productPrice, productCategory);
+
+        // Order product
+        OrderProduct orderProduct = new OrderProduct(orderId, productId, productPrice, quantity, product);
+
+        var userId = Guid.NewGuid();
+        var orderStatus = OrderStatus.EmPreparacao;
+
+        //Pedido
+        Order order = new(userId);
+        order.AddProduct(orderProduct);
+        order.SetStatus(orderStatus);
+
+        var orderList = new List<Order>
+        {
+            order
+        };
+
+        orderRepositoryMock
+            .Setup(x => x.GetOrders(null))
+            .ReturnsAsync(orderList);
+
+        orderRepositoryMock
+            .Setup(x => x.GetByIdAsync(orderId))
+            .ReturnsAsync(order);
+
+        #endregion Arrange(Given)
+
+        #region Act(When)
+
+        var exception = await Record.ExceptionAsync(async () => await orderService.UpdateOrderStatusAsync(orderId, OrderStatus.EmPreparacao));
+
+        #endregion Act(When)
+
+        #region Assert(Then)
+
+        Assert.NotNull(exception);
+        Assert.Equal($"Pedido já possui status {orderStatus.GetDescription()}", exception.Message);
+
+        orderRepositoryMock
+            .Verify(
+                repository => repository.UpdateAsync(It.Is<Order>(order =>
+                    order.OrderProducts.Count() == 1 &&
+                    order.UserId == order.UserId)),
+                Times.Never());
+
+        #endregion Assert(Then)
     }
 }
