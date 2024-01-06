@@ -10,7 +10,13 @@ public class Order : Entity
     public OrderStatus Status { get; private set; }
     public int OrderNumber { get; private set; }
 
-    public decimal Price { get; set; }
+    public decimal Price
+    {
+        get
+        {
+            return OrderProducts.Sum(x => x.ProductPrice * x.Quantity);
+        }
+    }
 
     public virtual List<OrderProduct> OrderProducts { get; private set; } = new List<OrderProduct>();
 
