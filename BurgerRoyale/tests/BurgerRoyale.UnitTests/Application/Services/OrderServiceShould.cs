@@ -29,7 +29,8 @@ public class OrderServiceShould
         orderService = new OrderService(
             orderRepositoryMock.Object, 
             productRepositoryMock.Object, 
-            userRepositoryMock.Object);
+            userRepositoryMock.Object,
+            paymentServiceMock.Object);
     }
 
     [Fact]
@@ -93,6 +94,7 @@ public class OrderServiceShould
         #endregion Assert(Then)
     }
 
+    [Fact]
     public async Task Send_Payment_Request_When_Create_Order()
     {
         #region Arrange(Given)
@@ -132,8 +134,11 @@ public class OrderServiceShould
 
         #region Assert(Then)
 
-        //paymentServiceMock
-        //    .Verify(service => service.Send(It.Is<Guid>(orderId => orderId != Guid.Empty), )
+        paymentServiceMock
+            .Verify(service => service.Send(
+                It.Is<Guid>(orderId => orderId != Guid.Empty),
+                It.Is<decimal>(price => price != 0)), 
+            Times.Once);
 
         #endregion
     }
