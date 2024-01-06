@@ -17,9 +17,9 @@ namespace BurgerRoyale.Infrastructure.Repositories
 		{
 			var query = _context.Orders.Include(x => x.OrderProducts).ThenInclude(x => x.Product);
 			if (orderStatus == null)
-				return await query.ToListAsync();
+                return await query.Where(x => x.Status != OrderStatus.Finalizado).OrderByDescending(x => x.Status).ThenBy(x => x.OrderTime).ToListAsync();
 
-			return await query.Where(x => x.Status == orderStatus).ToListAsync();
-		}
+            return await query.Where(x => x.Status == orderStatus).OrderByDescending(x => x.Status).ThenBy(x => x.OrderTime).ToListAsync();
+        }
 	}
 }
