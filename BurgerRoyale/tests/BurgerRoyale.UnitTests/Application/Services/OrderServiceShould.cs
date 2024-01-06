@@ -1,4 +1,4 @@
-﻿using BurgerRoyale.Application.ExternalServices.Interface;
+﻿using BurgerRoyale.Application.ExternalServices.Payment.Interface;
 using BurgerRoyale.Application.Services;
 using BurgerRoyale.Domain.DTO;
 using BurgerRoyale.Domain.Entities;

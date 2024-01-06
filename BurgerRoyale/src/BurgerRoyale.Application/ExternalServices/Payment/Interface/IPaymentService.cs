@@ -1,4 +1,4 @@
-﻿namespace BurgerRoyale.Application.ExternalServices.Interface;
+﻿namespace BurgerRoyale.Application.ExternalServices.Payment.Interface;
 
 public interface IPaymentService
 {
