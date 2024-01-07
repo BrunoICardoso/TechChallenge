@@ -39,6 +39,7 @@ public class Order : Entity
     public void SetStatus(OrderStatus status)
     {
         Status = status;
+
         if (status == OrderStatus.Finalizado)
             CloseOrder();
         else

@@ -83,24 +83,33 @@ public class OrderService : IOrderService
     {
         var order = await _orderRepository.GetByIdAsync(id);
 
-        if (order is null)
-            throw new DomainException("Pedido inválido.");
+        ThrowExceptionIfOrderDoesNotExist(order);
 
-        _orderRepository.Remove(order);
+        _orderRepository.Remove(order!);
     }
 
     public async Task UpdateOrderStatusAsync(Guid id, OrderStatus orderStatus)
     {
         var order = await _orderRepository.GetByIdAsync(id);
 
-        if (order is null)
-            throw new DomainException("Pedido inválido.");
+        ThrowExceptionIfOrderDoesNotExist(order);
+        
+        ThrowExceptionIfStatusIsTheSame(orderStatus, order);
 
-        if (order.Status == orderStatus)
-            throw new DomainException($"Pedido já possui status {orderStatus.GetDescription()}");
-
-        order.SetStatus(orderStatus);
+        order!.SetStatus(orderStatus);
 
         await _orderRepository.UpdateAsync(order);
+    }
+
+    private static void ThrowExceptionIfStatusIsTheSame(OrderStatus orderStatus, Order? order)
+    {
+        if (order.Status == orderStatus)
+            throw new DomainException($"Pedido já possui status {orderStatus.GetDescription()}");
+    }
+
+    private static void ThrowExceptionIfOrderDoesNotExist(Order? order)
+    {
+        if (order is null)
+            throw new DomainException("Pedido inválido.");
     }
 }
