@@ -43,7 +43,7 @@ public class OrderShould
     }
     
     [Fact]
-    public void Not_Update_Status_To_Received_When_Payment_Is_Aproved()
+    public void Not_Update_Status_To_Received_When_Payment_Is_Already_Aproved()
     {
 		#region Arrange(Given)
 
@@ -71,7 +71,7 @@ public class OrderShould
 
         Assert.NotNull(threwException);
         Assert.Equal(typeof(DomainException), threwException.GetType());
-        Assert.Equal("O pagamento já foi aprovado", threwException.Message);
+        Assert.Equal("O pagamento já foi aprovado.", threwException.Message);
 
         #endregion
     }
