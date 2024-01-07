@@ -1,5 +1,4 @@
-﻿using BurgerRoyale.Application.ExternalServices.Payment.Interface;
-using BurgerRoyale.Application.Services;
+﻿using BurgerRoyale.Application.Services;
 using BurgerRoyale.Domain.DTO;
 using BurgerRoyale.Domain.Entities;
 using BurgerRoyale.Domain.Enumerators;
@@ -16,7 +15,7 @@ public class OrderServiceShould
     private readonly Mock<IOrderRepository> orderRepositoryMock;
     private readonly Mock<IProductRepository> productRepositoryMock;
     private readonly Mock<IUserRepository> userRepositoryMock;
-    private readonly Mock<IPaymentService> paymentServiceMock;
+    private readonly Mock<IPaymentRepository> paymentRepositoryMock;
     private readonly IOrderService orderService;
 
     public OrderServiceShould()
@@ -24,13 +23,13 @@ public class OrderServiceShould
         orderRepositoryMock = new Mock<IOrderRepository>();
         productRepositoryMock = new Mock<IProductRepository>();
         userRepositoryMock = new Mock<IUserRepository>();
-        paymentServiceMock = new Mock<IPaymentService>();
+        paymentRepositoryMock = new Mock<IPaymentRepository>();
 
         orderService = new OrderService(
             orderRepositoryMock.Object, 
             productRepositoryMock.Object, 
             userRepositoryMock.Object,
-            paymentServiceMock.Object);
+            paymentRepositoryMock.Object);
     }
 
     [Fact]
@@ -134,8 +133,8 @@ public class OrderServiceShould
 
         #region Assert(Then)
 
-        paymentServiceMock
-            .Verify(service => service.Send(
+        paymentRepositoryMock
+            .Verify(repository => repository.SendAsync(
                 It.Is<Guid>(orderId => orderId != Guid.Empty),
                 It.Is<decimal>(price => price != 0)), 
             Times.Once);

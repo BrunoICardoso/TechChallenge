@@ -1,5 +1,4 @@
-﻿using BurgerRoyale.Application.ExternalServices.Payment.Interface;
-using BurgerRoyale.Domain.DTO;
+﻿using BurgerRoyale.Domain.DTO;
 using BurgerRoyale.Domain.Entities;
 using BurgerRoyale.Domain.Enumerators;
 using BurgerRoyale.Domain.Exceptions;
@@ -14,18 +13,18 @@ public class OrderService : IOrderService
     private readonly IOrderRepository _orderRepository;
     private readonly IProductRepository _productRepository;
     private readonly IUserRepository _userRepository;
-    private readonly IPaymentService _paymentService;
+    private readonly IPaymentRepository _paymentRepository;
 
     public OrderService(
         IOrderRepository orderRepository,
         IProductRepository productRepository,
         IUserRepository userRepository,
-        IPaymentService paymentService)
+        IPaymentRepository paymentRepository)
     {
         _orderRepository = orderRepository;
         _productRepository = productRepository;
         _userRepository = userRepository;
-        _paymentService = paymentService;
+        _paymentRepository = paymentRepository;
     }
 
     public async Task<int> CreateAsync(CreateOrderDTO orderDTO)
@@ -55,7 +54,7 @@ public class OrderService : IOrderService
 
         await _orderRepository.AddAsync(order);
 
-        await _paymentService.SendAsync(order.Id, order.Price);
+        await _paymentRepository.SendAsync(order.Id, order.Price);
 
         return order.OrderNumber;
     }
