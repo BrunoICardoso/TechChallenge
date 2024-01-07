@@ -13,10 +13,10 @@ public class ProductStepDefinitions
 
     private readonly HttpClient _httpClient;
 
-    public ProductStepDefinitions(ScenarioContext scenarioContext, HttpClient httpClient)
+    public ProductStepDefinitions(ScenarioContext scenarioContext, HttpClientInject httpClientInject)
     {
         _scenarioContext = scenarioContext;
-        _httpClient = httpClient;
+        _httpClient = httpClientInject.GetProgram().CreateClient();
     }
 
     [Given(@"I want to add a product with the following data")]
