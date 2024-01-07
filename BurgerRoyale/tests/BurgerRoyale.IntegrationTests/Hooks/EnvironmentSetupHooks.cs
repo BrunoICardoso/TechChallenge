@@ -2,29 +2,22 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace BurgerRoyale.IntegrationTests.Hooks
+namespace BurgerRoyale.IntegrationTests.Hooks;
+
+[Binding]
+public sealed class EnvironmentSetupHooks
 {
-    [Binding]
-    public sealed class EnvironmentSetupHooks
+    [BeforeTestRun]
+    public static void BeforeTestRun(IObjectContainer testThreadContainer)
     {
-        [BeforeTestRun]
-        public static void BeforeTestRun(IObjectContainer testThreadContainer)
-        {
-            var application = new WebApplicationFactory<Program>()
-                .WithWebHostBuilder(builder =>
-                {
-                    builder.UseEnvironment("Development");
-                });
+        var application = new WebApplicationFactory<Program>()
+            .WithWebHostBuilder(builder =>
+            {
+                builder.UseEnvironment("Development");
+            });
 
-            HttpClient httpClient = application.CreateClient();
+        HttpClient httpClient = application.CreateClient();
 
-            testThreadContainer.RegisterInstanceAs(httpClient);
-        }
-
-        //[AfterTestRun]
-        //public static void AfterTestRun(IObjectContainer testThreadContainer)
-        //{
-        //    testThreadContainer.Resolve<HttpClient>().Dispose();
-        //}
+        testThreadContainer.RegisterInstanceAs(httpClient);
     }
 }
