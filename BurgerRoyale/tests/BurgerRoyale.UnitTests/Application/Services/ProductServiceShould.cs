@@ -15,14 +15,16 @@ namespace BurgerRoyale.UnitTests.Application.Services
 	public class ProductServiceShould
 	{
 		private readonly Mock<IProductRepository> productRepositoryMock;
+		private readonly Mock<IProductImageRepository> productImageRepositoryMock;
 
 		private readonly IProductService productService;
 
 		public ProductServiceShould()
 		{
 			productRepositoryMock = new Mock<IProductRepository>();
+			productImageRepositoryMock = new Mock<IProductImageRepository>();
 
-			productService = new ProductService(productRepositoryMock.Object);
+			productService = new ProductService(productRepositoryMock.Object, productImageRepositoryMock.Object);
 		}
 
 		[Fact]
@@ -317,7 +319,7 @@ namespace BurgerRoyale.UnitTests.Application.Services
 			};
 
 			productRepositoryMock
-				.Setup(repository => repository.GetAllAsync())
+				.Setup(repository => repository.GetAll())
 				.ReturnsAsync(products);
 
 			// act
@@ -328,7 +330,7 @@ namespace BurgerRoyale.UnitTests.Application.Services
 			response.Should().HaveCount(2);
 
 			productRepositoryMock.Verify(
-				x => x.GetAllAsync(),
+				x => x.GetAll(),
 				Times.Once()
 			);
 
@@ -348,18 +350,22 @@ namespace BurgerRoyale.UnitTests.Application.Services
 			};
 
 			productRepositoryMock
-				.Setup(repository => repository.FindAsync(It.IsAny<Expression<Func<Product, bool>>>()))
+				.Setup(repository => repository.GetAll())
 				.ReturnsAsync(products);
 
-			// act
-			var response = await productService.GetListAsync(ProductCategory.Lanche);
+            productRepositoryMock
+                .Setup(repository => repository.GetAllByCategory(ProductCategory.Lanche))
+                .ReturnsAsync(products);
+
+            // act
+            var response = await productService.GetListAsync(ProductCategory.Lanche);
 
 			// assert
 			response.Should().BeAssignableTo<IEnumerable<ProductDTO>>();
 			response.Should().HaveCount(2);
 
 			productRepositoryMock.Verify(
-				x => x.FindAsync(It.IsAny<Expression<Func<Product, bool>>>()),
+				x => x.GetAllByCategory(ProductCategory.Lanche),
 				Times.Once()
 			);
 

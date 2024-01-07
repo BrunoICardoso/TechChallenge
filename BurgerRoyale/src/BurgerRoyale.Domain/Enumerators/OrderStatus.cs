@@ -1,19 +1,21 @@
 ﻿using System.ComponentModel;
 
-namespace BurgerRoyale.Domain.Enumerators
+namespace BurgerRoyale.Domain.Enumerators;
+
+public enum OrderStatus
 {
-	public enum OrderStatus
-	{
-		[Description("Recebido")]
-		Recebido,
+    [Description("Recebido")]
+    Recebido,
 
-		[Description("Em preparação")]
-		EmPreparacao,
+    [Description("Pagamento aprovado")]
+    PagamentoAprovado,
 
-		[Description("Pronto")]
-		Pronto,
+    [Description("Em preparação")]
+    EmPreparacao,
 
-		[Description("Finalizado")]
-		Finalizado
-	}
+    [Description("Pronto")]
+    Pronto,
+
+    [Description("Finalizado")]
+    Finalizado
 }
