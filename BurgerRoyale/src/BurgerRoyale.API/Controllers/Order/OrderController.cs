@@ -9,61 +9,73 @@ using System.Net;
 
 namespace BurgerRoyale.API.Controllers.Order
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class OrderController : BaseController
-    {
-        private readonly IOrderService _orderService;
-        public OrderController(IOrderService orderService)
-        {
-            _orderService = orderService;
-        }
+	[Route("api/[controller]")]
+	[ApiController]
+	public class OrderController : BaseController
+	{
+		private readonly IOrderService _orderService;
 
-        [HttpGet]
-        [SwaggerOperation(Summary = "Get a list of orders", Description = "Retrieves a list of orders based on the status.")]
-        [ProducesResponseType(typeof(IEnumerable<ReturnAPI<OrderDTO>>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ReturnAPI), StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
-        public async Task<IActionResult> GetOrders([FromQuery] OrderStatus? orderStatus)
-        {
-            var orders = await _orderService.GetOrdersAsync(orderStatus);
-            return IStatusCode(
-                new ReturnAPI<IEnumerable<OrderDTO>>(orders)
-            );
-        }
+		public OrderController(IOrderService orderService)
+		{
+			_orderService = orderService;
+		}
 
-        [HttpPost]
-        [SwaggerOperation(Summary = "Add a new order", Description = "Creates a new order.")]
-        [ProducesResponseType(typeof(ReturnAPI<HttpStatusCode>), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(ReturnAPI), StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
-        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDTO order)
-        {
-            var orderNumber = await _orderService.CreateAsync(order);
+		[HttpGet]
+		[SwaggerOperation(Summary = "Get a list of orders", Description = "Retrieves a list of orders based on the status.")]
+		[ProducesResponseType(typeof(IEnumerable<ReturnAPI<OrderDTO>>), StatusCodes.Status200OK)]
+		[ProducesResponseType(typeof(ReturnAPI), StatusCodes.Status400BadRequest)]
+		[ProducesDefaultResponseType]
+		public async Task<IActionResult> GetOrders([FromQuery] OrderStatus? orderStatus)
+		{
+			var orders = await _orderService.GetOrdersAsync(orderStatus);
+			return IStatusCode(
+				new ReturnAPI<IEnumerable<OrderDTO>>(orders)
+			);
+		}
 
-            return IStatusCode(new ReturnAPI<string>(HttpStatusCode.Created, $"Order number: {orderNumber}"));
-        }
+		[HttpPost]
+		[SwaggerOperation(Summary = "Add a new order", Description = "Creates a new order.")]
+		[ProducesResponseType(typeof(ReturnAPI<HttpStatusCode>), StatusCodes.Status201Created)]
+		[ProducesResponseType(typeof(ReturnAPI), StatusCodes.Status400BadRequest)]
+		[ProducesDefaultResponseType]
+		public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDTO order)
+		{
+			var orderNumber = await _orderService.CreateAsync(order);
 
-        [HttpPut("{id:Guid}")]
-        [SwaggerOperation(Summary = "Update an order", Description = "Updates an existing order by its ID.")]
-        [ProducesResponseType(typeof(ReturnAPI<HttpStatusCode>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ReturnAPI), StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
-        public async Task<IActionResult> UpdateOrderStatus(Guid id, [FromQuery] OrderStatus? orderStatus)
-        {
-            await _orderService.UpdateOrderStatusAsync(id, orderStatus.Value);
-            return IStatusCode(new ReturnAPI(HttpStatusCode.NoContent));
-        }
+			return IStatusCode(new ReturnAPI<string>(HttpStatusCode.Created, $"Order number: {orderNumber}"));
+		}
 
-        [HttpDelete("{id:Guid}")]
-        [SwaggerOperation(Summary = "Delete an order by ID", Description = "Deletes an order by its ID.")]
-        [ProducesResponseType(typeof(ReturnAPI<HttpStatusCode>), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ReturnAPI), StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
-        public async Task<IActionResult> DeleteOrderAsync(Guid id)
-        {
-            await _orderService.RemoveAsync(id);
-            return IStatusCode(new ReturnAPI(HttpStatusCode.NoContent));
-        }
-    }
+		[HttpPut("{id:Guid}")]
+		[SwaggerOperation(Summary = "Update an order", Description = "Updates an existing order by its ID.")]
+		[ProducesResponseType(typeof(ReturnAPI<HttpStatusCode>), StatusCodes.Status200OK)]
+		[ProducesResponseType(typeof(ReturnAPI), StatusCodes.Status400BadRequest)]
+		[ProducesDefaultResponseType]
+		public async Task<IActionResult> UpdateOrderStatus(Guid id, [FromQuery] OrderStatus? orderStatus)
+		{
+			await _orderService.UpdateOrderStatusAsync(id, orderStatus.Value);
+			return IStatusCode(new ReturnAPI(HttpStatusCode.NoContent));
+		}
+
+		[HttpPost("{id:Guid}:approve")]
+		[SwaggerOperation(Summary = "Approve order payment", Description = "Updates an existing order to 'Payment approved' by its ID.")]
+		[ProducesResponseType(typeof(ReturnAPI<HttpStatusCode>), StatusCodes.Status200OK)]
+		[ProducesResponseType(typeof(ReturnAPI), StatusCodes.Status400BadRequest)]
+		[ProducesDefaultResponseType]
+		public async Task<IActionResult> ApproveOrderPayment(Guid id)
+		{
+			await _orderService.UpdateOrderStatusAsync(id, OrderStatus.PagamentoAprovado);
+			return IStatusCode(new ReturnAPI(HttpStatusCode.NoContent));
+		}
+
+		[HttpDelete("{id:Guid}")]
+		[SwaggerOperation(Summary = "Delete an order by ID", Description = "Deletes an order by its ID.")]
+		[ProducesResponseType(typeof(ReturnAPI<HttpStatusCode>), StatusCodes.Status204NoContent)]
+		[ProducesResponseType(typeof(ReturnAPI), StatusCodes.Status400BadRequest)]
+		[ProducesDefaultResponseType]
+		public async Task<IActionResult> DeleteOrderAsync(Guid id)
+		{
+			await _orderService.RemoveAsync(id);
+			return IStatusCode(new ReturnAPI(HttpStatusCode.NoContent));
+		}
+	}
 }

@@ -5,116 +5,127 @@ using BurgerRoyale.Domain.Exceptions;
 using BurgerRoyale.Domain.Interface.Repositories;
 using BurgerRoyale.Domain.Interface.Services;
 
-namespace BurgerRoyale.Application.Services
+namespace BurgerRoyale.Application.Services;
+
+public class ProductService : IProductService
 {
-    public class ProductService : IProductService
-    {
-        private readonly IProductRepository _productRepository;
-        private readonly IProductImageRepository _productImageRepository;
+	private readonly IProductRepository _productRepository;
 
-        public ProductService(IProductRepository productRepository, IProductImageRepository productImageRepository)
-        {
-            _productRepository = productRepository;
-            _productImageRepository = productImageRepository;
-        }
+	private readonly IProductImageRepository _productImageRepository;
 
-        public async Task<IEnumerable<ProductDTO>> GetListAsync(ProductCategory? category)
-        {
-            var products = (category == null)
-                ? await _productRepository.GetAll()
-                : await _productRepository.GetAllByCategory(category.Value);
+	public ProductService
+	(
+		IProductRepository productRepository,
+		IProductImageRepository productImageRepository)
+	{
+		_productRepository = productRepository;
+		_productImageRepository = productImageRepository;
+	}
 
-            return products.Select(product => new ProductDTO(product));
-        }
+	public async Task<IEnumerable<ProductDTO>> GetListAsync(ProductCategory? category)
+	{
+		var products = (category is null)
+			? await _productRepository.GetAll()
+			: await _productRepository.GetAllByCategory(category.Value);
 
-        public async Task<ProductDTO> AddAsync(RequestProductDTO addProductRequestDTO)
-        {
-            Product product = CreateProduct(addProductRequestDTO);
+		return products.Select(product => new ProductDTO(product));
+	}
 
-            await _productRepository.AddAsync(product!);
+	public async Task<ProductDTO> AddAsync(RequestProductDTO addProductRequestDTO)
+	{
+		Product product = CreateProduct(addProductRequestDTO);
 
-            return new ProductDTO(product!);
-        }
+		await _productRepository.AddAsync(product!);
 
-        private static Product CreateProduct(RequestProductDTO productDTO)
-        {
-            List<ProductImage> productImagesList = new List<ProductImage>();
-            if (productDTO.Images != null)
-            {
-                foreach (var image in productDTO.Images)
-                {
-                    var productImage = new ProductImage(image.Title, image.Url, Guid.NewGuid());
-                    productImagesList.Add(productImage);
-                }
-            }
+		return new ProductDTO(product!);
+	}
 
-            var result = new Product(
-                productDTO.Name,
-                productDTO.Description,
-                productDTO.Price,
-                productDTO.Category);
+	private static Product CreateProduct(RequestProductDTO productDTO)
+	{
+		List<ProductImage> productImagesList = new List<ProductImage>();
+		if (productDTO.Images != null)
+		{
+			foreach (var image in productDTO.Images)
+			{
+				var productImage = new ProductImage(image.Title, image.Url, Guid.NewGuid());
+				productImagesList.Add(productImage);
+			}
+		}
 
-            result.Images = productImagesList;
+		Product product = new(
+			productDTO.Name,
+			productDTO.Description,
+			productDTO.Price,
+			productDTO.Category)
+		{
+			Images = productImagesList
+		};
 
-            return result;
-        }
+		return product;
+	}
 
-        public async Task<ProductDTO> GetByIdAsync(Guid id)
-        {
-            Product? product = await _productRepository.GetByIdAsync(id);
+	public async Task<ProductDTO> GetByIdAsync(Guid id)
+	{
+		Product? product = await _productRepository.GetByIdAsync(id);
 
-            ThrowExceptionIfProductDoesNotExit(product);
+		ThrowExceptionIfProductDoesNotExit(product);
 
-            return new ProductDTO(product!);
-        }
+		return new ProductDTO(product!);
+	}
 
-        private static void ThrowExceptionIfProductDoesNotExit(Product? product)
-        {
-            if (product is null)
-            {
-                throw new NotFoundException("O produto não foi encontrado");
-            }
-        }
+	private static void ThrowExceptionIfProductDoesNotExit(Product? product)
+	{
+		if (product is null)
+		{
+			throw new NotFoundException("O produto não foi encontrado");
+		}
+	}
 
-        public async Task<ProductDTO> UpdateAsync(Guid id, RequestProductDTO updateProductRequestDTO)
-        {
-            var currentImages = await _productImageRepository.FindAsync(x => x.ProductId == id);
-            _productImageRepository.RemoveRange(currentImages);
+	public async Task<ProductDTO> UpdateAsync(Guid id, RequestProductDTO updateProductRequestDTO)
+	{
+		var currentImages = await _productImageRepository.FindAsync(x => x.ProductId == id);
+		_productImageRepository.RemoveRange(currentImages);
 
-            Product? product = await _productRepository.GetByIdAsync(id);
+		Product? product = await _productRepository.GetByIdAsync(id);
 
-            ThrowExceptionIfProductDoesNotExit(product);
+		ThrowExceptionIfProductDoesNotExit(product);
 
-            UpdateProduct(product!, updateProductRequestDTO);
+		UpdateProduct(product!, updateProductRequestDTO);
 
-            await _productImageRepository.AddRangeAsync(product.Images);
-            await _productRepository.UpdateAsync(product!);
+		await AddImagesToProductIfExist(product!);
 
-            return new ProductDTO(product!);
-        }
+		await _productRepository.UpdateAsync(product!);
 
-        private static void UpdateProduct(Product product, RequestProductDTO updateProductRequestDTO)
-        {
-            if (updateProductRequestDTO.Images != null)
-            {
-                var images = updateProductRequestDTO.Images.Select(x => new ProductImage(x.Title, x.Url, Guid.NewGuid())).ToList();
-                product.Images = images;
-            }
-            product!.SetDetails(
-                updateProductRequestDTO.Name,
-                updateProductRequestDTO.Description,
-                updateProductRequestDTO.Price,
-                updateProductRequestDTO.Category
-                );
-        }
+		return new ProductDTO(product!);
+	}
 
-        public async Task RemoveAsync(Guid id)
-        {
-            Product? product = await _productRepository.GetByIdAsync(id);
+	private async Task AddImagesToProductIfExist(Product product)
+	{
+		IEnumerable<ProductImage> images = product.Images ?? Enumerable.Empty<ProductImage>();
+		await _productImageRepository.AddRangeAsync(images);
+	}
 
-            ThrowExceptionIfProductDoesNotExit(product);
+	private static void UpdateProduct(Product product, RequestProductDTO updateProductRequestDTO)
+	{
+		if (updateProductRequestDTO.Images != null)
+		{
+			var images = updateProductRequestDTO.Images.Select(x => new ProductImage(x.Title, x.Url, Guid.NewGuid())).ToList();
+			product.Images = images;
+		}
+		product!.SetDetails(
+			updateProductRequestDTO.Name,
+			updateProductRequestDTO.Description,
+			updateProductRequestDTO.Price,
+			updateProductRequestDTO.Category
+			);
+	}
 
-            _productRepository.Remove(product!);
-        }
-    }
+	public async Task RemoveAsync(Guid id)
+	{
+		Product? product = await _productRepository.GetByIdAsync(id);
+
+		ThrowExceptionIfProductDoesNotExit(product);
+
+		_productRepository.Remove(product!);
+	}
 }

@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurgerRoyale.IOC", "src\Bur
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{8D222E9C-1FE7-4E1A-93FC-853078AE9141}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurgerRoyale.IntegrationTests", "tests\BurgerRoyale.IntegrationTests\BurgerRoyale.IntegrationTests.csproj", "{1D5B28DA-A090-4413-A409-034213734F14}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{8D222E9C-1FE7-4E1A-93FC-853078AE9141}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D222E9C-1FE7-4E1A-93FC-853078AE9141}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D222E9C-1FE7-4E1A-93FC-853078AE9141}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D5B28DA-A090-4413-A409-034213734F14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D5B28DA-A090-4413-A409-034213734F14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D5B28DA-A090-4413-A409-034213734F14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D5B28DA-A090-4413-A409-034213734F14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +72,7 @@ Global
 		{F94BA7C7-FABE-460D-A3ED-07B2893FF66B} = {F4455E74-59D9-4C06-B57A-637DAB121AA0}
 		{8854E76D-4B2B-4019-A106-D9291C298713} = {F4455E74-59D9-4C06-B57A-637DAB121AA0}
 		{7289C472-1954-4CA7-A2FF-9C89E3A8B08D} = {F4455E74-59D9-4C06-B57A-637DAB121AA0}
+		{1D5B28DA-A090-4413-A409-034213734F14} = {054E3A0A-4E00-49C3-B2E0-DF7D09CA5C51}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {40D2B100-27D3-4760-B232-BC1AAACF7E1A}

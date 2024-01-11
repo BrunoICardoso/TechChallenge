@@ -13,6 +13,7 @@ namespace BurgerRoyale.Domain.DTO
 		public int OrderNumber { get; set; }
 		public decimal TotalPrice { get; set; }
 		public IEnumerable<OrderProductDTO> OrderProducts { get; set; } = Enumerable.Empty<OrderProductDTO>();
+		public Guid? PaymentRequestId { get; set; }
 
 		public OrderDTO(Order order)
 		{
@@ -24,6 +25,7 @@ namespace BurgerRoyale.Domain.DTO
 			OrderProducts = order.OrderProducts.Select(orderProduct => new OrderProductDTO(orderProduct));
 			OrderNumber = order.OrderNumber;
 			TotalPrice = order.TotalPrice;
+			PaymentRequestId = order.PaymentRequestId;
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using BurgerRoyale.Domain.Enumerators;
+using BurgerRoyale.Domain.Exceptions;
 
 namespace BurgerRoyale.Domain.Entities
 {
@@ -37,10 +38,16 @@ namespace BurgerRoyale.Domain.Entities
 			OrderNumber = orderNumber;
 		}
 
-		public void SetStatus(OrderStatus status)
+		public void SetStatus(OrderStatus newStatus)
 		{
-			Status = status;
-			if (status == OrderStatus.Finalizado)
+			if (Status.Equals(OrderStatus.PagamentoAprovado) && newStatus.Equals(OrderStatus.Recebido))
+			{
+				throw new DomainException("O pagamento já foi aprovado.");
+			}
+
+			Status = newStatus;
+
+			if (newStatus == OrderStatus.Finalizado)
 				CloseOrder();
 			else
 				OpenOrder();

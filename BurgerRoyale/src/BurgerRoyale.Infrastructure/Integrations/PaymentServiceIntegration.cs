@@ -2,6 +2,7 @@
 using BurgerRoyale.Domain.Interface.Services;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http.Json;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 
 namespace BurgerRoyale.Infrastructure.Integrations
@@ -10,6 +11,8 @@ namespace BurgerRoyale.Infrastructure.Integrations
 	{
 		private readonly IHttpContextAccessor _httpContextAccessor;
 		private readonly HttpClient _httpClient;
+
+		private const string REQUEST_PAYMENT_URL = "api/payments";
 
 		public PaymentServiceIntegration
 		(
@@ -34,7 +37,7 @@ namespace BurgerRoyale.Infrastructure.Integrations
 			);
 
 			var response = await _httpClient.PostAsync(
-				"/api/payments",
+				REQUEST_PAYMENT_URL,
 				JsonContent.Create(paymentRequest)
 			);
 
@@ -50,7 +53,7 @@ namespace BurgerRoyale.Infrastructure.Integrations
 				}
 			);
 
-			return payment?.PaymentId ?? throw new Exception("Error requesting payment");
+			return payment?.PaymentId ?? throw new ExternalException("Error requesting payment");
 		}
 	}
 }
