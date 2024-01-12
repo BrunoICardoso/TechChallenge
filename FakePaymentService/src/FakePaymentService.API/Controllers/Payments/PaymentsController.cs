@@ -47,7 +47,7 @@ public class PaymentsController : ControllerBase
 		return Ok(paymentRequest);
 	}
 
-	[HttpPost("{paymentRequestId:Guid}:pay")]
+	[HttpPost("{paymentRequestId:Guid}/pay")]
 	[SwaggerOperation(Summary = "Make payment", Description = "Make payment")]
 	[ProducesResponseType(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status404NotFound)]

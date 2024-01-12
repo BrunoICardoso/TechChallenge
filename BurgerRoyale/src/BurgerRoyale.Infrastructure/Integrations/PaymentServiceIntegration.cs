@@ -28,7 +28,7 @@ namespace BurgerRoyale.Infrastructure.Integrations
 		{
 			var request = _httpContextAccessor.HttpContext?.Request;
 
-			string callbackUrl = $"{request.Scheme}://{request.Host}/api/Order/{orderId}:approve";
+			string callbackUrl = $"{request.Scheme}://{request.Host}/api/Order/{orderId}/approve";
 
 			var paymentRequest = new CreatePaymentDto(
 				amount,

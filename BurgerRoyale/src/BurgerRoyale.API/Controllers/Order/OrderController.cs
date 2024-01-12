@@ -56,7 +56,7 @@ namespace BurgerRoyale.API.Controllers.Order
 			return IStatusCode(new ReturnAPI(HttpStatusCode.NoContent));
 		}
 
-		[HttpPost("{id:Guid}:approve")]
+		[HttpPost("{id:Guid}/approve")]
 		[SwaggerOperation(Summary = "Approve order payment", Description = "Updates an existing order to 'Payment approved' by its ID.")]
 		[ProducesResponseType(typeof(ReturnAPI<HttpStatusCode>), StatusCodes.Status200OK)]
 		[ProducesResponseType(typeof(ReturnAPI), StatusCodes.Status400BadRequest)]
