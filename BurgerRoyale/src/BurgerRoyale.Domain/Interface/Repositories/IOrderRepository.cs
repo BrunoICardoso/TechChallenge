@@ -7,5 +7,7 @@ namespace BurgerRoyale.Domain.Interface.Repositories
 	public interface IOrderRepository : IDomainRepository<Order>
 	{
 		Task<IEnumerable<Order>> GetOrders(OrderStatus? orderStatus);
+
+		Task<Order?> GetOrder(Guid id);
 	}
 }

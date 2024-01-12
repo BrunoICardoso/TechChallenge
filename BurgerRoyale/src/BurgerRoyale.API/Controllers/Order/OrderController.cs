@@ -38,11 +38,25 @@ namespace BurgerRoyale.API.Controllers.Order
 		[ProducesResponseType(typeof(ReturnAPI<HttpStatusCode>), StatusCodes.Status201Created)]
 		[ProducesResponseType(typeof(ReturnAPI), StatusCodes.Status400BadRequest)]
 		[ProducesDefaultResponseType]
-		public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDTO order)
+		public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDTO orderRequest)
 		{
-			var orderNumber = await _orderService.CreateAsync(order);
+			var order = await _orderService.CreateAsync(orderRequest);
 
-			return IStatusCode(new ReturnAPI<string>(HttpStatusCode.Created, $"Order number: {orderNumber}"));
+			return IStatusCode(new ReturnAPI<OrderDTO>(HttpStatusCode.Created, order));
+		}
+
+		[HttpGet("{id:Guid}")]
+		[SwaggerOperation(Summary = "Get an order", Description = "Get an existing order by its ID.")]
+		[ProducesResponseType(typeof(ReturnAPI<HttpStatusCode>), StatusCodes.Status200OK)]
+		[ProducesResponseType(typeof(ReturnAPI), StatusCodes.Status400BadRequest)]
+		[ProducesDefaultResponseType]
+		public async Task<IActionResult> GetOrder(Guid id)
+		{
+			var order = await _orderService.GetOrderAsync(id);
+
+			return IStatusCode(
+				new ReturnAPI<OrderDTO>(order)
+			);
 		}
 
 		[HttpPut("{id:Guid}")]

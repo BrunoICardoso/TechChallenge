@@ -5,7 +5,9 @@ namespace BurgerRoyale.Domain.Interface.Services
 {
 	public interface IOrderService
 	{
-		Task<int> CreateAsync(CreateOrderDTO orderDTO);
+		Task<OrderDTO> CreateAsync(CreateOrderDTO orderDTO);
+
+		Task<OrderDTO> GetOrderAsync(Guid id);
 
 		Task<IEnumerable<OrderDTO>> GetOrdersAsync(OrderStatus? orderStatus);
 

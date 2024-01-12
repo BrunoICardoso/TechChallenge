@@ -28,7 +28,7 @@ namespace BurgerRoyale.Application.Services
 			_paymentServiceIntegration = paymentServiceIntegration;
 		}
 
-		public async Task<int> CreateAsync(CreateOrderDTO orderDTO)
+		public async Task<OrderDTO> CreateAsync(CreateOrderDTO orderDTO)
 		{
 			Order order = await CreateOrder(orderDTO);
 
@@ -40,7 +40,7 @@ namespace BurgerRoyale.Application.Services
 
 			await RequestPayment(order);
 
-			return order.OrderNumber;
+			return new OrderDTO(order);
 		}
 
 		private async Task<Order> CreateOrder(CreateOrderDTO orderDTO)
@@ -126,6 +126,15 @@ namespace BurgerRoyale.Application.Services
 			var orderDTOs = orders.Select(order => new OrderDTO(order)).ToList();
 
 			return orderDTOs;
+		}
+
+		public async Task<OrderDTO> GetOrderAsync(Guid id)
+		{
+			var order = await _orderRepository.GetOrder(id);
+
+			ValidateIfOrderDoesNotExist(order);
+
+			return new OrderDTO(order!);
 		}
 
 		public async Task RemoveAsync(Guid id)
