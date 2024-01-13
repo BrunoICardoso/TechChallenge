@@ -1,0 +1,3494 @@
+{
+	"info": {
+		"_postman_id": "0021a954-d2e6-4c3b-b7fc-b8f156a9f073",
+		"name": "BurgerRoyale_Collection",
+		"description": "Collection that brings together all services and APIs related to the BurgerRoyale project.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28091925"
+	},
+	"item": [
+		{
+			"name": "BurgerRoyale",
+			"item": [
+				{
+					"name": "health",
+					"item": [
+						{
+							"name": "GetHealthCheck - Get health status of the application",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/health",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"health"
+									]
+								},
+								"description": "Provides API Health indication."
+							},
+							"response": [
+								{
+									"name": "Api is healthy",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:5000/health",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"health"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Api is not healthy",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/health",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"health"
+											]
+										}
+									},
+									"status": "Service Unavailable",
+									"code": 503,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Error",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/health",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"health"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "api",
+					"item": [
+						{
+							"name": "Login",
+							"item": [
+								{
+									"name": "Login with CPF",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"cpf\": \"158.779.810-72\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Login"
+											]
+										},
+										"description": "Login in the system given the CPF."
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"cpf\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/Login",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"Login"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"cupidatat68\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"data\": {\n    \"id\": \"<uuid>\",\n    \"cpf\": \"<string>\",\n    \"name\": \"<string>\",\n    \"email\": \"<string>\",\n    \"userType\": 2,\n    \"userTypeDescription\": \"<string>\"\n  }\n}"
+										},
+										{
+											"name": "Bad Request",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"cpf\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/Login",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Login"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"cupidatat68\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"data\": {\n    \"id\": \"<uuid>\",\n    \"cpf\": \"<string>\",\n    \"name\": \"<string>\",\n    \"email\": \"<string>\",\n    \"userType\": 2,\n    \"userTypeDescription\": \"<string>\"\n  }\n}"
+										},
+										{
+											"name": "Error",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"cpf\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/Login",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Login"
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"status\": \"<integer>\",\n  \"detail\": \"<string>\",\n  \"instance\": \"<string>\",\n  \"exc\": {},\n  \"sint_8ff\": {}\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Order",
+							"item": [
+								{
+									"name": "Get a list of orders",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Order",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Order"
+											],
+											"query": [
+												{
+													"key": "orderStatus",
+													"value": "4",
+													"disabled": true
+												}
+											]
+										},
+										"description": "Retrieves a list of orders based on the status."
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "http://localhost:5000/api/Order?orderStatus=3",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"Order"
+													],
+													"query": [
+														{
+															"key": "orderStatus",
+															"value": "3"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "[\n  {\n    \"isSuccessStatusCode\": \"<boolean>\",\n    \"message\": \"<string>\",\n    \"modelState\": {\n      \"voluptateec\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"est_833\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"data\": {\n      \"orderId\": \"<uuid>\",\n      \"userId\": \"<uuid>\",\n      \"status\": \"<string>\",\n      \"orderTime\": \"<dateTime>\",\n      \"closeTime\": \"<dateTime>\",\n      \"orderNumber\": \"<integer>\",\n      \"totalPrice\": \"<double>\",\n      \"orderProducts\": [\n        {\n          \"productId\": \"<uuid>\",\n          \"productName\": \"<string>\",\n          \"quantity\": \"<integer>\",\n          \"price\": \"<double>\"\n        },\n        {\n          \"productId\": \"<uuid>\",\n          \"productName\": \"<string>\",\n          \"quantity\": \"<integer>\",\n          \"price\": \"<double>\"\n        }\n      ],\n      \"paymentRequestId\": \"<uuid>\"\n    }\n  },\n  {\n    \"isSuccessStatusCode\": \"<boolean>\",\n    \"message\": \"<string>\",\n    \"modelState\": {\n      \"veniama6_\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"data\": {\n      \"orderId\": \"<uuid>\",\n      \"userId\": \"<uuid>\",\n      \"status\": \"<string>\",\n      \"orderTime\": \"<dateTime>\",\n      \"closeTime\": \"<dateTime>\",\n      \"orderNumber\": \"<integer>\",\n      \"totalPrice\": \"<double>\",\n      \"orderProducts\": [\n        {\n          \"productId\": \"<uuid>\",\n          \"productName\": \"<string>\",\n          \"quantity\": \"<integer>\",\n          \"price\": \"<double>\"\n        },\n        {\n          \"productId\": \"<uuid>\",\n          \"productName\": \"<string>\",\n          \"quantity\": \"<integer>\",\n          \"price\": \"<double>\"\n        }\n      ],\n      \"paymentRequestId\": \"<uuid>\"\n    }\n  }\n]"
+										},
+										{
+											"name": "Bad Request",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Order?orderStatus=3",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Order"
+													],
+													"query": [
+														{
+															"key": "orderStatus",
+															"value": "3"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"occaecat_7a2\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}"
+										},
+										{
+											"name": "Error",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Order?orderStatus=3",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Order"
+													],
+													"query": [
+														{
+															"key": "orderStatus",
+															"value": "3"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"status\": \"<integer>\",\n  \"detail\": \"<string>\",\n  \"instance\": \"<string>\",\n  \"exc\": {},\n  \"sint_8ff\": {}\n}"
+										}
+									]
+								},
+								{
+									"name": "Add a new order",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"userId\": null,\n  \"orderProducts\": [\n    {\n      \"productId\": \"68dcd0c8-43a9-4084-b460-3e07d5fd6e58\",\n      \"quantity\": \"2\"\n    },\n    {\n      \"productId\": \"3ab44238-ea8c-4a2d-b842-2965a0be4429\",\n      \"quantity\": \"1\"\n    },\n    {\n      \"productId\": \"c56a7e1c-56ae-4d7c-9eb3-14ff83934320\",\n      \"quantity\": \"2\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Order",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Order"
+											]
+										},
+										"description": "Creates a new order."
+									},
+									"response": [
+										{
+											"name": "Created",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"userId\": \"<uuid>\",\n  \"orderProducts\": [\n    {\n      \"productId\": \"<uuid>\",\n      \"quantity\": \"<integer>\"\n    },\n    {\n      \"productId\": \"<uuid>\",\n      \"quantity\": \"<integer>\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/Order",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"Order"
+													]
+												}
+											},
+											"status": "Created",
+											"code": 201,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"ad_09\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"voluptate_b\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"data\": 308\n}"
+										},
+										{
+											"name": "Bad Request",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"userId\": \"<uuid>\",\n  \"orderProducts\": [\n    {\n      \"productId\": \"<uuid>\",\n      \"quantity\": \"<integer>\"\n    },\n    {\n      \"productId\": \"<uuid>\",\n      \"quantity\": \"<integer>\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/Order",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Order"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"occaecat_7a2\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}"
+										},
+										{
+											"name": "Error",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"userId\": \"<uuid>\",\n  \"orderProducts\": [\n    {\n      \"productId\": \"<uuid>\",\n      \"quantity\": \"<integer>\"\n    },\n    {\n      \"productId\": \"<uuid>\",\n      \"quantity\": \"<integer>\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/Order",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Order"
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"status\": \"<integer>\",\n  \"detail\": \"<string>\",\n  \"instance\": \"<string>\",\n  \"exc\": {},\n  \"sint_8ff\": {}\n}"
+										}
+									]
+								},
+								{
+									"name": "Update an order",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Order/:id?orderStatus=2",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Order",
+												":id"
+											],
+											"query": [
+												{
+													"key": "orderStatus",
+													"value": "2"
+												}
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "bd5081ef-5702-491f-8f11-3a5ed490ea69"
+												}
+											]
+										},
+										"description": "Updates an existing order by its ID."
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "http://localhost:5000/api/Order/:id?orderStatus=3",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"Order",
+														":id"
+													],
+													"query": [
+														{
+															"key": "orderStatus",
+															"value": "3"
+														}
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"ad_09\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"voluptate_b\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"data\": 308\n}"
+										},
+										{
+											"name": "Bad Request",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Order/:id?orderStatus=3",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Order",
+														":id"
+													],
+													"query": [
+														{
+															"key": "orderStatus",
+															"value": "3"
+														}
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"occaecat_7a2\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}"
+										},
+										{
+											"name": "Error",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Order/:id?orderStatus=3",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Order",
+														":id"
+													],
+													"query": [
+														{
+															"key": "orderStatus",
+															"value": "3"
+														}
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"status\": \"<integer>\",\n  \"detail\": \"<string>\",\n  \"instance\": \"<string>\",\n  \"exc\": {},\n  \"sint_8ff\": {}\n}"
+										}
+									]
+								},
+								{
+									"name": "Delete an order by ID",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Order/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Order",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "3d00f5f1-0aef-4ff3-aec5-98100656a566",
+													"description": "(Required) "
+												}
+											]
+										},
+										"description": "Deletes an order by its ID."
+									},
+									"response": [
+										{
+											"name": "No Content",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "http://localhost:5000/api/Order/:id",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"Order",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "No Content",
+											"code": 204,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"ad_09\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"voluptate_b\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"data\": 308\n}"
+										},
+										{
+											"name": "Bad Request",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Order/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Order",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"occaecat_7a2\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}"
+										},
+										{
+											"name": "Error",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Order/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Order",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"status\": \"<integer>\",\n  \"detail\": \"<string>\",\n  \"instance\": \"<string>\",\n  \"exc\": {},\n  \"sint_8ff\": {}\n}"
+										}
+									]
+								},
+								{
+									"name": "Get an order by ID",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Order/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Order",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "19e6a2e5-e4d9-4198-ba9c-f42766a5d523",
+													"description": "(Required) "
+												}
+											]
+										},
+										"description": "Deletes an order by its ID."
+									},
+									"response": [
+										{
+											"name": "No Content",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "http://localhost:5000/api/Order/:id",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"Order",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "No Content",
+											"code": 204,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"ad_09\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"voluptate_b\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"data\": 308\n}"
+										},
+										{
+											"name": "Bad Request",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Order/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Order",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"occaecat_7a2\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}"
+										},
+										{
+											"name": "Error",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Order/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Order",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"status\": \"<integer>\",\n  \"detail\": \"<string>\",\n  \"instance\": \"<string>\",\n  \"exc\": {},\n  \"sint_8ff\": {}\n}"
+										}
+									]
+								},
+								{
+									"name": "Approve order payment",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Order/:id/approve",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Order",
+												":id",
+												"approve"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": ""
+												}
+											]
+										},
+										"description": "Updates an existing order to 'Payment approved' by its ID."
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "http://localhost:5000/api/Order/{{id}}:approve",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"Order",
+														"{{id}}:approve"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"ad_09\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"voluptate_b\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"data\": 308\n}"
+										},
+										{
+											"name": "Bad Request",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Order/{{id}}:approve",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Order",
+														"{{id}}:approve"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"occaecat_7a2\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}"
+										},
+										{
+											"name": "Error",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Order/{{id}}:approve",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Order",
+														"{{id}}:approve"
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"status\": \"<integer>\",\n  \"detail\": \"<string>\",\n  \"instance\": \"<string>\",\n  \"exc\": {},\n  \"sint_8ff\": {}\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Product",
+							"item": [
+								{
+									"name": "Get a list of products",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Product?productCategory=1",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Product"
+											],
+											"query": [
+												{
+													"key": "productCategory",
+													"value": "1"
+												}
+											]
+										},
+										"description": "Retrieves a list of products based on the specified category."
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Product?productCategory=2",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Product"
+													],
+													"query": [
+														{
+															"key": "productCategory",
+															"value": "2"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "[\n  {\n    \"isSuccessStatusCode\": \"<boolean>\",\n    \"message\": \"<string>\",\n    \"modelState\": {\n      \"laboreba\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"non9\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"data\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"category\": 0,\n      \"description\": \"<string>\",\n      \"price\": \"<double>\",\n      \"images\": [\n        {\n          \"title\": \"<string>\",\n          \"url\": \"<string>\"\n        },\n        {\n          \"title\": \"<string>\",\n          \"url\": \"<string>\"\n        }\n      ],\n      \"categoryDescription\": \"<string>\"\n    }\n  },\n  {\n    \"isSuccessStatusCode\": \"<boolean>\",\n    \"message\": \"<string>\",\n    \"modelState\": {\n      \"incididunt_a91\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"mollited0\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"dolor8\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"labore0f\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"data\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"category\": 2,\n      \"description\": \"<string>\",\n      \"price\": \"<double>\",\n      \"images\": [\n        {\n          \"title\": \"<string>\",\n          \"url\": \"<string>\"\n        },\n        {\n          \"title\": \"<string>\",\n          \"url\": \"<string>\"\n        }\n      ],\n      \"categoryDescription\": \"<string>\"\n    }\n  }\n]"
+										},
+										{
+											"name": "Bad Request",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Product?productCategory=2",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Product"
+													],
+													"query": [
+														{
+															"key": "productCategory",
+															"value": "2"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"occaecat_7a2\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}"
+										},
+										{
+											"name": "Error",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Product?productCategory=2",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Product"
+													],
+													"query": [
+														{
+															"key": "productCategory",
+															"value": "2"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"status\": \"<integer>\",\n  \"detail\": \"<string>\",\n  \"instance\": \"<string>\",\n  \"exc\": {},\n  \"sint_8ff\": {}\n}"
+										}
+									]
+								},
+								{
+									"name": "Add a new product",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"Novo produto\",\n  \"category\": 0,\n  \"description\": \"Descrição do novo produto\",\n  \"price\": \"15.00\",\n  \"images\": [\n    {\n      \"title\": \"Descrição da imagem do produto\",\n      \"url\": \"http://localhost:3000\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Product",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Product"
+											]
+										},
+										"description": "Creates a new product."
+									},
+									"response": [
+										{
+											"name": "Created",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"name\": \"<string>\",\n  \"category\": 0,\n  \"description\": \"<string>\",\n  \"price\": \"<double>\",\n  \"images\": [\n    {\n      \"title\": \"<string>\",\n      \"url\": \"<string>\"\n    },\n    {\n      \"title\": \"<string>\",\n      \"url\": \"<string>\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/Product",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Product"
+													]
+												}
+											},
+											"status": "Created",
+											"code": 201,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"cillum_4a\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"laborum_6b\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"ametc7_\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"data\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"category\": 1,\n    \"description\": \"<string>\",\n    \"price\": \"<double>\",\n    \"images\": [\n      {\n        \"title\": \"<string>\",\n        \"url\": \"<string>\"\n      },\n      {\n        \"title\": \"<string>\",\n        \"url\": \"<string>\"\n      }\n    ],\n    \"categoryDescription\": \"<string>\"\n  }\n}"
+										},
+										{
+											"name": "Bad Request",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"name\": \"<string>\",\n  \"category\": 0,\n  \"description\": \"<string>\",\n  \"price\": \"<double>\",\n  \"images\": [\n    {\n      \"title\": \"<string>\",\n      \"url\": \"<string>\"\n    },\n    {\n      \"title\": \"<string>\",\n      \"url\": \"<string>\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/Product",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Product"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"occaecat_7a2\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}"
+										},
+										{
+											"name": "Error",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"name\": \"<string>\",\n  \"category\": 0,\n  \"description\": \"<string>\",\n  \"price\": \"<double>\",\n  \"images\": [\n    {\n      \"title\": \"<string>\",\n      \"url\": \"<string>\"\n    },\n    {\n      \"title\": \"<string>\",\n      \"url\": \"<string>\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/Product",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Product"
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"status\": \"<integer>\",\n  \"detail\": \"<string>\",\n  \"instance\": \"<string>\",\n  \"exc\": {},\n  \"sint_8ff\": {}\n}"
+										}
+									]
+								},
+								{
+									"name": "Get a product by ID",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Product/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Product",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "976ec96f-80e8-4d7f-b400-4d926aac44ce",
+													"description": "(Required) "
+												}
+											]
+										},
+										"description": "Retrieves a product by its ID."
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Product/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Product",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"cillum_4a\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"laborum_6b\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"ametc7_\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"data\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"category\": 1,\n    \"description\": \"<string>\",\n    \"price\": \"<double>\",\n    \"images\": [\n      {\n        \"title\": \"<string>\",\n        \"url\": \"<string>\"\n      },\n      {\n        \"title\": \"<string>\",\n        \"url\": \"<string>\"\n      }\n    ],\n    \"categoryDescription\": \"<string>\"\n  }\n}"
+										},
+										{
+											"name": "Bad Request",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Product/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Product",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"occaecat_7a2\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}"
+										},
+										{
+											"name": "Error",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Product/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Product",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"status\": \"<integer>\",\n  \"detail\": \"<string>\",\n  \"instance\": \"<string>\",\n  \"exc\": {},\n  \"sint_8ff\": {}\n}"
+										}
+									]
+								},
+								{
+									"name": "Update a product",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"Produto edit\",\n  \"category\": 0,\n  \"description\": \"Descrição do novo produto\",\n  \"price\": \"10.00\",\n  \"images\": []\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Product/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Product",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "976ec96f-80e8-4d7f-b400-4d926aac44ce",
+													"description": "(Required) "
+												}
+											]
+										},
+										"description": "Updates an existing product by its ID."
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"name\": \"<string>\",\n  \"category\": 0,\n  \"description\": \"<string>\",\n  \"price\": \"<double>\",\n  \"images\": [\n    {\n      \"title\": \"<string>\",\n      \"url\": \"<string>\"\n    },\n    {\n      \"title\": \"<string>\",\n      \"url\": \"<string>\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/Product/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Product",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"cillum_4a\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"laborum_6b\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"ametc7_\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"data\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"category\": 1,\n    \"description\": \"<string>\",\n    \"price\": \"<double>\",\n    \"images\": [\n      {\n        \"title\": \"<string>\",\n        \"url\": \"<string>\"\n      },\n      {\n        \"title\": \"<string>\",\n        \"url\": \"<string>\"\n      }\n    ],\n    \"categoryDescription\": \"<string>\"\n  }\n}"
+										},
+										{
+											"name": "Bad Request",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"name\": \"<string>\",\n  \"category\": 0,\n  \"description\": \"<string>\",\n  \"price\": \"<double>\",\n  \"images\": [\n    {\n      \"title\": \"<string>\",\n      \"url\": \"<string>\"\n    },\n    {\n      \"title\": \"<string>\",\n      \"url\": \"<string>\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/Product/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Product",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"occaecat_7a2\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}"
+										},
+										{
+											"name": "Error",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"name\": \"<string>\",\n  \"category\": 0,\n  \"description\": \"<string>\",\n  \"price\": \"<double>\",\n  \"images\": [\n    {\n      \"title\": \"<string>\",\n      \"url\": \"<string>\"\n    },\n    {\n      \"title\": \"<string>\",\n      \"url\": \"<string>\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/Product/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Product",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"status\": \"<integer>\",\n  \"detail\": \"<string>\",\n  \"instance\": \"<string>\",\n  \"exc\": {},\n  \"sint_8ff\": {}\n}"
+										}
+									]
+								},
+								{
+									"name": "Delete a product by ID",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Product/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Product",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "976ec96f-80e8-4d7f-b400-4d926aac44ce",
+													"description": "(Required) "
+												}
+											]
+										},
+										"description": "Deletes a product by its ID."
+									},
+									"response": [
+										{
+											"name": "No Content",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Product/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Product",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "No Content",
+											"code": 204,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"ad_09\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"voluptate_b\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"data\": 308\n}"
+										},
+										{
+											"name": "Bad Request",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Product/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Product",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"occaecat_7a2\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}"
+										},
+										{
+											"name": "Error",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Product/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Product",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"status\": \"<integer>\",\n  \"detail\": \"<string>\",\n  \"instance\": \"<string>\",\n  \"exc\": {},\n  \"sint_8ff\": {}\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "User",
+							"item": [
+								{
+									"name": "Get a list of users",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/User?userType=1",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"User"
+											],
+											"query": [
+												{
+													"key": "userType",
+													"value": "1"
+												}
+											]
+										},
+										"description": "Retrieves a list of users based on the specified type."
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "http://localhost:5000/api/User?userType=1",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"User"
+													],
+													"query": [
+														{
+															"key": "userType",
+															"value": "1"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "[\n  {\n    \"isSuccessStatusCode\": \"<boolean>\",\n    \"message\": \"<string>\",\n    \"modelState\": {\n      \"reprehenderit9\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"do_e\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"data\": {\n      \"id\": \"<uuid>\",\n      \"cpf\": \"<string>\",\n      \"name\": \"<string>\",\n      \"email\": \"<string>\",\n      \"userType\": 1,\n      \"userTypeDescription\": \"<string>\"\n    }\n  },\n  {\n    \"isSuccessStatusCode\": \"<boolean>\",\n    \"message\": \"<string>\",\n    \"modelState\": {\n      \"nulla_b9c\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"data\": {\n      \"id\": \"<uuid>\",\n      \"cpf\": \"<string>\",\n      \"name\": \"<string>\",\n      \"email\": \"<string>\",\n      \"userType\": 1,\n      \"userTypeDescription\": \"<string>\"\n    }\n  }\n]"
+										},
+										{
+											"name": "Bad Request",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/User?userType=1",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"User"
+													],
+													"query": [
+														{
+															"key": "userType",
+															"value": "1"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"occaecat_7a2\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}"
+										},
+										{
+											"name": "Error",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/User?userType=1",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"User"
+													],
+													"query": [
+														{
+															"key": "userType",
+															"value": "1"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"status\": \"<integer>\",\n  \"detail\": \"<string>\",\n  \"instance\": \"<string>\",\n  \"exc\": {},\n  \"sint_8ff\": {}\n}"
+										}
+									]
+								},
+								{
+									"name": "Add a new user",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"cpf\": \"158.779.810-72\",\n  \"name\": \"Cliente Teste\",\n  \"email\": \"teste.cliente@mail.com\",\n  \"userType\": 1\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/User",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"User"
+											]
+										},
+										"description": "Creates a new user."
+									},
+									"response": [
+										{
+											"name": "Created",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"cpf\": \"<string>\",\n  \"name\": \"<string>\",\n  \"email\": \"<string>\",\n  \"userType\": 2\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/User",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"User"
+													]
+												}
+											},
+											"status": "Created",
+											"code": 201,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"cupidatat68\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"data\": {\n    \"id\": \"<uuid>\",\n    \"cpf\": \"<string>\",\n    \"name\": \"<string>\",\n    \"email\": \"<string>\",\n    \"userType\": 2,\n    \"userTypeDescription\": \"<string>\"\n  }\n}"
+										},
+										{
+											"name": "Bad Request",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"cpf\": \"<string>\",\n  \"name\": \"<string>\",\n  \"email\": \"<string>\",\n  \"userType\": 2\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/User",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"User"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"occaecat_7a2\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}"
+										},
+										{
+											"name": "Error",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"cpf\": \"<string>\",\n  \"name\": \"<string>\",\n  \"email\": \"<string>\",\n  \"userType\": 2\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/User",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"User"
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"status\": \"<integer>\",\n  \"detail\": \"<string>\",\n  \"instance\": \"<string>\",\n  \"exc\": {},\n  \"sint_8ff\": {}\n}"
+										}
+									]
+								},
+								{
+									"name": "Get an user by ID",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/User/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"User",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "f59f1db3-4d79-4e4a-b5bd-9137205ef12e",
+													"description": "(Required) "
+												}
+											]
+										},
+										"description": "Retrieves an user by its ID."
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "http://localhost:5000/api/User/:id",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"User",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"cupidatat68\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"data\": {\n    \"id\": \"<uuid>\",\n    \"cpf\": \"<string>\",\n    \"name\": \"<string>\",\n    \"email\": \"<string>\",\n    \"userType\": 2,\n    \"userTypeDescription\": \"<string>\"\n  }\n}"
+										},
+										{
+											"name": "Bad Request",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/User/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"User",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"occaecat_7a2\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}"
+										},
+										{
+											"name": "Error",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/User/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"User",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"status\": \"<integer>\",\n  \"detail\": \"<string>\",\n  \"instance\": \"<string>\",\n  \"exc\": {},\n  \"sint_8ff\": {}\n}"
+										}
+									]
+								},
+								{
+									"name": "Update an user",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"cpf\": \"158.779.810-72\",\n  \"name\": \"Cliente Teste Edit\",\n  \"email\": \"teste.cliente.edit@mail.com\",\n  \"userType\": 1\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/User/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"User",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "f59f1db3-4d79-4e4a-b5bd-9137205ef12e",
+													"description": "(Required) "
+												}
+											]
+										},
+										"description": "Updates an existing user by its ID."
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"cpf\": \"<string>\",\n  \"name\": \"<string>\",\n  \"email\": \"<string>\",\n  \"userType\": 2\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/User/:id",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"User",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"cupidatat68\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"data\": {\n    \"id\": \"<uuid>\",\n    \"cpf\": \"<string>\",\n    \"name\": \"<string>\",\n    \"email\": \"<string>\",\n    \"userType\": 2,\n    \"userTypeDescription\": \"<string>\"\n  }\n}"
+										},
+										{
+											"name": "Bad Request",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"cpf\": \"<string>\",\n  \"name\": \"<string>\",\n  \"email\": \"<string>\",\n  \"userType\": 2\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/User/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"User",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"occaecat_7a2\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}"
+										},
+										{
+											"name": "Error",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"cpf\": \"<string>\",\n  \"name\": \"<string>\",\n  \"email\": \"<string>\",\n  \"userType\": 2\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/User/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"User",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"status\": \"<integer>\",\n  \"detail\": \"<string>\",\n  \"instance\": \"<string>\",\n  \"exc\": {},\n  \"sint_8ff\": {}\n}"
+										}
+									]
+								},
+								{
+									"name": "Delete an user by ID",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/User/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"User",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "f59f1db3-4d79-4e4a-b5bd-9137205ef12e",
+													"description": "(Required) "
+												}
+											]
+										},
+										"description": "Deletes an user by its ID."
+									},
+									"response": [
+										{
+											"name": "No Content",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "http://localhost:5000/api/User/:id",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"User",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "No Content",
+											"code": 204,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"ad_09\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"voluptate_b\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"data\": 308\n}"
+										},
+										{
+											"name": "Bad Request",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/User/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"User",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"isSuccessStatusCode\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"modelState\": {\n    \"occaecat_7a2\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}"
+										},
+										{
+											"name": "Error",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/User/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"User",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"status\": \"<integer>\",\n  \"detail\": \"<string>\",\n  \"instance\": \"<string>\",\n  \"exc\": {},\n  \"sint_8ff\": {}\n}"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			],
+			"description": "BurgerRoyale project endpoints"
+		},
+		{
+			"name": "FakePaymentService",
+			"item": [
+				{
+					"name": "health",
+					"item": [
+						{
+							"name": "GetHealthCheck - Get health status of the application",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{paymentServiceBaseUrl}}/health",
+									"host": [
+										"{{paymentServiceBaseUrl}}"
+									],
+									"path": [
+										"health"
+									]
+								},
+								"description": "Provides API Health indication."
+							},
+							"response": [
+								{
+									"name": "Api is healthy",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:5000/health",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"health"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Api is not healthy",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/health",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"health"
+											]
+										}
+									},
+									"status": "Service Unavailable",
+									"code": 503,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Error",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/health",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"health"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "api",
+					"item": [
+						{
+							"name": "payments",
+							"item": [
+								{
+									"name": "Create new payment request",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"amount\": \"123.56\",\n  \"clientIdentifier\": \"39849924-419f-4887-9f97-e3e74e703e72\",\n  \"callbackUrl\": \"http://localhost:5001/api/Order/803de754-9610-4356-b1f4-a7cb4ceac8b3/approve\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{paymentServiceBaseUrl}}/api/payments",
+											"host": [
+												"{{paymentServiceBaseUrl}}"
+											],
+											"path": [
+												"api",
+												"payments"
+											]
+										},
+										"description": "Create new payment request"
+									},
+									"response": [
+										{
+											"name": "Created",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"amount\": \"<double>\",\n  \"clientIdentifier\": \"<uuid>\",\n  \"callbackUrl\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/payments",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"payments"
+													]
+												}
+											},
+											"status": "Created",
+											"code": 201,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"paymentId\": \"<uuid>\",\n  \"amount\": \"<double>\",\n  \"status\": \"<string>\",\n  \"paid\": \"<boolean>\",\n  \"requestedAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\"\n}"
+										},
+										{
+											"name": "Error",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"amount\": \"<double>\",\n  \"clientIdentifier\": \"<uuid>\",\n  \"callbackUrl\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/payments",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"payments"
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"status\": \"<integer>\",\n  \"detail\": \"<string>\",\n  \"instance\": \"<string>\"\n}"
+										}
+									]
+								},
+								{
+									"name": "Make payment",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{paymentServiceBaseUrl}}/api/payments/:paymentRequestId/pay",
+											"host": [
+												"{{paymentServiceBaseUrl}}"
+											],
+											"path": [
+												"api",
+												"payments",
+												":paymentRequestId",
+												"pay"
+											],
+											"variable": [
+												{
+													"key": "paymentRequestId",
+													"value": "fd994e7c-d3c6-4a76-9988-be228b276542"
+												}
+											]
+										},
+										"description": "Make payment"
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"url": {
+													"raw": "http://localhost:5000/api/payments/{{paymentRequestId}}:pay",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"payments",
+														"{{paymentRequestId}}:pay"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Not Found",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/payments/{{paymentRequestId}}:pay",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"payments",
+														"{{paymentRequestId}}:pay"
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"status\": \"<integer>\",\n  \"detail\": \"<string>\",\n  \"instance\": \"<string>\"\n}"
+										},
+										{
+											"name": "Error",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/payments/{{paymentRequestId}}:pay",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"payments",
+														"{{paymentRequestId}}:pay"
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"status\": \"<integer>\",\n  \"detail\": \"<string>\",\n  \"instance\": \"<string>\"\n}"
+										}
+									]
+								},
+								{
+									"name": "Get a payment request",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{paymentServiceBaseUrl}}/api/payments/:paymentRequestId",
+											"host": [
+												"{{paymentServiceBaseUrl}}"
+											],
+											"path": [
+												"api",
+												"payments",
+												":paymentRequestId"
+											],
+											"variable": [
+												{
+													"key": "paymentRequestId",
+													"value": "fd994e7c-d3c6-4a76-9988-be228b276542",
+													"description": "(Required) "
+												}
+											]
+										},
+										"description": "Get a payment request"
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/payments/:paymentRequestId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"payments",
+														":paymentRequestId"
+													],
+													"variable": [
+														{
+															"key": "paymentRequestId"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"paymentId\": \"<uuid>\",\n  \"amount\": \"<double>\",\n  \"status\": \"<string>\",\n  \"paid\": \"<boolean>\",\n  \"requestedAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\"\n}"
+										},
+										{
+											"name": "Not Found",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/payments/:paymentRequestId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"payments",
+														":paymentRequestId"
+													],
+													"variable": [
+														{
+															"key": "paymentRequestId"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"status\": \"<integer>\",\n  \"detail\": \"<string>\",\n  \"instance\": \"<string>\"\n}"
+										},
+										{
+											"name": "Error",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/payments/:paymentRequestId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"payments",
+														":paymentRequestId"
+													],
+													"variable": [
+														{
+															"key": "paymentRequestId"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"status\": \"<integer>\",\n  \"detail\": \"<string>\",\n  \"instance\": \"<string>\"\n}"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			],
+			"description": "FakePaymentService project endpoints"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000"
+		},
+		{
+			"key": "paymentServiceBaseUrl",
+			"value": "http://localhost:5001",
+			"type": "string"
+		}
+	]
+}
