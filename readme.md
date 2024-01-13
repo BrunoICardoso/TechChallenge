@@ -48,7 +48,7 @@ Após as instalação, certifique-se que o Docker esteja em execução para segu
 5. Após a conclusão do processo de inicialização, a API estará disponível em http://localhost:5000. 
 
     -  No endereço http://localhost:5000/swagger é possível acessar a documentação dos endpoints disponíveis na API.
-    - Uma collection do Postman (`BurgerRoyale.postman_collection.json`) também se encontra disponível no repositório para facilitar a utilização da API.
+    - Uma collection do Postman (`BurgerRoyale_Collection.postman_collection.json`) também se encontra disponível no repositório para facilitar a utilização da API.
 
 6. Para encerrar os serviços e remover os contêineres, pressione Ctrl + C no terminal e execute o seguinte comando
    ```shell
