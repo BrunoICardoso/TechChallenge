@@ -1,7 +1,6 @@
-﻿namespace BurgerRoyale.Domain.Interface.Services
+﻿namespace BurgerRoyale.Domain.Interface.Services;
+
+public interface IPaymentServiceIntegration
 {
-	public interface IPaymentServiceIntegration
-	{
-		Task<Guid> CreateRequestPaymentAsync(decimal amount, Guid orderId);
-	}
+    Task<Guid> CreateRequestPaymentAsync(decimal amount, Guid orderId);
 }

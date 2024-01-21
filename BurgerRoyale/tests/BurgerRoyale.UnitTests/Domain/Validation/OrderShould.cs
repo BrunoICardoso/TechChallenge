@@ -37,7 +37,7 @@ public class OrderShould
 
         decimal expectedPrince = (product1Price * product1Quantity) + (product2Price * product2Quantity);
 
-        Assert.Equal(order.Price, expectedPrince);
+        Assert.Equal(order.TotalPrice, expectedPrince);
 
         #endregion
     }

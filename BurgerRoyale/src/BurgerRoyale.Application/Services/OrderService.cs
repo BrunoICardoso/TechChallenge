@@ -6,169 +6,168 @@ using BurgerRoyale.Domain.Helpers;
 using BurgerRoyale.Domain.Interface.Repositories;
 using BurgerRoyale.Domain.Interface.Services;
 
-namespace BurgerRoyale.Application.Services
+namespace BurgerRoyale.Application.Services;
+
+public class OrderService : IOrderService
 {
-	public class OrderService : IOrderService
-	{
-		private readonly IOrderRepository _orderRepository;
-		private readonly IProductRepository _productRepository;
-		private readonly IUserRepository _userRepository;
-		private readonly IPaymentServiceIntegration _paymentServiceIntegration;
+    private readonly IOrderRepository _orderRepository;
+    private readonly IProductRepository _productRepository;
+    private readonly IUserRepository _userRepository;
+    private readonly IPaymentServiceIntegration _paymentServiceIntegration;
 
-		public OrderService(
-			IOrderRepository orderRepository,
-			IProductRepository productRepository,
-			IUserRepository userRepository,
-			IPaymentServiceIntegration paymentServiceIntegration
-		)
-		{
-			_orderRepository = orderRepository;
-			_productRepository = productRepository;
-			_userRepository = userRepository;
-			_paymentServiceIntegration = paymentServiceIntegration;
-		}
+    public OrderService(
+        IOrderRepository orderRepository,
+        IProductRepository productRepository,
+        IUserRepository userRepository,
+        IPaymentServiceIntegration paymentServiceIntegration
+    )
+    {
+        _orderRepository = orderRepository;
+        _productRepository = productRepository;
+        _userRepository = userRepository;
+        _paymentServiceIntegration = paymentServiceIntegration;
+    }
 
-		public async Task<OrderDTO> CreateAsync(CreateOrderDTO orderDTO)
-		{
-			Order order = await CreateOrder(orderDTO);
+    public async Task<OrderDTO> CreateAsync(CreateOrderDTO orderDTO)
+    {
+        Order order = await CreateOrder(orderDTO);
 
-			await AddOrderProductsToOrder(orderDTO, order);
+        await AddOrderProductsToOrder(orderDTO, order);
 
-			order.SetOrderNumber(await GenerateOrderNumber());
+        order.SetOrderNumber(await GenerateOrderNumber());
 
-			await _orderRepository.AddAsync(order);
+        await _orderRepository.AddAsync(order);
 
-			await RequestPayment(order);
+        await RequestPayment(order);
 
-			return new OrderDTO(order);
-		}
+        return new OrderDTO(order);
+    }
 
-		private async Task<Order> CreateOrder(CreateOrderDTO orderDTO)
-		{
-			if (UserIsDefined(orderDTO))
-			{
-				var user = await _userRepository.GetByIdAsync(orderDTO.UserId!.Value);
-				ValidateIfUserDoesNotExist(user);
+    private async Task<Order> CreateOrder(CreateOrderDTO orderDTO)
+    {
+        if (UserIsDefined(orderDTO))
+        {
+            var user = await _userRepository.GetByIdAsync(orderDTO.UserId!.Value);
+            ValidateIfUserDoesNotExist(user);
 
-				return CreateOrderWithUser(orderDTO.UserId.Value);
-			}
+            return CreateOrderWithUser(orderDTO.UserId.Value);
+        }
 
-			return CreateOrderWithoutUser();
-		}
+        return CreateOrderWithoutUser();
+    }
 
-		private static bool UserIsDefined(CreateOrderDTO orderDTO)
-		{
-			return orderDTO.UserId.HasValue && orderDTO.UserId != Guid.Empty;
-		}
+    private static bool UserIsDefined(CreateOrderDTO orderDTO)
+    {
+        return orderDTO.UserId.HasValue && orderDTO.UserId != Guid.Empty;
+    }
 
-		private static void ValidateIfUserDoesNotExist(User? user)
-		{
-			if (user is null)
-				throw new NotFoundException("Usuário não encontrado.");
-		}
+    private static void ValidateIfUserDoesNotExist(User? user)
+    {
+        if (user is null)
+            throw new NotFoundException("Usuário não encontrado.");
+    }
 
-		private static Order CreateOrderWithUser(Guid userId)
-		{
-			return new Order(userId);
-		}
+    private static Order CreateOrderWithUser(Guid userId)
+    {
+        return new Order(userId);
+    }
 
-		private static Order CreateOrderWithoutUser()
-		{
-			return new Order(Guid.Empty);
-		}
+    private static Order CreateOrderWithoutUser()
+    {
+        return new Order(Guid.Empty);
+    }
 
-		private async Task AddOrderProductsToOrder(CreateOrderDTO orderDTO, Order order)
-		{
-			foreach (var orderProduct in orderDTO.OrderProducts)
-			{
-				var product = await _productRepository.GetByIdAsync(orderProduct.ProductId);
-				ValidateIfProductDoesNotExist(product);
+    private async Task AddOrderProductsToOrder(CreateOrderDTO orderDTO, Order order)
+    {
+        foreach (var orderProduct in orderDTO.OrderProducts)
+        {
+            var product = await _productRepository.GetByIdAsync(orderProduct.ProductId);
+            ValidateIfProductDoesNotExist(product);
 
-				var newOrderProduct = new OrderProduct(order.Id, orderProduct.ProductId, product!.Price, orderProduct.Quantity);
+            var newOrderProduct = new OrderProduct(order.Id, orderProduct.ProductId, product!.Price, orderProduct.Quantity);
 
-				order.AddProduct(newOrderProduct);
-			}
-		}
+            order.AddProduct(newOrderProduct);
+        }
+    }
 
-		private static void ValidateIfProductDoesNotExist(Product? product)
-		{
-			if (product is null)
-				throw new NotFoundException("Produto(s) inválido(s).");
-		}
+    private static void ValidateIfProductDoesNotExist(Product? product)
+    {
+        if (product is null)
+            throw new NotFoundException("Produto(s) inválido(s).");
+    }
 
-		public async Task<int> GenerateOrderNumber()
-		{
-			var anyUnclosedOrders = await _orderRepository.AnyAsync(x => x.Status == OrderStatus.Finalizado);
-			if (anyUnclosedOrders)
-			{
-				var lastOrder = (await _orderRepository.GetAllAsync()).OrderByDescending(x => x.OrderTime).FirstOrDefault();
-				return lastOrder.OrderNumber + 1;
-			}
-			return 1;
-		}
+    public async Task<int> GenerateOrderNumber()
+    {
+        var anyUnclosedOrders = await _orderRepository.AnyAsync(x => x.Status == OrderStatus.Finalizado);
+        if (anyUnclosedOrders)
+        {
+            var lastOrder = (await _orderRepository.GetAllAsync()).OrderByDescending(x => x.OrderTime).FirstOrDefault();
+            return lastOrder.OrderNumber + 1;
+        }
+        return 1;
+    }
 
-		private async Task RequestPayment(Order order)
-		{
-			var paymentRequestId = await _paymentServiceIntegration.CreateRequestPaymentAsync(
-				order.TotalPrice,
-				order.Id
-			);
+    private async Task RequestPayment(Order order)
+    {
+        var paymentRequestId = await _paymentServiceIntegration.CreateRequestPaymentAsync(
+            order.TotalPrice,
+            order.Id
+        );
 
-			order.SetPaymentRequestId(paymentRequestId);
+        order.SetPaymentRequestId(paymentRequestId);
 
-			await _orderRepository.UpdateAsync(order);
-		}
+        await _orderRepository.UpdateAsync(order);
+    }
 
-		public async Task<IEnumerable<OrderDTO>> GetOrdersAsync(OrderStatus? orderStatus)
-		{
-			var orders = await _orderRepository.GetOrders(orderStatus);
+    public async Task<IEnumerable<OrderDTO>> GetOrdersAsync(OrderStatus? orderStatus)
+    {
+        var orders = await _orderRepository.GetOrders(orderStatus);
 
-			var orderDTOs = orders.Select(order => new OrderDTO(order)).ToList();
+        var orderDTOs = orders.Select(order => new OrderDTO(order)).ToList();
 
-			return orderDTOs;
-		}
+        return orderDTOs;
+    }
 
-		public async Task<OrderDTO> GetOrderAsync(Guid id)
-		{
-			var order = await _orderRepository.GetOrder(id);
+    public async Task<OrderDTO> GetOrderAsync(Guid id)
+    {
+        var order = await _orderRepository.GetOrder(id);
 
-			ValidateIfOrderDoesNotExist(order);
+        ValidateIfOrderDoesNotExist(order);
 
-			return new OrderDTO(order!);
-		}
+        return new OrderDTO(order!);
+    }
 
-		public async Task RemoveAsync(Guid id)
-		{
-			var order = await _orderRepository.GetByIdAsync(id);
+    public async Task RemoveAsync(Guid id)
+    {
+        var order = await _orderRepository.GetByIdAsync(id);
 
-			ValidateIfOrderDoesNotExist(order);
+        ValidateIfOrderDoesNotExist(order);
 
-			_orderRepository.Remove(order!);
-		}
+        _orderRepository.Remove(order!);
+    }
 
-		public async Task UpdateOrderStatusAsync(Guid id, OrderStatus orderStatus)
-		{
-			var order = await _orderRepository.GetByIdAsync(id);
+    public async Task UpdateOrderStatusAsync(Guid id, OrderStatus orderStatus)
+    {
+        var order = await _orderRepository.GetByIdAsync(id);
 
-			ValidateIfOrderDoesNotExist(order);
+        ValidateIfOrderDoesNotExist(order);
 
-			ValidateIfStatusIsTheSame(orderStatus, order);
+        ValidateIfStatusIsTheSame(orderStatus, order);
 
-			order!.SetStatus(orderStatus);
+        order!.SetStatus(orderStatus);
 
-			await _orderRepository.UpdateAsync(order);
-		}
+        await _orderRepository.UpdateAsync(order);
+    }
 
-		private static void ValidateIfOrderDoesNotExist(Order? order)
-		{
-			if (order is null)
-				throw new DomainException("Pedido inválido.");
-		}
+    private static void ValidateIfOrderDoesNotExist(Order? order)
+    {
+        if (order is null)
+            throw new DomainException("Pedido inválido.");
+    }
 
-		private static void ValidateIfStatusIsTheSame(OrderStatus orderStatus, Order order)
-		{
-			if (order.Status == orderStatus)
-				throw new DomainException($"Pedido já possui status {orderStatus.GetDescription()}");
-		}
-	}
+    private static void ValidateIfStatusIsTheSame(OrderStatus orderStatus, Order order)
+    {
+        if (order.Status == orderStatus)
+            throw new DomainException($"Pedido já possui status {orderStatus.GetDescription()}");
+    }
 }

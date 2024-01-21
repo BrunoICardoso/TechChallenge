@@ -15,7 +15,7 @@ public class OrderServiceShould
     private readonly Mock<IOrderRepository> orderRepositoryMock;
     private readonly Mock<IProductRepository> productRepositoryMock;
     private readonly Mock<IUserRepository> userRepositoryMock;
-    private readonly Mock<IPaymentRepository> paymentRepositoryMock;
+    private readonly Mock<IPaymentServiceIntegration> paymentServiceIntegrationMock;
     private readonly IOrderService orderService;
 
     public OrderServiceShould()
@@ -23,13 +23,13 @@ public class OrderServiceShould
         orderRepositoryMock = new Mock<IOrderRepository>();
         productRepositoryMock = new Mock<IProductRepository>();
         userRepositoryMock = new Mock<IUserRepository>();
-        paymentRepositoryMock = new Mock<IPaymentRepository>();
+        paymentServiceIntegrationMock = new Mock<IPaymentServiceIntegration>();
 
         orderService = new OrderService(
             orderRepositoryMock.Object, 
             productRepositoryMock.Object, 
             userRepositoryMock.Object,
-            paymentRepositoryMock.Object);
+            paymentServiceIntegrationMock.Object);
     }
 
     [Fact]
@@ -133,10 +133,10 @@ public class OrderServiceShould
 
         #region Assert(Then)
 
-        paymentRepositoryMock
-            .Verify(repository => repository.SendAsync(
-                It.Is<Guid>(orderId => orderId != Guid.Empty),
-                It.Is<decimal>(price => price != 0)), 
+        paymentServiceIntegrationMock
+            .Verify(repository => repository.CreateRequestPaymentAsync(
+                It.Is<decimal>(price => price != 0),
+                It.Is<Guid>(orderId => orderId != Guid.Empty)),
             Times.Once);
 
         #endregion
