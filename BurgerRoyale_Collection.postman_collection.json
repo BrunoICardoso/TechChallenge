@@ -3483,11 +3483,11 @@
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "http://localhost:5000"
+			"value": "http://localhost:30000"
 		},
 		{
 			"key": "paymentServiceBaseUrl",
-			"value": "http://localhost:5001",
+			"value": "http://localhost:30001",
 			"type": "string"
 		}
 	]
