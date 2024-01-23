@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: burgerroyale
+spec:
+  type: NodePort
+  selector:
+    app: burgerroyale
+  ports:
+    - port: 5000
+      targetPort: 5000
+      nodePort: 30000

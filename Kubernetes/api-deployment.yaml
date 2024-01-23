@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: burgerroyale
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: burgerroyale
+    spec:
+      containers:
+        - name: burgerroyale
+          image: douglasfuelber/burger-royale:latest
+          ports:
+            - containerPort: 5000
+              protocol: TCP
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Development"
+            - name: ASPNETCORE_URLS
+              value: http://*:5000
+            - name: ConnectionStrings__DefaultConnection
+              value: Server=mssqlserver-service;Database=BurgerRoyaleDb;User Id=SA;TrustServerCertificate=True;Password='65876Df&';
+            - name: PaymentService__BaseUrl
+              value: "http://fakepayment:5001"
+
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "200m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
+          volumeMounts:
+            - name: tz-config
+              mountPath: /etc/localtime
+      volumes:
+        - name: tz-config
+          hostPath:
+            path: /usr/share/zoneinfo/America/Sao_Paulo
+  selector:
+    matchLabels:
+      app: burgerroyale

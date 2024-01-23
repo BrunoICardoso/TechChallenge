@@ -2,55 +2,67 @@
 
 Esta solução foi desenvolvida como uma API a ser utilizada na gestão de produtos e pedidos de uma lanchonete.
 
+# Links do projeto
 
-# Execução do Docker Compose para o projeto BurgerRoyale.API
+- [Informações do grupo](https://github.com/BrunoICardoso/TechChallenge/wiki)
+- [Arquitetura e desenho](https://github.com/BrunoICardoso/TechChallenge/wiki/Arquitetura-da-Solu%C3%A7%C3%A3o)
+- [Vídeo com explicação da arquitetura]()
+- Documentação das APIs
+    - [BurgerRoyale API](https://github.com/BrunoICardoso/TechChallenge/wiki/API-BurgerRoyale)
+    - [FakePaymentService API](https://github.com/BrunoICardoso/TechChallenge/wiki/API-de-pagamentos)
+    - [Collection do Postman](./BurgerRoyale_Collection.postman_collection.json)
+    - [Guia de utilização](https://github.com/BrunoICardoso/TechChallenge/wiki/Guia-de-utiliza%C3%A7%C3%A3o)
 
-Este guia demonstrará como executar o projeto BurgerRoyale.API usando Docker Compose.
+# Kubernetes Deployment Scripts
+
+Este repositório contém scripts para implantar recursos no Kubernetes usando o Docker Desktop.
+Os scripts estão disponíveis tanto para ambientes Windows (PowerShell) quanto para ambientes Unix-like (Bash).
 
 ## Pré-requisitos
 
-Antes de prosseguir, certifique-se de que você tenha o Docker e o Docker Compose instalados em sua máquina.
-Após as instalação, certifique-se que o Docker esteja em execução para seguir com os passos abaixo.
+- Docker Desktop instalado e configurado.
+- `kubectl` instalado e configurado.
+- Acesso ao PowerShell (para usuários Windows) ou a um terminal Unix-like (como Git Bash no Windows, ou terminal padrão em sistemas Linux ou macOS).
 
-- [Docker](https://docs.docker.com/get-docker/)
-- [Docker Compose](https://docs.docker.com/compose/install/)
+## Instruções de Execução
 
-## Instruções
+### PowerShell Script (`deploy_kubernetes_poweshell.ps1`)
 
-1. Clone o repositório do projeto BurgerRoyale.API, caso ainda não tenha feito isso:
-
-   ```shell
-   git clone https://github.com/BrunoICardoso/TechChallenge.git
+1. **Abra o PowerShell**.
+2. **Navegue até o diretório do script**:
+   ```powershell
+   cd Kubernetes
+   ```
+3. **Execute o script com a política de execução `Bypass`**:
+   ```powershell
+   PowerShell -ExecutionPolicy Bypass -File .\deploy_kubernetes_poweshell.ps1
    ```
 
-2. Navegue para o diretório raiz do projeto:
+### Bash Script (`deploy_kubernetes_bash.sh`)
 
-   ```shell
-   cd TechChallenge\BurgerRoyale
+1. **Abra o terminal Unix-like** (Git Bash no Windows, terminal padrão em Linux/MacOS).
+2. **Navegue até o diretório do script**:
+   ```bash
+   cd /Kubernetes
    ```
-   
-3. Agora, você está pronto para iniciar o Docker Compose. Execute o seguinte comando no terminal:
-
-   ```shell
-   docker-compose build
+3. **Torne o script executável (se necessário)**:
+   ```bash
+   chmod +x deploy_kubernetes_bash.sh
    ```
-   
-    Obs.: Esse comando é necessário apenas no caso de alguma alteração ter sido realizada no código da aplicação. Assim garantimos que a execução será realizada com a versão mais recente de nosso código.
-
-4. Em seguida, execute o seguinte comando no terminal:
-
-   ```shell
-   docker-compose up
+4. **Execute o script**:
+   ```bash
+   ./deploy_kubernetes_bash.sh
    ```
-   
-    Isso iniciará os serviços definidos no arquivo `docker-compose.yml`, que incluem a aplicação `burgerroyale.api` e um banco de dados `db`.
 
-5. Após a conclusão do processo de inicialização, a API estará disponível em http://localhost:5000. 
+## Notas Adicionais
 
-    -  No endereço http://localhost:5000/swagger é possível acessar a documentação dos endpoints disponíveis na API.
-    - Uma collection do Postman (`BurgerRoyale_Collection.postman_collection.json`) também se encontra disponível no repositório para facilitar a utilização da API.
+- Para usuários do PowerShell: Execute scripts com a política `Bypass` apenas quando tiver certeza da segurança e origem do script.
+- Para usuários do Bash: Certifique-se de que o `kubectl` esteja acessível no seu PATH e que os caminhos dos arquivos estejam corretamente formatados para o ambiente Unix-like.
 
-6. Para encerrar os serviços e remover os contêineres, pressione Ctrl + C no terminal e execute o seguinte comando
-   ```shell
-   docker-compose down
-   ```
+_________________________________________________
+
+- Após a conclusão do processo de inicialização, as APIs estarão disponíveis em http://localhost:30000 e http://localhost:30001. 
+
+    - No endereço http://localhost:30000/swagger é possível acessar a documentação dos endpoints disponíveis na API do BurgerRoyale.
+    - No endereço http://localhost:30001/swagger é possível acessar a documentação dos endpoints disponíveis na API do Serviço de Pagamento Fake.
+    - Uma collection do Postman (`BurgerRoyale_Collection.postman_collection.json`) também se encontra disponível no repositório para facilitar a utilização das APIs.
