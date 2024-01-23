@@ -11,7 +11,7 @@ Esta solução foi desenvolvida como uma API a ser utilizada na gestão de produ
     - [BurgerRoyale API](https://github.com/BrunoICardoso/TechChallenge/wiki/API-BurgerRoyale)
     - [FakePaymentService API](https://github.com/BrunoICardoso/TechChallenge/wiki/API-de-pagamentos)
     - [Collection do Postman](./BurgerRoyale_Collection.postman_collection.json)
-- [Guia de utilização](https://github.com/BrunoICardoso/TechChallenge/wiki/Guia-de-utiliza%C3%A7%C3%A3o)
+    - [Guia de utilização](https://github.com/BrunoICardoso/TechChallenge/wiki/Guia-de-utiliza%C3%A7%C3%A3o)
 
 # Kubernetes Deployment Scripts
 
