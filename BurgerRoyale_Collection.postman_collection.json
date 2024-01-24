@@ -36,12 +36,10 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:5000/health",
-											"protocol": "http",
+											"raw": "{{baseUrl}}/health",
 											"host": [
-												"localhost"
+												"{{baseUrl}}"
 											],
-											"port": "5000",
 											"path": [
 												"health"
 											]
@@ -170,12 +168,10 @@
 													}
 												},
 												"url": {
-													"raw": "http://localhost:5000/api/Login",
-													"protocol": "http",
+													"raw": "{{baseUrl}}/api/Login",
 													"host": [
-														"localhost"
+														"{{baseUrl}}"
 													],
-													"port": "5000",
 													"path": [
 														"api",
 														"Login"
@@ -336,12 +332,10 @@
 													}
 												],
 												"url": {
-													"raw": "http://localhost:5000/api/Order?orderStatus=3",
-													"protocol": "http",
+													"raw": "{{baseUrl}}/api/Order?orderStatus=3",
 													"host": [
-														"localhost"
+														"{{baseUrl}}"
 													],
-													"port": "5000",
 													"path": [
 														"api",
 														"Order"
@@ -508,12 +502,10 @@
 													}
 												},
 												"url": {
-													"raw": "http://localhost:5000/api/Order",
-													"protocol": "http",
+													"raw": "{{baseUrl}}/api/Order",
 													"host": [
-														"localhost"
+														"{{baseUrl}}"
 													],
-													"port": "5000",
 													"path": [
 														"api",
 														"Order"
@@ -675,12 +667,10 @@
 													}
 												],
 												"url": {
-													"raw": "http://localhost:5000/api/Order/:id?orderStatus=3",
-													"protocol": "http",
+													"raw": "{{baseUrl}}/api/Order/:id?orderStatus=3",
 													"host": [
-														"localhost"
+														"{{baseUrl}}"
 													],
-													"port": "5000",
 													"path": [
 														"api",
 														"Order",
@@ -845,12 +835,10 @@
 													}
 												],
 												"url": {
-													"raw": "http://localhost:5000/api/Order/:id",
-													"protocol": "http",
+													"raw": "{{baseUrl}}/api/Order/:id",
 													"host": [
-														"localhost"
+														"{{baseUrl}}"
 													],
-													"port": "5000",
 													"path": [
 														"api",
 														"Order",
@@ -997,12 +985,10 @@
 													}
 												],
 												"url": {
-													"raw": "http://localhost:5000/api/Order/:id",
-													"protocol": "http",
+													"raw": "{{baseUrl}}/api/Order/:id",
 													"host": [
-														"localhost"
+														"{{baseUrl}}"
 													],
-													"port": "5000",
 													"path": [
 														"api",
 														"Order",
@@ -1149,12 +1135,10 @@
 													}
 												],
 												"url": {
-													"raw": "http://localhost:5000/api/Order/{{id}}:approve",
-													"protocol": "http",
+													"raw": "{{baseUrl}}/api/Order/{{id}}:approve",
 													"host": [
-														"localhost"
+														"{{baseUrl}}"
 													],
-													"port": "5000",
 													"path": [
 														"api",
 														"Order",
@@ -2128,12 +2112,10 @@
 													}
 												],
 												"url": {
-													"raw": "http://localhost:5000/api/User?userType=1",
-													"protocol": "http",
+													"raw": "{{baseUrl}}/api/User?userType=1",
 													"host": [
-														"localhost"
+														"{{baseUrl}}"
 													],
-													"port": "5000",
 													"path": [
 														"api",
 														"User"
@@ -2300,12 +2282,10 @@
 													}
 												},
 												"url": {
-													"raw": "http://localhost:5000/api/User",
-													"protocol": "http",
+													"raw": "{{baseUrl}}/api/User",
 													"host": [
-														"localhost"
+														"{{baseUrl}}"
 													],
-													"port": "5000",
 													"path": [
 														"api",
 														"User"
@@ -2462,12 +2442,10 @@
 													}
 												],
 												"url": {
-													"raw": "http://localhost:5000/api/User/:id",
-													"protocol": "http",
+													"raw": "{{baseUrl}}/api/User/:id",
 													"host": [
-														"localhost"
+														"{{baseUrl}}"
 													],
-													"port": "5000",
 													"path": [
 														"api",
 														"User",
@@ -2642,12 +2620,10 @@
 													}
 												},
 												"url": {
-													"raw": "http://localhost:5000/api/User/:id",
-													"protocol": "http",
+													"raw": "{{baseUrl}}/api/User/:id",
 													"host": [
-														"localhost"
+														"{{baseUrl}}"
 													],
-													"port": "5000",
 													"path": [
 														"api",
 														"User",
@@ -2822,12 +2798,10 @@
 													}
 												],
 												"url": {
-													"raw": "http://localhost:5000/api/User/:id",
-													"protocol": "http",
+													"raw": "{{baseUrl}}/api/User/:id",
 													"host": [
-														"localhost"
+														"{{baseUrl}}"
 													],
-													"port": "5000",
 													"path": [
 														"api",
 														"User",
@@ -2968,12 +2942,10 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:5000/health",
-											"protocol": "http",
+											"raw": "{{baseUrl}}/health",
 											"host": [
-												"localhost"
+												"{{baseUrl}}"
 											],
-											"port": "5000",
 											"path": [
 												"health"
 											]
@@ -3102,12 +3074,10 @@
 													}
 												},
 												"url": {
-													"raw": "http://localhost:5000/api/payments",
-													"protocol": "http",
+													"raw": "{{baseUrl}}/api/payments",
 													"host": [
-														"localhost"
+														"{{baseUrl}}"
 													],
-													"port": "5000",
 													"path": [
 														"api",
 														"payments"
@@ -3212,12 +3182,10 @@
 												"method": "POST",
 												"header": [],
 												"url": {
-													"raw": "http://localhost:5000/api/payments/{{paymentRequestId}}:pay",
-													"protocol": "http",
+													"raw": "{{baseUrl}}/api/payments/{{paymentRequestId}}:pay",
 													"host": [
-														"localhost"
+														"{{baseUrl}}"
 													],
-													"port": "5000",
 													"path": [
 														"api",
 														"payments",
