@@ -24,6 +24,8 @@ spec:
               value: Server=mssqlserver-service;Database=BurgerRoyaleDb;User Id=SA;TrustServerCertificate=True;Password='65876Df&';
             - name: PaymentService__BaseUrl
               value: "http://fakepayment:5001"
+            - name: BurgerRoyale__BaseUrl
+              value: "http://burgerroyale:5000"
 
           resources:
             requests:
