@@ -6,7 +6,7 @@ Esta solução foi desenvolvida como uma API a ser utilizada na gestão de produ
 
 - [Informações do grupo](https://github.com/BrunoICardoso/TechChallenge/wiki)
 - [Arquitetura e desenho](https://github.com/BrunoICardoso/TechChallenge/wiki/Arquitetura-da-Solu%C3%A7%C3%A3o)
-- [Vídeo com explicação da arquitetura]()
+- [Vídeo com explicação da arquitetura](https://youtu.be/Eky5FDs3v8A)
 - [Arquivos Yaml Kubernetes](./Kubernetes)
 - Documentação das APIs
     - [BurgerRoyale API](https://github.com/BrunoICardoso/TechChallenge/wiki/API-BurgerRoyale)
