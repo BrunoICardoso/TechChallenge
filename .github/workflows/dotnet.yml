@@ -25,6 +25,9 @@ jobs:
     - name: Change directory
       run: cd BurgerRoyale
 
+    - name: Print directory
+      run: dir
+
     - name: Restore dependencies
       run: dotnet restore
 
