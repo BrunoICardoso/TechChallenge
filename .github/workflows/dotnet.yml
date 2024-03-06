@@ -23,7 +23,7 @@ jobs:
         dotnet-version: 7.0.x
 
     - name: Change directory
-      run: cd BurgerRoyale
+      run: cd /BurgerRoyale
 
     - name: Print directory
       run: dir
