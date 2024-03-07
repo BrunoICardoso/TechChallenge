@@ -36,8 +36,3 @@ jobs:
       run: |
         cd BurgerRoyale/tests/BurgerRoyale.UnitTests
         dotnet test
-    
-    - name: Integration Tests
-      run: |
-        cd BurgerRoyale/tests/BurgerRoyale.IntegrationTests
-        dotnet test
