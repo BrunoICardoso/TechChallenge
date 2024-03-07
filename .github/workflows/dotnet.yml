@@ -32,7 +32,12 @@ jobs:
         cd BurgerRoyale
         dotnet build --no-restore
 
-    - name: Tests
+    - name: Unit Tests
       run: |
         cd BurgerRoyale/tests/BurgerRoyale.UnitTests
+        dotnet test
+    
+    - name: Integration Tests
+      run: |
+        cd BurgerRoyale/tests/BurgerRoyale.IntegrationTests
         dotnet test
