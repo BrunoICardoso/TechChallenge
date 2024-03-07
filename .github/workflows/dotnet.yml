@@ -22,13 +22,8 @@ jobs:
       with:
         dotnet-version: 7.0.x
 
-    - name: Change directory
-      run: cd /BurgerRoyale
-
-    - name: Print directory
-      run: dir
-
     - name: Restore dependencies
+      working-directory: BurguerRoyale
       run: dotnet restore
 
     - name: Build
