@@ -21,13 +21,10 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 7.0.x
-
-    - name: WTF
-      run: dir
       
     - name: Restore dependencies
-      working-directory: BurguerRoyale
       run: dotnet restore
+      working-directory: BurguerRoyale
 
     - name: Build
       run: dotnet build --no-restore
