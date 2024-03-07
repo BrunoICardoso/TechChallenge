@@ -28,4 +28,6 @@ jobs:
         dotnet restore
 
     - name: Build
-      run: dotnet build --no-restore
+      run: |
+        cd BurgerRoyale
+        dotnet build --no-restore
