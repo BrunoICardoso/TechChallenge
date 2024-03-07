@@ -81,8 +81,6 @@ public class OrderServiceShould
 
         #region Assert(Then)
 
-        Assert.True(false);
-
         Assert.Null(exception);
 
         orderRepositoryMock
