@@ -25,7 +25,7 @@ jobs:
     - name: Restore dependencies
       run: |
         cd BurgerRoyale
-        run dotnet restore
+        dotnet restore
 
     - name: Build
       run: dotnet build --no-restore
