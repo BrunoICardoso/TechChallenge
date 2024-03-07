@@ -31,3 +31,8 @@ jobs:
       run: |
         cd BurgerRoyale
         dotnet build --no-restore
+
+    - name: Tests
+      run: |
+        cd BurgerRoyale/tests/BurgerRoyale.UnitTests
+        dotnet test
